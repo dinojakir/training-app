@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "training-app-8bbb6": {
+      "hosting": {
+        "training-app": [
+          "training-app-8bbb6"
+        ]
+      }
+    }
+  }
+}
