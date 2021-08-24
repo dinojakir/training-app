@@ -1,0 +1,18 @@
+.add-container {
+  margin-top: 100px;
+  margin-left: 100px;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+}
+
+.add-container .mat-form-field {
+  margin-bottom: 20px;
+}
+
+.save-container {
+  margin-left: 200px;
+  margin-right: 200px;
+  display: flex;
+  justify-content: flex-end;
+}
