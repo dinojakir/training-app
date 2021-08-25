@@ -1,18 +1,42 @@
-.add-container {
-  margin-top: 100px;
-  margin-left: 100px;
+:host {
   display: flex;
   flex-direction: column;
-  width: 400px;
+  flex-grow: 1;
 }
 
-.add-container .mat-form-field {
-  margin-bottom: 20px;
+.add-container {
+  margin: 50px 100px;
+  display: flex;
+  align-items: stretch;
+  flex-grow: 1;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.form-container div {
+  margin-bottom: 50px;
+}
+
+mat-form-field {
+  width: 300px;
+}
+
+.text-input {
+  width: 100%;
+
+  textarea {
+    height: 200px;
+  }
 }
 
 .save-container {
-  margin-left: 200px;
-  margin-right: 200px;
+  margin-bottom: 50px;
+  margin-left: 100px;
+  margin-right: 100px;
   display: flex;
   justify-content: flex-end;
 }
