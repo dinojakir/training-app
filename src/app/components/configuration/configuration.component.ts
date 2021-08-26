@@ -1,8 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { FlatTreeControl } from '@angular/cdk/tree';
+import { Component } from '@angular/core';
+import {
+  MatTreeFlatDataSource,
+  MatTreeFlattener,
+} from '@angular/material/tree';
 
-interface Muscle {
-  value: string;
-  viewValue: string;
+interface MuscleNode {
+  name: string;
+  children?: MuscleNode[];
+}
+
+const TREE_DATA: MuscleNode[] = [
+  {
+    name: 'Muscles',
+    children: [
+      {
+        name: 'Neck',
+        children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
+      },
+      {
+        name: 'Upper Arms',
+        children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+      },
+    ],
+  },
+];
+
+interface FlatNode {
+  expandable: boolean;
+  name: string;
+  level: number;
 }
 
 @Component({
@@ -10,24 +37,34 @@ interface Muscle {
   templateUrl: './configuration.component.html',
   styleUrls: ['./configuration.component.scss'],
 })
-export class ConfigurationComponent implements OnInit {
-  selectedMuscle: Muscle | undefined;
-  selectionDisabled: boolean = true;
-  muscles: Muscle[] = [
-    { value: 'neck', viewValue: 'Neck' },
-    { value: 'shoulders', viewValue: 'Shoulders' },
-    { value: 'upper-arms', viewValue: 'Upper Arms' },
-  ];
+export class ConfigurationComponent {
+  private _transformer = (node: MuscleNode, level: number) => {
+    return {
+      expandable: !!node.children && node.children.length > 0,
+      name: node.name,
+      level: level,
+    };
+  };
 
-  constructor() {}
+  treeControl = new FlatTreeControl<FlatNode>(
+    (node) => node.level,
+    (node) => node.expandable
+  );
 
-  ngOnInit(): void {}
+  treeFlattener = new MatTreeFlattener(
+    this._transformer,
+    (node) => node.level,
+    (node) => node.expandable,
+    (node) => node.children
+  );
 
-  onFileSelected() {}
+  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  onSelectMuscle(e: any) {
-    this.selectionDisabled = false;
+  constructor() {
+    this.dataSource.data = TREE_DATA;
   }
+
+  hasChild = (_: number, node: FlatNode) => node.expandable;
 
   onSaveClick() {}
 }
