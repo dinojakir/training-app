@@ -11,6 +11,18 @@
   flex-grow: 1;
 }
 
+.form-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.tree-container {
+  height: 600px;
+  width: 800px;
+  overflow: auto;
+}
+
 .new-item {
   cursor: pointer;
   display: flex;
