@@ -51,9 +51,10 @@ import { OverlayModule } from '@angular/cdk/overlay';
 
 import { AddComponent } from './components/add/add.component';
 import { HomeComponent } from './components/home/home.component';
+import { ConfigurationComponent } from './components/configuration/configuration.component';
 
 @NgModule({
-  declarations: [AppComponent, AddComponent, HomeComponent],
+  declarations: [AppComponent, AddComponent, HomeComponent, ConfigurationComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

@@ -1,0 +1,20 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.config-container {
+  margin: 50px 100px;
+  display: flex;
+  align-items: stretch;
+  flex-grow: 1;
+}
+
+.save-container {
+  margin-bottom: 50px;
+  margin-left: 100px;
+  margin-right: 100px;
+  display: flex;
+  justify-content: flex-end;
+}
