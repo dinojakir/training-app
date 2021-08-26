@@ -23,8 +23,11 @@ export class AddComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  onFileSelected() {}
+
   onSelectMuscle(e: any) {
     this.selectionDisabled = false;
   }
+
   onSaveClick() {}
 }

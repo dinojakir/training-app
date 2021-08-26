@@ -4,6 +4,12 @@
 <div class="add-container">
   <div class="form-container">
     <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput value="" />
+      </mat-form-field>
+    </div>
+    <div>
       <mat-button-toggle-group name="type" aria-label="type">
         <mat-button-toggle value="isolated">Isolated</mat-button-toggle>
         <mat-button-toggle value="complex">Complex</mat-button-toggle>
@@ -38,6 +44,18 @@
         <mat-button-toggle value="props">Props</mat-button-toggle>
         <mat-button-toggle value="trainer">Trainer</mat-button-toggle>
       </mat-button-toggle-group>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" (click)="fileInput.click()">
+        Choose File
+      </button>
+      <input
+        hidden
+        (change)="onFileSelected()"
+        #fileInput
+        type="file"
+        id="file"
+      />
     </div>
   </div>
   <div class="form-container">
