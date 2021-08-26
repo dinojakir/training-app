@@ -11,6 +11,14 @@
   flex-grow: 1;
 }
 
+.new-item {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  padding-top: 15px;
+  padding-left: 5px;
+}
+
 .save-container {
   margin-bottom: 50px;
   margin-left: 100px;

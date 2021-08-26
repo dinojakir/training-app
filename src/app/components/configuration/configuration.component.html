@@ -17,11 +17,18 @@
       matTreeNodePadding
     >
       <button mat-icon-button disabled></button>
-      <mat-form-field appearance="fill">
-        <mat-label>New item...</mat-label>
-        <input matInput #itemValue />
-      </mat-form-field>
-      <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
+      <div style="display: flex">
+        <mat-form-field appearance="fill">
+          <mat-label>New item...</mat-label>
+          <input matInput #itemValue />
+        </mat-form-field>
+        <div class="new-item" (click)="saveNode(node, itemValue.value)">
+          <mat-icon>done</mat-icon>
+        </div>
+        <div class="new-item" (click)="deleteNode(node)">
+          <mat-icon>delete</mat-icon>
+        </div>
+      </div>
     </mat-tree-node>
 
     <mat-tree-node

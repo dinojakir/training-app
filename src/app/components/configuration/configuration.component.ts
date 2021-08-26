@@ -11,7 +11,7 @@ export class MuscleNode {
   item: string = '';
 }
 
-export class TodoItemFlatNode {
+export class MuscleFlatNode {
   item: string = '';
   level: number = 0;
   expandable: boolean = false;
@@ -68,6 +68,13 @@ export class MuscleDb {
     }, []);
   }
 
+  deleteItem(parent: MuscleNode, name: string) {
+    if (parent.children) {
+      parent.children = parent.children.filter((j) => j.item !== name);
+      this.dataChange.next(this.data);
+    }
+  }
+
   insertItem(parent: MuscleNode, name: string) {
     if (parent.children) {
       parent.children.push({ item: name } as MuscleNode);
@@ -88,12 +95,12 @@ export class MuscleDb {
   providers: [MuscleDb],
 })
 export class ConfigurationComponent implements OnInit {
-  flatNodeMap = new Map<TodoItemFlatNode, MuscleNode>();
-  nestedNodeMap = new Map<MuscleNode, TodoItemFlatNode>();
+  flatNodeMap = new Map<MuscleFlatNode, MuscleNode>();
+  nestedNodeMap = new Map<MuscleNode, MuscleFlatNode>();
   newItemName = '';
-  treeControl: FlatTreeControl<TodoItemFlatNode>;
-  treeFlattener: MatTreeFlattener<MuscleNode, TodoItemFlatNode>;
-  dataSource: MatTreeFlatDataSource<MuscleNode, TodoItemFlatNode>;
+  treeControl: FlatTreeControl<MuscleFlatNode>;
+  treeFlattener: MatTreeFlattener<MuscleNode, MuscleFlatNode>;
+  dataSource: MatTreeFlatDataSource<MuscleNode, MuscleFlatNode>;
 
   constructor(private _database: MuscleDb) {
     this.treeFlattener = new MatTreeFlattener(
@@ -102,7 +109,7 @@ export class ConfigurationComponent implements OnInit {
       this.isExpandable,
       this.getChildren
     );
-    this.treeControl = new FlatTreeControl<TodoItemFlatNode>(
+    this.treeControl = new FlatTreeControl<MuscleFlatNode>(
       this.getLevel,
       this.isExpandable
     );
@@ -120,15 +127,15 @@ export class ConfigurationComponent implements OnInit {
     this.treeControl.expand(this.transformer(this.dataSource.data[0], 0));
   }
 
-  getLevel = (node: TodoItemFlatNode) => node.level;
+  getLevel = (node: MuscleFlatNode) => node.level;
 
-  isExpandable = (node: TodoItemFlatNode) => node.expandable;
+  isExpandable = (node: MuscleFlatNode) => node.expandable;
 
   getChildren = (node: MuscleNode): MuscleNode[] => node.children;
 
-  hasChild = (_: number, _nodeData: TodoItemFlatNode) => _nodeData.expandable;
+  hasChild = (_: number, _nodeData: MuscleFlatNode) => _nodeData.expandable;
 
-  hasNoContent = (_: number, _nodeData: TodoItemFlatNode) =>
+  hasNoContent = (_: number, _nodeData: MuscleFlatNode) =>
     _nodeData.item === '';
 
   transformer = (node: MuscleNode, level: number) => {
@@ -136,7 +143,7 @@ export class ConfigurationComponent implements OnInit {
     const flatNode =
       existingNode && existingNode.item === node.item
         ? existingNode
-        : new TodoItemFlatNode();
+        : new MuscleFlatNode();
     flatNode.item = node.item;
     flatNode.level = level;
     flatNode.expandable = !!node.children?.length;
@@ -145,7 +152,7 @@ export class ConfigurationComponent implements OnInit {
     return flatNode;
   };
 
-  getParentNode(node: TodoItemFlatNode): TodoItemFlatNode | null {
+  getParentNode(node: MuscleFlatNode): MuscleFlatNode | null {
     const currentLevel = this.getLevel(node);
 
     if (currentLevel < 1) {
@@ -164,15 +171,21 @@ export class ConfigurationComponent implements OnInit {
     return null;
   }
 
-  addNewItem(node: TodoItemFlatNode) {
+  addNewItem(node: MuscleFlatNode) {
     const parentNode = this.flatNodeMap.get(node);
     this._database.insertItem(parentNode!, '');
     this.treeControl.expand(node);
   }
 
-  saveNode(node: TodoItemFlatNode, itemValue: string) {
+  saveNode(node: MuscleFlatNode, itemValue: string) {
     const nestedNode = this.flatNodeMap.get(node);
     this._database.updateItem(nestedNode!, itemValue);
+  }
+
+  deleteNode(node: MuscleFlatNode) {
+    const parentFlatNode = this.getParentNode(node);
+    const parentNode = this.flatNodeMap.get(parentFlatNode!);
+    this._database.deleteItem(parentNode!, node.item);
   }
 
   onSaveClick() {}
