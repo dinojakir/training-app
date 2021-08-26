@@ -5,7 +5,7 @@
 }
 
 .config-container {
-  margin: 50px 100px;
+  margin: 30px 100px;
   display: flex;
   align-items: stretch;
   flex-grow: 1;
@@ -18,9 +18,15 @@
 }
 
 .tree-container {
-  height: 600px;
+  height: 700px;
   width: 800px;
   overflow: auto;
+  border: 1px solid lightgrey;
+  border-radius: 10px;
+}
+
+.mat-tree-node {
+  font-size: 12px;
 }
 
 .new-item {
