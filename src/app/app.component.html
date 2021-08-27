@@ -1,7 +1,12 @@
 <div class="container">
   <mat-toolbar color="primary">
     <mat-icon>sports_handball</mat-icon>
-    <div class="btn-user" (click)="onUserBtnClick()">
+    <div
+      *ngIf="authService?.user"
+      id="userBtn"
+      class="btn-user"
+      (click)="onUserBtnClick()"
+    >
       {{ authService?.user?.email.substring(0, 1).toUpperCase() }}
     </div>
   </mat-toolbar>
@@ -9,3 +14,12 @@
     <router-outlet></router-outlet>
   </div>
 </div>
+
+<dx-context-menu
+  [dataSource]="items"
+  [width]="200"
+  [position]="{ my: 'right top', at: 'right bottom', offset: '0 5' }"
+  target="#userBtn"
+  (onItemClick)="itemClick($event)"
+>
+</dx-context-menu>

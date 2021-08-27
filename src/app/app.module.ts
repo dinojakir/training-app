@@ -59,6 +59,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { AuthService } from './services/auth/auth.service';
+import { DxContextMenuModule } from 'devextreme-angular';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { AuthService } from './services/auth/auth.service';
     OverlayModule,
     PortalModule,
     ScrollingModule,
+    DxContextMenuModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],
