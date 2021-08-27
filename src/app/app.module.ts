@@ -53,11 +53,26 @@ import { AddComponent } from './components/add/add.component';
 import { HomeComponent } from './components/home/home.component';
 import { ConfigurationComponent } from './components/configuration/configuration.component';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from '../environments/environment';
+import { SignInComponent } from './components/sign-in/sign-in.component';
+
 @NgModule({
-  declarations: [AppComponent, AddComponent, HomeComponent, ConfigurationComponent],
+  declarations: [
+    AppComponent,
+    AddComponent,
+    HomeComponent,
+    ConfigurationComponent,
+    SignInComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
     BrowserAnimationsModule,
     A11yModule,
     ClipboardModule,
