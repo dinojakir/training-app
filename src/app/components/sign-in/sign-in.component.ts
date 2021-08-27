@@ -7,7 +7,17 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent implements OnInit {
+  isLoadIndicatorVisible: boolean = false;
+
   constructor(public authService: AuthService) {}
 
   ngOnInit(): void {}
+
+  async signIn(userEmail: any, userPassword: any) {
+    this.isLoadIndicatorVisible = true;
+
+    await this.authService.signIn(userEmail, userPassword);
+
+    this.isLoadIndicatorVisible = false;
+  }
 }

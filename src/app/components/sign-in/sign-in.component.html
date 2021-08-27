@@ -23,13 +23,19 @@
           required
         />
       </div>
+      <div *ngIf="isLoadIndicatorVisible" class="load-container">
+        <dx-load-indicator id="medium-indicator" height="40" width="40">
+        </dx-load-indicator>
+      </div>
       <div class="submit-container">
-        <input
-          type="button"
-          class="submit"
-          value="Sign in"
-          (click)="authService.signIn(userEmail.value, userPassword.value)"
-        />
+        <div>
+          <input
+            type="button"
+            class="submit"
+            value="Sign in"
+            (click)="signIn(userEmail.value, userPassword.value)"
+          />
+        </div>
       </div>
     </form>
   </div>

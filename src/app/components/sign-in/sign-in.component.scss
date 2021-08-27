@@ -53,7 +53,16 @@ form {
   display: flex;
   justify-content: flex-end;
   margin-top: auto;
-  padding-bottom: 10px;
+}
+
+.load-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+
+  dx-load-indicator {
+    margin: auto;
+  }
 }
 
 .submit {
