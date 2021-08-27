@@ -21,7 +21,7 @@ form {
 }
 
 .form-group {
-  margin-top: 10px;
+  margin-top: 30px;
 
   label {
     cursor: text;
@@ -52,6 +52,7 @@ form {
   display: flex;
   justify-content: flex-end;
   margin-top: auto;
+  padding-bottom: 10px;
 }
 
 .submit {
