@@ -1,6 +1,9 @@
 <div class="container">
   <mat-toolbar color="primary">
     <mat-icon>sports_handball</mat-icon>
+    <div class="btn-user" (click)="onUserBtnClick()">
+      {{ authService?.user?.email.substring(0, 1).toUpperCase() }}
+    </div>
   </mat-toolbar>
   <div class="page-container">
     <router-outlet></router-outlet>

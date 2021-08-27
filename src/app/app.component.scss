@@ -11,6 +11,21 @@
   flex-grow: 1;
 }
 
+mat-toolbar {
+  display: flex;
+
+  .btn-user {
+    background-color: #7b1fa2;
+    border-radius: 50%;
+    color: #fff;
+    margin-left: auto;
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    text-align: center;
+  }
+}
+
 mat-icon {
   margin-left: 50px;
 }

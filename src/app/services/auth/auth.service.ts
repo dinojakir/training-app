@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return this.user !== undefined;
+    return localStorage.getItem('user') !== undefined;
   }
 
   signIn(email: any, password: any): Promise<boolean> {
