@@ -6,8 +6,9 @@
     <div class="tree-container">
       <div class="setting-title"><h4>Muscles</h4></div>
       <div *ngIf="!isMusclesLoaded" class="load-container">
-        <dx-load-indicator id="medium-indicator" height="40" width="40">
-        </dx-load-indicator>
+        <div class="load-box">
+          <dx-load-indicator height="40" width="40"></dx-load-indicator>
+        </div>
       </div>
       <mat-tree
         *ngIf="isMusclesLoaded"
