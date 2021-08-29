@@ -14,12 +14,15 @@
 .form-container {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  flex: 50%;
+}
+
+.setting-title {
+  text-align: center;
 }
 
 .tree-container {
   height: 700px;
-  width: 800px;
   overflow: auto;
   border: 1px solid lightgrey;
   border-radius: 10px;
