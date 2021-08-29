@@ -1,38 +1,51 @@
-import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, Injectable, OnInit } from '@angular/core';
+import { FlatTreeControl } from "@angular/cdk/tree";
+import { Component, OnInit } from "@angular/core";
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+  AngularFirestoreDocument,
+} from "@angular/fire/firestore";
 import {
   MatTreeFlatDataSource,
   MatTreeFlattener,
-} from '@angular/material/tree';
-import { BehaviorSubject } from 'rxjs';
+} from "@angular/material/tree";
+import { BehaviorSubject } from "rxjs";
 
 export class MuscleNode {
+  item: string = "";
   children: MuscleNode[] = [];
-  item: string = '';
 }
 
 export class MuscleFlatNode {
-  item: string = '';
+  item: string = "";
   level: number = 0;
   expandable: boolean = false;
 }
 
-const TREE_DATA = {
-  Muscles: {
-    Neck: {
-      Apple: null,
-      Berries: null,
-      Orange: null,
-    },
-    UpperArms: {
-      Apple: null,
-      Berries: null,
-      Orange: null,
-    },
+const muscles = [
+  {
+    item: "Neck",
+    children: [
+      { item: "Sternocleidomastoid", children: [] },
+      { item: "Splenius", children: [] },
+    ],
   },
-};
+  {
+    item: "Shoulders",
+    children: [
+      {
+        item: "Deltoid",
+        children: [
+          { item: "Anterior", children: [] },
+          { item: "Lateral", children: [] },
+          { item: "Posterior", children: [] },
+        ],
+      },
+      { item: "Supraspinatus", children: [] },
+    ],
+  },
+];
 
-@Injectable()
 export class MuscleDb {
   dataChange = new BehaviorSubject<MuscleNode[]>([]);
 
@@ -40,69 +53,42 @@ export class MuscleDb {
     return this.dataChange.value;
   }
 
-  constructor() {
-    this.initialize();
-  }
-
-  initialize() {
-    const data = this.buildFileTree(TREE_DATA, 0);
-
-    this.dataChange.next(data);
-  }
-
-  buildFileTree(obj: { [key: string]: any }, level: number): MuscleNode[] {
-    return Object.keys(obj).reduce<MuscleNode[]>((accumulator, key) => {
-      const value = obj[key];
-      const node = new MuscleNode();
-      node.item = key;
-
-      if (value != null) {
-        if (typeof value === 'object') {
-          node.children = this.buildFileTree(value, level + 1);
-        } else {
-          node.item = value;
-        }
-      }
-
-      return accumulator.concat(node);
-    }, []);
-  }
-
-  deleteItem(parent: MuscleNode, name: string) {
+  deleteItem(parent: MuscleNode, name: string): void {
     if (parent.children) {
       parent.children = parent.children.filter((j) => j.item !== name);
       this.dataChange.next(this.data);
     }
   }
 
-  insertItem(parent: MuscleNode, name: string) {
+  insertItem(parent: MuscleNode, name: string): void {
     if (parent.children) {
-      parent.children.push({ item: name } as MuscleNode);
+      parent.children.push({ item: name, children: [] } as MuscleNode);
       this.dataChange.next(this.data);
     }
   }
 
-  updateItem(node: MuscleNode, name: string) {
+  updateItem(node: MuscleNode, name: string): void {
     node.item = name;
     this.dataChange.next(this.data);
   }
 }
 
 @Component({
-  selector: 'app-configuration',
-  templateUrl: './configuration.component.html',
-  styleUrls: ['./configuration.component.scss'],
-  providers: [MuscleDb],
+  selector: "app-configuration",
+  templateUrl: "./configuration.component.html",
+  styleUrls: ["./configuration.component.scss"],
 })
 export class ConfigurationComponent implements OnInit {
   flatNodeMap = new Map<MuscleFlatNode, MuscleNode>();
   nestedNodeMap = new Map<MuscleNode, MuscleFlatNode>();
-  newItemName = '';
+  newItemName = "";
   treeControl: FlatTreeControl<MuscleFlatNode>;
   treeFlattener: MatTreeFlattener<MuscleNode, MuscleFlatNode>;
   dataSource: MatTreeFlatDataSource<MuscleNode, MuscleFlatNode>;
+  muscleDb: MuscleDb;
+  loadingVisible = false;
 
-  constructor(private _database: MuscleDb) {
+  constructor(private db: AngularFirestore) {
     this.treeFlattener = new MatTreeFlattener(
       this.transformer,
       this.getLevel,
@@ -118,13 +104,15 @@ export class ConfigurationComponent implements OnInit {
       this.treeFlattener
     );
 
-    _database.dataChange.subscribe((data) => {
+    this.muscleDb = new MuscleDb();
+    this.muscleDb.dataChange.subscribe((data) => {
       this.dataSource.data = data;
+      console.log(data);
     });
   }
 
-  ngOnInit() {
-    this.treeControl.expand(this.transformer(this.dataSource.data[0], 0));
+  async ngOnInit(): Promise<void> {
+    await this.getData();
   }
 
   getLevel = (node: MuscleFlatNode) => node.level;
@@ -133,14 +121,15 @@ export class ConfigurationComponent implements OnInit {
 
   getChildren = (node: MuscleNode): MuscleNode[] => node.children;
 
-  hasChild = (_: number, _nodeData: MuscleFlatNode) => _nodeData.expandable;
+  canAdd = (_: number, _nodeData: MuscleFlatNode) => _nodeData.expandable;
 
   hasNoContent = (_: number, _nodeData: MuscleFlatNode) =>
-    _nodeData.item === '';
+    _nodeData.item === "";
 
   transformer = (node: MuscleNode, level: number) => {
-    const existingNode = this.nestedNodeMap.get(node);
-    const flatNode =
+    const existingNode: MuscleFlatNode | undefined =
+      this.nestedNodeMap.get(node);
+    const flatNode: MuscleFlatNode =
       existingNode && existingNode.item === node.item
         ? existingNode
         : new MuscleFlatNode();
@@ -149,44 +138,77 @@ export class ConfigurationComponent implements OnInit {
     flatNode.expandable = !!node.children?.length;
     this.flatNodeMap.set(flatNode, node);
     this.nestedNodeMap.set(node, flatNode);
+
     return flatNode;
   };
 
+  async getData(): Promise<void> {
+    const snaps: firebase.default.firestore.QuerySnapshot<unknown> =
+      await this.db.collection("Muscles").get().toPromise();
+
+    const muscles: MuscleNode[] = snaps.docs.map((snap) => {
+      const snapData: Object = snap.data() as Object;
+      return <MuscleNode>{
+        item: snap.id,
+        ...snapData,
+      };
+    });
+
+    this.muscleDb.dataChange.next(muscles || []);
+  }
+
   getParentNode(node: MuscleFlatNode): MuscleFlatNode | null {
-    const currentLevel = this.getLevel(node);
+    const currentLevel: number = this.getLevel(node);
 
     if (currentLevel < 1) {
       return null;
     }
 
-    const startIndex = this.treeControl.dataNodes.indexOf(node) - 1;
+    const startIndex: number = this.treeControl.dataNodes.indexOf(node) - 1;
 
-    for (let i = startIndex; i >= 0; i--) {
-      const currentNode = this.treeControl.dataNodes[i];
+    for (let i: number = startIndex; i >= 0; i--) {
+      const currentNode: MuscleFlatNode = this.treeControl.dataNodes[i];
 
       if (this.getLevel(currentNode) < currentLevel) {
         return currentNode;
       }
     }
+
     return null;
   }
 
-  addNewItem(node: MuscleFlatNode) {
-    const parentNode = this.flatNodeMap.get(node);
-    this._database.insertItem(parentNode!, '');
+  addNode(node: MuscleFlatNode): void {
+    const parentNode: MuscleNode | undefined = this.flatNodeMap.get(node);
+    this.muscleDb?.insertItem(parentNode!, "");
     this.treeControl.expand(node);
   }
 
-  saveNode(node: MuscleFlatNode, itemValue: string) {
-    const nestedNode = this.flatNodeMap.get(node);
-    this._database.updateItem(nestedNode!, itemValue);
+  saveNode(node: MuscleFlatNode, itemValue: string): void {
+    const nestedNode: MuscleNode | undefined = this.flatNodeMap.get(node);
+    this.muscleDb?.updateItem(nestedNode!, itemValue);
   }
 
-  deleteNode(node: MuscleFlatNode) {
-    const parentFlatNode = this.getParentNode(node);
-    const parentNode = this.flatNodeMap.get(parentFlatNode!);
-    this._database.deleteItem(parentNode!, node.item);
+  deleteNode(node: MuscleFlatNode): void {
+    const parentFlatNode: MuscleFlatNode | null = this.getParentNode(node);
+    const parentNode: MuscleNode | undefined = this.flatNodeMap.get(
+      parentFlatNode!
+    );
+    this.muscleDb?.deleteItem(parentNode!, node.item);
   }
 
-  onSaveClick() {}
+  async onSaveClick(): Promise<void> {
+    this.loadingVisible = true;
+
+    const musclesRef: AngularFirestoreCollection =
+      this.db.collection("Muscles");
+
+    if (this.muscleDb) {
+      for (const muscle of this.muscleDb.data) {
+        const muscleRef: AngularFirestoreDocument = musclesRef.doc(muscle.item);
+        await muscleRef.set(muscle);
+      }
+    }
+
+    this.loadingVisible = false;
+  }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 interface Muscle {
   value: string;
@@ -19,7 +20,7 @@ export class AddComponent implements OnInit {
     { value: 'upper-arms', viewValue: 'Upper Arms' },
   ];
 
-  constructor() {}
+  constructor(private db: AngularFirestore) {}
 
   ngOnInit(): void {}
 
@@ -29,5 +30,5 @@ export class AddComponent implements OnInit {
     this.selectionDisabled = false;
   }
 
-  onSaveClick() {}
+  async onSaveClick() {}
 }

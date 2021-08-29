@@ -6,15 +6,6 @@
     <div class="tree-container">
       <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
         <mat-tree-node
-          *matTreeNodeDef="let node"
-          matTreeNodeToggle
-          matTreeNodePadding
-        >
-          <button mat-icon-button disabled></button>
-          <span>{{ node.item }}</span>
-        </mat-tree-node>
-
-        <mat-tree-node
           *matTreeNodeDef="let node; when: hasNoContent"
           matTreeNodePadding
         >
@@ -33,23 +24,24 @@
           </div>
         </mat-tree-node>
 
-        <mat-tree-node
-          *matTreeNodeDef="let node; when: hasChild"
-          matTreeNodePadding
-        >
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
           <button
             mat-icon-button
             matTreeNodeToggle
             [attr.aria-label]="'Toggle ' + node.item"
           >
-            <mat-icon class="mat-icon-rtl-mirror">
+            <mat-icon *ngIf="node.expandable" class="mat-icon-rtl-mirror">
               {{
                 treeControl.isExpanded(node) ? "expand_more" : "chevron_right"
               }}
             </mat-icon>
           </button>
           <span>{{ node.item }}</span>
-          <button mat-icon-button (click)="addNewItem(node)">
+          <button
+            *ngIf="node.level < 2"
+            mat-icon-button
+            (click)="addNode(node)"
+          >
             <mat-icon>add</mat-icon>
           </button>
         </mat-tree-node>
@@ -63,3 +55,15 @@
     Save
   </button>
 </div>
+
+<dx-load-panel
+  #loadPanel
+  [message]="'Saving...'"
+  shadingColor="rgba(0,0,0,0.4)"
+  [(visible)]="loadingVisible"
+  [showIndicator]="true"
+  [showPane]="true"
+  [shading]="true"
+  [closeOnOutsideClick]="false"
+>
+</dx-load-panel>
