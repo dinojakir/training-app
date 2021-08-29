@@ -1,33 +1,34 @@
-import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
+import { Injectable } from "@angular/core";
+import { AngularFireAuth } from "@angular/fire/auth";
+import { AngularFirestore } from "@angular/fire/firestore";
+import { Router } from "@angular/router";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class AuthService {
   user: any;
 
   constructor(
-    public fireStore: AngularFirestore,
     public fireAuth: AngularFireAuth,
+    public fireStore: AngularFirestore,
     public router: Router
   ) {
     this.fireAuth.authState.subscribe((user) => {
       if (user) {
         this.user = user;
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(user));
       } else {
-        localStorage.removeItem('user');
+        localStorage.removeItem("user");
         this.user = undefined;
-        this.router.navigate(['sign-in']);
+        this.router.navigate(["sign-in"]);
       }
     });
   }
 
   isLoggedIn(): boolean {
-    return localStorage.getItem('user') !== undefined;
+    const user: string | null = localStorage.getItem("user");
+    return user !== null;
   }
 
   signIn(email: any, password: any): Promise<boolean> {
@@ -36,15 +37,15 @@ export class AuthService {
       .then((result) => {
         if (result.user) {
           this.user = result.user;
-          localStorage.setItem('user', JSON.stringify(result.user));
-          this.router.navigate(['home']);
+          localStorage.setItem("user", JSON.stringify(result.user));
+          this.router.navigate(["home"]);
         }
 
         return true;
       })
       .catch(() => {
         this.user = undefined;
-        localStorage.removeItem('user');
+        localStorage.removeItem("user");
         return false;
       });
   }
@@ -52,8 +53,8 @@ export class AuthService {
   signOut(): Promise<void> {
     return this.fireAuth.signOut().then(() => {
       this.user = undefined;
-      localStorage.removeItem('user');
-      this.router.navigate(['sign-in']);
+      localStorage.removeItem("user");
+      this.router.navigate(["sign-in"]);
     });
   }
 }
