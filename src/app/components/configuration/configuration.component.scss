@@ -21,11 +21,23 @@
   text-align: center;
 }
 
+.load-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+
+  dx-load-indicator {
+    margin: auto;
+  }
+}
+
 .tree-container {
   height: 700px;
   overflow: auto;
   border: 1px solid lightgrey;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .mat-tree-node {

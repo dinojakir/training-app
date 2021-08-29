@@ -5,7 +5,15 @@
   <div class="form-container">
     <div class="tree-container">
       <div class="setting-title"><h4>Muscles</h4></div>
-      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+      <div *ngIf="!isMusclesLoaded" class="load-container">
+        <dx-load-indicator id="medium-indicator" height="40" width="40">
+        </dx-load-indicator>
+      </div>
+      <mat-tree
+        *ngIf="isMusclesLoaded"
+        [dataSource]="dataSource"
+        [treeControl]="treeControl"
+      >
         <mat-tree-node
           *matTreeNodeDef="let node; when: hasNoContent"
           matTreeNodePadding

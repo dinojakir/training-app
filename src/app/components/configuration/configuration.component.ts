@@ -87,6 +87,7 @@ export class ConfigurationComponent implements OnInit {
   dataSource: MatTreeFlatDataSource<MuscleNode, MuscleFlatNode>;
   muscleDb: MuscleDb;
   loadingVisible = false;
+  isMusclesLoaded = false;
 
   constructor(private db: AngularFirestore) {
     this.treeFlattener = new MatTreeFlattener(
@@ -107,7 +108,7 @@ export class ConfigurationComponent implements OnInit {
     this.muscleDb = new MuscleDb();
     this.muscleDb.dataChange.subscribe((data) => {
       this.dataSource.data = data;
-      console.log(data);
+      this.isMusclesLoaded = true;
     });
   }
 
