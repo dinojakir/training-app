@@ -108,12 +108,12 @@ export class ConfigurationComponent implements OnInit {
     this.muscleDb = new MuscleDb();
     this.muscleDb.dataChange.subscribe((data) => {
       this.dataSource.data = data;
-      this.isMusclesLoaded = true;
     });
   }
 
   async ngOnInit(): Promise<void> {
     await this.getData();
+    this.isMusclesLoaded = true;
   }
 
   getLevel = (node: MuscleFlatNode) => node.level;
