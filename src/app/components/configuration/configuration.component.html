@@ -1,10 +1,10 @@
 <div class="page-title">
-  <h2>Settings</h2>
+  <h2>Postavke</h2>
 </div>
 <div class="config-container">
   <div class="form-container">
     <div class="tree-container">
-      <div class="setting-title"><h4>Muscles</h4></div>
+      <div class="setting-title"><h4>Mišić</h4></div>
       <div *ngIf="!isMusclesLoaded" class="load-container">
         <div class="load-box">
           <dx-load-indicator height="40" width="40"></dx-load-indicator>
@@ -58,11 +58,20 @@
       </mat-tree>
     </div>
   </div>
-  <div class="form-container"></div>
+  <div class="form-container">
+    <div class="tree-container">
+      <div class="setting-title"><h4>Rekvizit</h4></div>
+    </div>
+  </div>
+  <div class="form-container">
+    <div class="tree-container">
+      <div class="setting-title"><h4>Trenažer</h4></div>
+    </div>
+  </div>
 </div>
 <div class="save-container">
   <button mat-raised-button color="primary" (click)="onSaveClick()">
-    Save
+    Spremi
   </button>
 </div>
 
