@@ -5,21 +5,22 @@ import { ConfigurationComponent } from "./components/configuration/configuration
 import { HomeComponent } from "./components/home/home.component";
 import { SignInComponent } from "./components/sign-in/sign-in.component";
 import { AuthGuard } from "./services/auth/auth-guard.service";
+import { SignInGuard } from "./services/auth/sign-in-guard.service";
 
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "home",
+    redirectTo: "pocetna",
     pathMatch: "full",
   },
-  { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
+  { path: "pocetna", component: HomeComponent, canActivate: [AuthGuard] },
   { path: "add", component: AddComponent, canActivate: [AuthGuard] },
   {
     path: "postavke",
     component: ConfigurationComponent,
     canActivate: [AuthGuard],
   },
-  { path: "prijava", component: SignInComponent },
+  { path: "prijava", component: SignInComponent, canActivate: [SignInGuard] },
 ];
 
 @NgModule({

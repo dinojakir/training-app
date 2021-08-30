@@ -38,7 +38,7 @@ export class AuthService {
         if (result.user) {
           this.user = result.user;
           localStorage.setItem("korisnik", JSON.stringify(result.user));
-          this.router.navigate(["home"]);
+          this.router.navigate(["pocetna"]);
         }
 
         return true;
