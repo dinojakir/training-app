@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate {
     if (this.authService.isLoggedIn()) {
       return true;
     } else {
-      await this.router.navigate(["sign-in"]);
+      await this.router.navigate(["prijava"]);
       return false;
     }
   }

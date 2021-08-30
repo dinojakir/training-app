@@ -17,17 +17,17 @@ export class AuthService {
     this.fireAuth.authState.subscribe((user) => {
       if (user) {
         this.user = user;
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("korisnik", JSON.stringify(user));
       } else {
-        localStorage.removeItem("user");
+        localStorage.removeItem("korisnik");
         this.user = undefined;
-        this.router.navigate(["sign-in"]);
+        this.router.navigate(["prijava"]);
       }
     });
   }
 
   isLoggedIn(): boolean {
-    const user: string | null = localStorage.getItem("user");
+    const user: string | null = localStorage.getItem("korisnik");
     return user !== null;
   }
 
@@ -37,7 +37,7 @@ export class AuthService {
       .then((result) => {
         if (result.user) {
           this.user = result.user;
-          localStorage.setItem("user", JSON.stringify(result.user));
+          localStorage.setItem("korisnik", JSON.stringify(result.user));
           this.router.navigate(["home"]);
         }
 
@@ -45,7 +45,7 @@ export class AuthService {
       })
       .catch(() => {
         this.user = undefined;
-        localStorage.removeItem("user");
+        localStorage.removeItem("korisnik");
         return false;
       });
   }
@@ -53,8 +53,8 @@ export class AuthService {
   signOut(): Promise<void> {
     return this.fireAuth.signOut().then(() => {
       this.user = undefined;
-      localStorage.removeItem("user");
-      this.router.navigate(["sign-in"]);
+      localStorage.removeItem("korisnik");
+      this.router.navigate(["prijava"]);
     });
   }
 }

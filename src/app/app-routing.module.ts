@@ -15,11 +15,11 @@ const routes: Routes = [
   { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
   { path: "add", component: AddComponent, canActivate: [AuthGuard] },
   {
-    path: "config",
+    path: "postavke",
     component: ConfigurationComponent,
     canActivate: [AuthGuard],
   },
-  { path: "sign-in", component: SignInComponent },
+  { path: "prijava", component: SignInComponent },
 ];
 
 @NgModule({
