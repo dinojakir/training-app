@@ -20,7 +20,7 @@ const routes: Routes = [
     component: ConfigurationComponent,
     canActivate: [AuthGuard],
   },
-  { path: "prijava", component: SignInComponent },
+  { path: "prijava", component: SignInComponent, canActivate: [SignInGuard] },
 ];
 
 @NgModule({

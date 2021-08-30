@@ -13,7 +13,6 @@ export class SignInGuard implements CanActivate {
       await this.router.navigate(["pocetna"]);
       return false;
     } else {
-      await this.router.navigate(["prijava"]);
       return true;
     }
   }
