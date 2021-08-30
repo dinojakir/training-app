@@ -239,7 +239,6 @@ export class ConfigurationComponent implements OnInit {
       }
       case "PropsDb": {
         const nestedNode: Node | undefined = this.propsFlatNodeMap.get(node);
-        console.log(nestedNode);
         this.propsDb.updateItem(nestedNode, itemValue);
         break;
       }
