@@ -22,7 +22,7 @@
           <button mat-icon-button disabled></button>
           <div style="display: flex">
             <mat-form-field appearance="fill">
-              <mat-label>New item...</mat-label>
+              <mat-label>Naziv...</mat-label>
               <input matInput #itemValue />
             </mat-form-field>
             <div class="new-item" (click)="saveNode(node, itemValue.value)">
@@ -49,6 +49,7 @@
           <span>{{ node.item }}</span>
           <button
             *ngIf="node.level < 2"
+            class="add-button"
             mat-icon-button
             (click)="addNode(node)"
           >
@@ -56,6 +57,16 @@
           </button>
         </mat-tree-node>
       </mat-tree>
+      <div class="new-group-container">
+        <button
+          class="new-group"
+          mat-raised-button
+          color="primary"
+          (click)="onNewGroupClick()"
+        >
+          Nova grupa
+        </button>
+      </div>
     </div>
   </div>
   <div class="form-container">

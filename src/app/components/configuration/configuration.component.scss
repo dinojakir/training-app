@@ -42,10 +42,41 @@
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  padding-right: 10px;
+  padding-bottom: 10px;
 }
 
 .mat-tree-node {
   font-size: 12px;
+  min-height: 30px;
+
+  button {
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+  }
+
+  &:hover .add-button {
+    display: block;
+  }
+}
+
+.add-button {
+  display: none;
+}
+
+.new-group-container {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.new-group.mat-raised-button {
+  font-size: 12px;
+  padding: 8px;
+
+  line-height: normal;
+  align-self: flex-end;
 }
 
 .new-item {

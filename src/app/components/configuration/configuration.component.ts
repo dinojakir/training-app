@@ -22,30 +22,6 @@ export class MuscleFlatNode {
   expandable: boolean = false;
 }
 
-const muscles = [
-  {
-    item: "Neck",
-    children: [
-      { item: "Sternocleidomastoid", children: [] },
-      { item: "Splenius", children: [] },
-    ],
-  },
-  {
-    item: "Shoulders",
-    children: [
-      {
-        item: "Deltoid",
-        children: [
-          { item: "Anterior", children: [] },
-          { item: "Lateral", children: [] },
-          { item: "Posterior", children: [] },
-        ],
-      },
-      { item: "Supraspinatus", children: [] },
-    ],
-  },
-];
-
 export class MuscleDb {
   dataChange = new BehaviorSubject<MuscleNode[]>([]);
 
@@ -53,16 +29,23 @@ export class MuscleDb {
     return this.dataChange.value;
   }
 
-  deleteItem(parent: MuscleNode, name: string): void {
-    if (parent.children) {
+  deleteItem(parent: MuscleNode | undefined, name: string): void {
+    if (parent && parent.children) {
       parent.children = parent.children.filter((j) => j.item !== name);
       this.dataChange.next(this.data);
+    } else {
+      this.dataChange.next(this.data.filter((i) => i.item !== name));
     }
   }
 
-  insertItem(parent: MuscleNode, name: string): void {
-    if (parent.children) {
+  insertItem(parent: MuscleNode | null, name: string): void {
+    if (parent && parent.children) {
       parent.children.push({ item: name, children: [] } as MuscleNode);
+      this.dataChange.next(this.data);
+    }
+
+    if (!parent) {
+      this.data.push({ item: name, children: [] });
       this.dataChange.next(this.data);
     }
   }
@@ -194,7 +177,12 @@ export class ConfigurationComponent implements OnInit {
     const parentNode: MuscleNode | undefined = this.flatNodeMap.get(
       parentFlatNode!
     );
-    this.muscleDb?.deleteItem(parentNode!, node.item);
+    this.muscleDb.deleteItem(parentNode, node.item);
+  }
+
+  onNewGroupClick(): void {
+    this.muscleDb.insertItem(null, "");
+    console.log(this.muscleDb.data);
   }
 
   async onSaveClick(): Promise<void> {
@@ -203,11 +191,17 @@ export class ConfigurationComponent implements OnInit {
     const musclesRef: AngularFirestoreCollection =
       this.db.collection("Muscles");
 
-    if (this.muscleDb) {
+    if (this.muscleDb && this.muscleDb.data.length > 0) {
       for (const muscle of this.muscleDb.data) {
         const muscleRef: AngularFirestoreDocument = musclesRef.doc(muscle.item);
         await muscleRef.set(muscle);
       }
+    } else {
+      musclesRef.ref.onSnapshot((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          musclesRef.doc(doc.id).delete();
+        });
+      });
     }
 
     this.loadingVisible = false;
