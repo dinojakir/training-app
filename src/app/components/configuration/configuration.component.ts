@@ -38,7 +38,7 @@ export class Db {
     }
   }
 
-  insertItem(parent: Node | null, name: string): void {
+  insertItem(parent: Node | undefined, name: string): void {
     if (parent && parent.children) {
       parent.children.push({ item: name, children: [] } as Node);
       this.dataChange.next(this.data);
@@ -68,6 +68,8 @@ export class ConfigurationComponent implements OnInit {
   musclesNestedNodeMap = new Map<Node, FlatNode>();
   propsFlatNodeMap = new Map<FlatNode, Node>();
   propsNestedNodeMap = new Map<Node, FlatNode>();
+  trainersFlatNodeMap = new Map<FlatNode, Node>();
+  trainersNestedNodeMap = new Map<Node, FlatNode>();
   newItemName = "";
   musclesTreeControl: FlatTreeControl<FlatNode>;
   musclesTreeFlattener: MatTreeFlattener<Node, FlatNode>;
@@ -77,9 +79,14 @@ export class ConfigurationComponent implements OnInit {
   propsTreeFlattener: MatTreeFlattener<Node, FlatNode>;
   propsDataSource: MatTreeFlatDataSource<Node, FlatNode>;
   propsDb: Db;
+  trainersTreeControl: FlatTreeControl<FlatNode>;
+  trainersTreeFlattener: MatTreeFlattener<Node, FlatNode>;
+  trainersDataSource: MatTreeFlatDataSource<Node, FlatNode>;
+  trainersDb: Db;
   loadingVisible = false;
   isMusclesLoaded = false;
   isPropsLoaded = false;
+  isTrainersLoaded = false;
 
   constructor(private db: AngularFirestore) {
     this.musclesTreeFlattener = new MatTreeFlattener(
@@ -121,6 +128,26 @@ export class ConfigurationComponent implements OnInit {
     this.propsDb.dataChange.subscribe((data) => {
       this.propsDataSource.data = data;
     });
+
+    this.trainersTreeFlattener = new MatTreeFlattener(
+      this.trainersTransformer,
+      this.getLevel,
+      this.isExpandable,
+      this.getChildren
+    );
+    this.trainersTreeControl = new FlatTreeControl<FlatNode>(
+      this.getLevel,
+      this.isExpandable
+    );
+    this.trainersDataSource = new MatTreeFlatDataSource(
+      this.trainersTreeControl,
+      this.trainersTreeFlattener
+    );
+
+    this.trainersDb = new Db();
+    this.trainersDb.dataChange.subscribe((data) => {
+      this.trainersDataSource.data = data;
+    });
   }
 
   async ngOnInit(): Promise<void> {
@@ -131,6 +158,10 @@ export class ConfigurationComponent implements OnInit {
     const props: Node[] = await this.getData("Props");
     this.propsDb.dataChange.next(props || []);
     this.isPropsLoaded = true;
+
+    const trainers: Node[] = await this.getData("Trainers");
+    this.trainersDb.dataChange.next(trainers || []);
+    this.isTrainersLoaded = true;
   }
 
   getLevel = (node: FlatNode) => node.level;
@@ -171,6 +202,22 @@ export class ConfigurationComponent implements OnInit {
     flatNode.expandable = !!node.children?.length;
     this.propsFlatNodeMap.set(flatNode, node);
     this.propsNestedNodeMap.set(node, flatNode);
+
+    return flatNode;
+  };
+
+  trainersTransformer = (node: Node, level: number) => {
+    const existingNode: FlatNode | undefined =
+      this.trainersNestedNodeMap.get(node);
+    const flatNode: FlatNode =
+      existingNode && existingNode.item === node.item
+        ? existingNode
+        : new FlatNode();
+    flatNode.item = node.item;
+    flatNode.level = level;
+    flatNode.expandable = !!node.children?.length;
+    this.trainersFlatNodeMap.set(flatNode, node);
+    this.trainersNestedNodeMap.set(node, flatNode);
 
     return flatNode;
   };
@@ -227,6 +274,12 @@ export class ConfigurationComponent implements OnInit {
         this.propsTreeControl.expand(node);
         break;
       }
+      case "TrainersDb": {
+        const parentNode: Node | undefined = this.trainersFlatNodeMap.get(node);
+        this.trainersDb.insertItem(parentNode, "");
+        this.trainersTreeControl.expand(node);
+        break;
+      }
     }
   }
 
@@ -240,6 +293,11 @@ export class ConfigurationComponent implements OnInit {
       case "PropsDb": {
         const nestedNode: Node | undefined = this.propsFlatNodeMap.get(node);
         this.propsDb.updateItem(nestedNode, itemValue);
+        break;
+      }
+      case "TrainersDb": {
+        const nestedNode: Node | undefined = this.trainersFlatNodeMap.get(node);
+        this.trainersDb.updateItem(nestedNode, itemValue);
         break;
       }
     }
@@ -269,15 +327,30 @@ export class ConfigurationComponent implements OnInit {
         this.propsDb.deleteItem(parentNode, node.item);
         break;
       }
+      case "TrainersDb": {
+        const parentFlatNode: FlatNode | null = this.getParentNode(
+          node,
+          this.trainersTreeControl
+        );
+        const parentNode: Node | undefined = this.trainersFlatNodeMap.get(
+          parentFlatNode!
+        );
+        this.trainersDb.deleteItem(parentNode, node.item);
+        break;
+      }
     }
   }
 
   onNewMuscleGroupClick(): void {
-    this.muscleDb.insertItem(null, "");
+    this.muscleDb.insertItem(undefined, "");
   }
 
   onNewPropsGroupClick(): void {
-    this.propsDb.insertItem(null, "");
+    this.propsDb.insertItem(undefined, "");
+  }
+
+  onNewTrainersGroupClick(): void {
+    this.trainersDb.insertItem(undefined, "");
   }
 
   async onSaveClick(): Promise<void> {
@@ -310,6 +383,24 @@ export class ConfigurationComponent implements OnInit {
       propsRef.ref.onSnapshot((snapshot) => {
         snapshot.docs.forEach((doc) => {
           propsRef.doc(doc.id).delete();
+        });
+      });
+    }
+
+    const trainersRef: AngularFirestoreCollection =
+      this.db.collection("Trainers");
+
+    if (this.trainersDb && this.trainersDb.data.length > 0) {
+      for (const trainer of this.trainersDb.data) {
+        const trainerRef: AngularFirestoreDocument = trainersRef.doc(
+          trainer.item
+        );
+        await trainerRef.set(trainer);
+      }
+    } else {
+      trainersRef.ref.onSnapshot((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          trainersRef.doc(doc.id).delete();
         });
       });
     }

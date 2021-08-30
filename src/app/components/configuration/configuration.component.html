@@ -77,7 +77,7 @@
   <div class="form-container">
     <div class="tree-container">
       <div class="setting-title"><h4>Rekviziti</h4></div>
-      <div *ngIf="!isMusclesLoaded" class="load-container">
+      <div *ngIf="!isPropsLoaded" class="load-container">
         <div class="load-box">
           <dx-load-indicator height="40" width="40"></dx-load-indicator>
         </div>
@@ -149,6 +149,73 @@
   <div class="form-container">
     <div class="tree-container">
       <div class="setting-title"><h4>Trenažeri</h4></div>
+      <div *ngIf="!isTrainersLoaded" class="load-container">
+        <div class="load-box">
+          <dx-load-indicator height="40" width="40"></dx-load-indicator>
+        </div>
+      </div>
+      <mat-tree
+        *ngIf="isTrainersLoaded"
+        [dataSource]="trainersDataSource"
+        [treeControl]="trainersTreeControl"
+      >
+        <mat-tree-node
+          *matTreeNodeDef="let node; when: hasNoContent"
+          matTreeNodePadding
+        >
+          <button mat-icon-button disabled></button>
+          <div style="display: flex">
+            <mat-form-field appearance="fill">
+              <mat-label>Naziv...</mat-label>
+              <input matInput #itemValue />
+            </mat-form-field>
+            <div
+              class="new-item"
+              (click)="saveNode(node, itemValue.value, 'TrainersDb')"
+            >
+              <mat-icon>done</mat-icon>
+            </div>
+            <div class="new-item" (click)="deleteNode(node, 'TrainersDb')">
+              <mat-icon>delete</mat-icon>
+            </div>
+          </div>
+        </mat-tree-node>
+
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+          <button
+            mat-icon-button
+            matTreeNodeToggle
+            [attr.aria-label]="'Toggle ' + node.item"
+          >
+            <mat-icon *ngIf="node.expandable" class="mat-icon-rtl-mirror">
+              {{
+                trainersTreeControl.isExpanded(node)
+                  ? "expand_more"
+                  : "chevron_right"
+              }}
+            </mat-icon>
+          </button>
+          <span>{{ node.item }}</span>
+          <button
+            *ngIf="node.level < 2"
+            class="add-button"
+            mat-icon-button
+            (click)="addNode(node, 'TrainersDb')"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-tree-node>
+      </mat-tree>
+      <div class="new-group-container">
+        <button
+          class="new-group"
+          mat-raised-button
+          color="primary"
+          (click)="onNewTrainersGroupClick()"
+        >
+          Nova grupa
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -160,7 +227,7 @@
 
 <dx-load-panel
   #loadPanel
-  [message]="'Saving...'"
+  [message]="'Spremanje...'"
   shadingColor="rgba(0,0,0,0.4)"
   [(visible)]="loadingVisible"
   [showIndicator]="true"
