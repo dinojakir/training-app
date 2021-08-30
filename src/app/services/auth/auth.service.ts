@@ -50,11 +50,10 @@ export class AuthService {
       });
   }
 
-  signOut(): Promise<void> {
-    return this.fireAuth.signOut().then(() => {
-      this.user = undefined;
-      localStorage.removeItem("korisnik");
-      this.router.navigate(["prijava"]);
-    });
+  async signOut(): Promise<void> {
+    await this.fireAuth.signOut();
+    this.user = undefined;
+    localStorage.removeItem("korisnik");
+    await this.router.navigate(["prijava"]);
   }
 }
