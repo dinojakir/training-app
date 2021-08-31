@@ -1,6 +1,5 @@
-<div class="container">
-  <mat-toolbar color="primary">
-    <mat-icon>sports_handball</mat-icon>
+<div class="container" [class.background-image]="url === '/prijava'">
+  <div class="top">
     <div
       *ngIf="authService?.user"
       id="userBtn"
@@ -9,7 +8,7 @@
     >
       {{ authService?.user?.email.substring(0, 1).toUpperCase() }}
     </div>
-  </mat-toolbar>
+  </div>
   <div class="page-container">
     <router-outlet></router-outlet>
   </div>

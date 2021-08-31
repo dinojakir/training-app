@@ -5,14 +5,14 @@
   width: 100%;
 }
 
-.page-container {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+.background-image {
+  background-image: url("../assets/image/photo_1.jpg");
 }
 
-mat-toolbar {
+.top {
   display: flex;
+  height: 50px;
+  padding-top: 10px;
 
   .btn-user {
     background-color: #7b1fa2;
@@ -24,10 +24,14 @@ mat-toolbar {
     width: 30px;
     height: 30px;
     font-size: 14px;
-    text-align: center;
+    justify-content: center;
+    display: flex;
+    align-items: center;
   }
 }
 
-mat-icon {
-  margin-left: 50px;
+.page-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }

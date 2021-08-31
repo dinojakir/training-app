@@ -1,7 +1,7 @@
 import { Component, ViewChild } from "@angular/core";
 import { AuthService } from "./services/auth/auth.service";
 import { DxContextMenuComponent } from "devextreme-angular";
-import { Router } from "@angular/router";
+import { NavigationEnd, Router } from "@angular/router";
 
 @Component({
   selector: "app-root",
@@ -14,12 +14,19 @@ export class AppComponent {
 
   items: any[];
   title = "training-app";
+  url: string = "";
 
   constructor(public authService: AuthService, private router: Router) {
     this.items = [
       { id: 1, text: "Postavke", icon: "dx-icon-preferences" },
       { id: 2, text: "Odjava", icon: "dx-icon-export" },
     ];
+
+    router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.url = event.url;
+      }
+    });
   }
 
   async onUserBtnClick(): Promise<void> {
