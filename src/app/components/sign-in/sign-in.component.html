@@ -20,6 +20,7 @@
         name="loginPassword"
         id="loginPassword"
         required
+        (keyup.enter)="signIn(userEmail.value, userPassword.value)"
       />
     </div>
     <div *ngIf="isLoadIndicatorVisible" class="load-container">

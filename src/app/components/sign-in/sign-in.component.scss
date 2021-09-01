@@ -6,9 +6,9 @@
 
 .form-container {
   background-color: #fff0a4;
-  width: 340px;
+  width: 300px;
   height: 400px;
-  padding: 20px;
+  padding: 20px 40px;
   border: 1px solid lightgray;
   border-radius: 5px;
   margin-left: 20%;
@@ -43,7 +43,7 @@ form {
     font-size: 14px;
     outline: none;
     padding: 12px 20px 8px;
-    width: 300px;
+    width: 260px;
     z-index: 1;
 
     &:-webkit-autofill::first-line,
