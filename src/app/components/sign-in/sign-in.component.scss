@@ -33,7 +33,7 @@ form {
   }
 
   .input {
-    background: #fafffa;
+    background: #e8fce8;
     border: none;
     border-bottom: 1px solid #eee;
     border-radius: 5px;
@@ -51,8 +51,8 @@ form {
     &:-webkit-autofill:hover,
     &:-webkit-autofill:focus,
     &:-webkit-autofill:active {
-      box-shadow: 0 0 0 30px #fafffa inset !important;
-      -webkit-box-shadow: 0 0 0 30px #fafffa inset !important;
+      box-shadow: 0 0 0 30px #e8fce8 inset !important;
+      -webkit-box-shadow: 0 0 0 30px #e8fce8 inset !important;
       font-family: Arial, Helvetica, sans-serif;
       font-size: 14px;
     }
