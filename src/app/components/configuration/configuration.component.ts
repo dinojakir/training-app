@@ -14,12 +14,14 @@ import { BehaviorSubject } from "rxjs";
 export class Node {
   item: string = "";
   children: Node[] = [];
+  edit?: boolean = false;
 }
 
 export class FlatNode {
   item: string = "";
   level: number = 0;
   expandable: boolean = false;
+  edit?: boolean = false;
 }
 
 export class Db {
@@ -53,7 +55,50 @@ export class Db {
   updateItem(node: Node | undefined, name: string): void {
     if (node) {
       node.item = name;
+      delete node.edit;
       this.dataChange.next(this.data);
+    }
+  }
+
+  editItem(
+    node: Node | undefined,
+    parentNode: Node | undefined,
+    edit: boolean
+  ): void {
+    if (parentNode && node) {
+      const parentNodeEdit: Node | undefined = this.data.find(
+        (i) => i.item === parentNode.item
+      );
+
+      if (parentNodeEdit) {
+        const nodeEdit: Node | undefined = parentNodeEdit.children.find(
+          (i) => i.item === node.item
+        );
+        if (nodeEdit) {
+          if (edit) {
+            nodeEdit.edit = true;
+          } else {
+            delete node.edit;
+          }
+
+          this.dataChange.next(this.data);
+        }
+      }
+    } else {
+      if (node) {
+        const nodeEdit: Node | undefined = this.data.find(
+          (i) => i.item === node.item
+        );
+        if (nodeEdit) {
+          if (edit) {
+            nodeEdit.edit = true;
+          } else {
+            delete node.edit;
+          }
+
+          this.dataChange.next(this.data);
+        }
+      }
     }
   }
 }
@@ -106,6 +151,7 @@ export class ConfigurationComponent implements OnInit {
 
     this.muscleDb = new Db();
     this.muscleDb.dataChange.subscribe((data) => {
+      this.musclesDataSource.data = [];
       this.musclesDataSource.data = data;
     });
 
@@ -126,6 +172,7 @@ export class ConfigurationComponent implements OnInit {
 
     this.propsDb = new Db();
     this.propsDb.dataChange.subscribe((data) => {
+      this.propsDataSource.data = [];
       this.propsDataSource.data = data;
     });
 
@@ -146,6 +193,7 @@ export class ConfigurationComponent implements OnInit {
 
     this.trainersDb = new Db();
     this.trainersDb.dataChange.subscribe((data) => {
+      this.trainersDataSource.data = [];
       this.trainersDataSource.data = data;
     });
   }
@@ -174,6 +222,8 @@ export class ConfigurationComponent implements OnInit {
 
   hasNoContent = (_: number, _nodeData: FlatNode) => _nodeData.item === "";
 
+  isEdit = (_: number, _nodeData: FlatNode) => _nodeData.edit;
+
   musclesTransformer = (node: Node, level: number) => {
     const existingNode: FlatNode | undefined =
       this.musclesNestedNodeMap.get(node);
@@ -183,6 +233,7 @@ export class ConfigurationComponent implements OnInit {
         : new FlatNode();
     flatNode.item = node.item;
     flatNode.level = level;
+    flatNode.edit = node.edit;
     flatNode.expandable = !!node.children?.length;
     this.musclesFlatNodeMap.set(flatNode, node);
     this.musclesNestedNodeMap.set(node, flatNode);
@@ -199,6 +250,7 @@ export class ConfigurationComponent implements OnInit {
         : new FlatNode();
     flatNode.item = node.item;
     flatNode.level = level;
+    flatNode.edit = node.edit;
     flatNode.expandable = !!node.children?.length;
     this.propsFlatNodeMap.set(flatNode, node);
     this.propsNestedNodeMap.set(node, flatNode);
@@ -215,6 +267,7 @@ export class ConfigurationComponent implements OnInit {
         : new FlatNode();
     flatNode.item = node.item;
     flatNode.level = level;
+    flatNode.edit = node.edit;
     flatNode.expandable = !!node.children?.length;
     this.trainersFlatNodeMap.set(flatNode, node);
     this.trainersNestedNodeMap.set(node, flatNode);
@@ -260,43 +313,96 @@ export class ConfigurationComponent implements OnInit {
     return null;
   }
 
-  addNode(node: FlatNode, dbName: string): void {
+  addNode(flatNode: FlatNode, dbName: string): void {
     switch (dbName) {
       case "MusclesDb": {
-        const parentNode: Node | undefined = this.musclesFlatNodeMap.get(node);
-        this.muscleDb.insertItem(parentNode!, "");
-        this.musclesTreeControl.expand(node);
+        const node: Node | undefined = this.musclesFlatNodeMap.get(flatNode);
+        this.muscleDb.insertItem(node, "");
+        this.musclesTreeControl.expand(flatNode);
         break;
       }
       case "PropsDb": {
-        const parentNode: Node | undefined = this.propsFlatNodeMap.get(node);
-        this.propsDb.insertItem(parentNode!, "");
-        this.propsTreeControl.expand(node);
+        const node: Node | undefined = this.propsFlatNodeMap.get(flatNode);
+        this.propsDb.insertItem(node, "");
+        this.propsTreeControl.expand(flatNode);
         break;
       }
       case "TrainersDb": {
-        const parentNode: Node | undefined = this.trainersFlatNodeMap.get(node);
-        this.trainersDb.insertItem(parentNode, "");
-        this.trainersTreeControl.expand(node);
+        const node: Node | undefined = this.trainersFlatNodeMap.get(flatNode);
+        this.trainersDb.insertItem(node, "");
+        this.trainersTreeControl.expand(flatNode);
         break;
       }
     }
   }
 
-  saveNode(node: FlatNode, itemValue: string, dbName: string): void {
+  editNode(flatNode: FlatNode, dbName: string, edit: boolean): void {
     switch (dbName) {
       case "MusclesDb": {
-        const nestedNode: Node | undefined = this.musclesFlatNodeMap.get(node);
+        let parentNode: Node | undefined;
+        if (flatNode.level > 0) {
+          const parentFlatNode: FlatNode | null = this.getParentNode(
+            flatNode,
+            this.musclesTreeControl
+          );
+          if (parentFlatNode) {
+            parentNode = this.musclesFlatNodeMap.get(parentFlatNode);
+          }
+        }
+        const node: Node | undefined = this.musclesFlatNodeMap.get(flatNode);
+        this.muscleDb.editItem(node, parentNode, edit);
+        break;
+      }
+      case "PropsDb": {
+        let parentNode: Node | undefined;
+        if (flatNode.level > 0) {
+          const parentFlatNode: FlatNode | null = this.getParentNode(
+            flatNode,
+            this.propsTreeControl
+          );
+          if (parentFlatNode) {
+            parentNode = this.propsFlatNodeMap.get(parentFlatNode);
+          }
+        }
+        const node: Node | undefined = this.propsFlatNodeMap.get(flatNode);
+        this.propsDb.editItem(node, parentNode, edit);
+        break;
+      }
+      case "TrainersDb": {
+        let parentNode: Node | undefined;
+        if (flatNode.level > 0) {
+          const parentFlatNode: FlatNode | null = this.getParentNode(
+            flatNode,
+            this.trainersTreeControl
+          );
+          if (parentFlatNode) {
+            parentNode = this.trainersFlatNodeMap.get(parentFlatNode);
+          }
+        }
+        const node: Node | undefined = this.trainersFlatNodeMap.get(flatNode);
+        this.trainersDb.editItem(node, parentNode, edit);
+        break;
+      }
+    }
+  }
+
+  saveNode(flatNode: FlatNode, itemValue: string, dbName: string): void {
+    switch (dbName) {
+      case "MusclesDb": {
+        const nestedNode: Node | undefined =
+          this.musclesFlatNodeMap.get(flatNode);
         this.muscleDb.updateItem(nestedNode!, itemValue);
         break;
       }
       case "PropsDb": {
-        const nestedNode: Node | undefined = this.propsFlatNodeMap.get(node);
+        const nestedNode: Node | undefined =
+          this.propsFlatNodeMap.get(flatNode);
         this.propsDb.updateItem(nestedNode, itemValue);
         break;
       }
       case "TrainersDb": {
-        const nestedNode: Node | undefined = this.trainersFlatNodeMap.get(node);
+        const nestedNode: Node | undefined =
+          this.trainersFlatNodeMap.get(flatNode);
         this.trainersDb.updateItem(nestedNode, itemValue);
         break;
       }
@@ -341,6 +447,26 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
+  updateNode(flatNode: FlatNode, itemValue: string, dbName: string): void {
+    switch (dbName) {
+      case "MusclesDb": {
+        const node: Node | undefined = this.musclesFlatNodeMap.get(flatNode);
+        this.muscleDb.updateItem(node, itemValue);
+        break;
+      }
+      case "PropsDb": {
+        const node: Node | undefined = this.propsFlatNodeMap.get(flatNode);
+        this.propsDb.updateItem(node, itemValue);
+        break;
+      }
+      case "TrainersDb": {
+        const node: Node | undefined = this.trainersFlatNodeMap.get(flatNode);
+        this.trainersDb.updateItem(node, itemValue);
+        break;
+      }
+    }
+  }
+
   onNewMuscleGroupClick(): void {
     this.muscleDb.insertItem(undefined, "");
   }
@@ -358,51 +484,54 @@ export class ConfigurationComponent implements OnInit {
 
     const musclesRef: AngularFirestoreCollection =
       this.db.collection("Muscles");
+    const musclesSnapshot: firebase.default.firestore.QuerySnapshot<unknown> =
+      await musclesRef.get().toPromise();
+    musclesSnapshot.docs.forEach(async (doc) => {
+      await musclesRef.doc(doc.id).delete();
+    });
 
     if (this.muscleDb && this.muscleDb.data.length > 0) {
       for (const muscle of this.muscleDb.data) {
         const muscleRef: AngularFirestoreDocument = musclesRef.doc(muscle.item);
+        delete muscle.edit;
+        muscle.children.forEach((i) => delete i.edit);
         await muscleRef.set(muscle);
       }
-    } else {
-      musclesRef.ref.onSnapshot((snapshot) => {
-        snapshot.docs.forEach((doc) => {
-          musclesRef.doc(doc.id).delete();
-        });
-      });
     }
 
     const propsRef: AngularFirestoreCollection = this.db.collection("Props");
+    const propsSnapshot: firebase.default.firestore.QuerySnapshot<unknown> =
+      await propsRef.get().toPromise();
+    propsSnapshot.docs.forEach(async (doc) => {
+      await propsRef.doc(doc.id).delete();
+    });
 
     if (this.propsDb && this.propsDb.data.length > 0) {
       for (const prop of this.propsDb.data) {
         const propRef: AngularFirestoreDocument = propsRef.doc(prop.item);
+        delete prop.edit;
+        prop.children.forEach((i) => delete i.edit);
         await propRef.set(prop);
       }
-    } else {
-      propsRef.ref.onSnapshot((snapshot) => {
-        snapshot.docs.forEach((doc) => {
-          propsRef.doc(doc.id).delete();
-        });
-      });
     }
 
     const trainersRef: AngularFirestoreCollection =
       this.db.collection("Trainers");
+    const trainersSnapshot: firebase.default.firestore.QuerySnapshot<unknown> =
+      await trainersRef.get().toPromise();
+    trainersSnapshot.docs.forEach(async (doc) => {
+      await trainersRef.doc(doc.id).delete();
+    });
 
     if (this.trainersDb && this.trainersDb.data.length > 0) {
       for (const trainer of this.trainersDb.data) {
         const trainerRef: AngularFirestoreDocument = trainersRef.doc(
           trainer.item
         );
+        delete trainer.edit;
+        trainer.children.forEach((i) => delete i.edit);
         await trainerRef.set(trainer);
       }
-    } else {
-      trainersRef.ref.onSnapshot((snapshot) => {
-        snapshot.docs.forEach((doc) => {
-          trainersRef.doc(doc.id).delete();
-        });
-      });
     }
 
     this.loadingVisible = false;

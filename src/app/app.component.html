@@ -1,7 +1,7 @@
 <div class="container" [class.background-image]="url === '/prijava'">
   <div class="top">
     <div
-      *ngIf="authService?.user"
+      *ngIf="url !== '/prijava' && authService?.user"
       id="userBtn"
       class="btn-user"
       (click)="onUserBtnClick()"

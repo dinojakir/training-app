@@ -37,7 +37,31 @@
           </div>
         </mat-tree-node>
 
-        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+        <mat-tree-node
+          *matTreeNodeDef="let node; when: isEdit"
+          matTreeNodePadding
+        >
+          <button mat-icon-button disabled></button>
+          <div style="display: flex">
+            <mat-form-field appearance="fill">
+              <input matInput #itemValue [value]="node.item" />
+            </mat-form-field>
+            <div
+              class="new-item"
+              (click)="updateNode(node, itemValue.value, 'MusclesDb')"
+            >
+              <mat-icon>done</mat-icon>
+            </div>
+            <div class="new-item" (click)="editNode(node, 'MusclesDb', false)">
+              <mat-icon>delete</mat-icon>
+            </div>
+          </div>
+        </mat-tree-node>
+
+        <mat-tree-node
+          *matTreeNodeDef="let node; when: !isEdit"
+          matTreeNodePadding
+        >
           <button
             mat-icon-button
             matTreeNodeToggle
@@ -53,12 +77,19 @@
           </button>
           <span>{{ node.item }}</span>
           <button
-            *ngIf="node.level < 2"
+            *ngIf="node.level < 1"
             class="add-button"
             mat-icon-button
             (click)="addNode(node, 'MusclesDb')"
           >
             <mat-icon>add</mat-icon>
+          </button>
+          <button
+            class="add-button"
+            mat-icon-button
+            (click)="editNode(node, 'MusclesDb', true)"
+          >
+            <mat-icon>edit</mat-icon>
           </button>
         </mat-tree-node>
       </mat-tree>
@@ -109,7 +140,31 @@
           </div>
         </mat-tree-node>
 
-        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+        <mat-tree-node
+          *matTreeNodeDef="let node; when: isEdit"
+          matTreeNodePadding
+        >
+          <button mat-icon-button disabled></button>
+          <div style="display: flex">
+            <mat-form-field appearance="fill">
+              <input matInput #itemValue [value]="node.item" />
+            </mat-form-field>
+            <div
+              class="new-item"
+              (click)="updateNode(node, itemValue.value, 'PropsDb')"
+            >
+              <mat-icon>done</mat-icon>
+            </div>
+            <div class="new-item" (click)="editNode(node, 'PropsDb', false)">
+              <mat-icon>delete</mat-icon>
+            </div>
+          </div>
+        </mat-tree-node>
+
+        <mat-tree-node
+          *matTreeNodeDef="let node; when: !isEdit"
+          matTreeNodePadding
+        >
           <button
             mat-icon-button
             matTreeNodeToggle
@@ -125,12 +180,19 @@
           </button>
           <span>{{ node.item }}</span>
           <button
-            *ngIf="node.level < 2"
+            *ngIf="node.level < 1"
             class="add-button"
             mat-icon-button
             (click)="addNode(node, 'PropsDb')"
           >
             <mat-icon>add</mat-icon>
+          </button>
+          <button
+            class="add-button"
+            mat-icon-button
+            (click)="editNode(node, 'PropsDb', true)"
+          >
+            <mat-icon>edit</mat-icon>
           </button>
         </mat-tree-node>
       </mat-tree>
@@ -181,7 +243,31 @@
           </div>
         </mat-tree-node>
 
-        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+        <mat-tree-node
+          *matTreeNodeDef="let node; when: isEdit"
+          matTreeNodePadding
+        >
+          <button mat-icon-button disabled></button>
+          <div style="display: flex">
+            <mat-form-field appearance="fill">
+              <input matInput #itemValue [value]="node.item" />
+            </mat-form-field>
+            <div
+              class="new-item"
+              (click)="updateNode(node, itemValue.value, 'TrainersDb')"
+            >
+              <mat-icon>done</mat-icon>
+            </div>
+            <div class="new-item" (click)="editNode(node, 'TrainersDb', false)">
+              <mat-icon>delete</mat-icon>
+            </div>
+          </div>
+        </mat-tree-node>
+
+        <mat-tree-node
+          *matTreeNodeDef="let node; when: !isEdit"
+          matTreeNodePadding
+        >
           <button
             mat-icon-button
             matTreeNodeToggle
@@ -197,12 +283,19 @@
           </button>
           <span>{{ node.item }}</span>
           <button
-            *ngIf="node.level < 2"
+            *ngIf="node.level < 1"
             class="add-button"
             mat-icon-button
             (click)="addNode(node, 'TrainersDb')"
           >
             <mat-icon>add</mat-icon>
+          </button>
+          <button
+            class="add-button"
+            mat-icon-button
+            (click)="editNode(node, 'TrainersDb', true)"
+          >
+            <mat-icon>edit</mat-icon>
           </button>
         </mat-tree-node>
       </mat-tree>
