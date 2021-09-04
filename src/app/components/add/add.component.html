@@ -1,20 +1,22 @@
 <div class="add-container">
-  <div class="form-container">
-    <div>
+  <div class="row">
+    <div class="column">
       <mat-form-field appearance="fill">
-        <mat-label>Name</mat-label>
+        <mat-label>Naziv</mat-label>
         <input matInput value="" />
       </mat-form-field>
     </div>
-    <div>
+    <div class="column">
       <mat-button-toggle-group name="type" aria-label="type">
-        <mat-button-toggle value="isolated">Isolated</mat-button-toggle>
-        <mat-button-toggle value="complex">Complex</mat-button-toggle>
+        <mat-button-toggle value="isolated">Izolirana</mat-button-toggle>
+        <mat-button-toggle value="complex">Kompleksna</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
-    <div>
+  </div>
+  <div class="row">
+    <div class="column">
       <mat-form-field appearance="fill">
-        <mat-label>Muscle</mat-label>
+        <mat-label>Mišić</mat-label>
         <mat-select
           [(value)]="selectedMuscle"
           (selectionChange)="onSelectMuscle($event)"
@@ -25,9 +27,9 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div>
+    <div class="column">
       <mat-form-field appearance="fill">
-        <mat-label>Submuscle</mat-label>
+        <mat-label>Podmišić</mat-label>
         <mat-select [disabled]="selectionDisabled">
           <mat-option *ngFor="let muscle of muscles" [value]="muscle.value">
             {{ muscle.viewValue }}
@@ -35,16 +37,20 @@
         </mat-select>
       </mat-form-field>
     </div>
+  </div>
+  <div class="row">
     <div>
       <mat-button-toggle-group name="mode" aria-label="mode">
-        <mat-button-toggle value="bodyweight">Bodyweight</mat-button-toggle>
-        <mat-button-toggle value="props">Props</mat-button-toggle>
-        <mat-button-toggle value="trainer">Trainer</mat-button-toggle>
+        <mat-button-toggle value="bodyweight">Tijelo</mat-button-toggle>
+        <mat-button-toggle value="props">Rekvizit</mat-button-toggle>
+        <mat-button-toggle value="trainer">Trenažer</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
+  </div>
+  <div class="row">
     <div>
       <button mat-raised-button color="primary" (click)="fileInput.click()">
-        Choose File
+        Video
       </button>
       <input
         hidden
@@ -55,16 +61,10 @@
       />
     </div>
   </div>
-  <div class="form-container">
-    <div>
+  <div class="row">
+    <div class="column">
       <mat-form-field class="text-input" appearance="fill">
-        <mat-label>Comment</mat-label>
-        <textarea matInput placeholder="..."></textarea>
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field class="text-input" appearance="fill">
-        <mat-label>Instructions</mat-label>
+        <mat-label>Komentar</mat-label>
         <textarea matInput placeholder="..."></textarea>
       </mat-form-field>
     </div>
@@ -72,6 +72,6 @@
 </div>
 <div class="save-container">
   <button mat-raised-button color="primary" (click)="onSaveClick()">
-    Save
+    Spremi
   </button>
 </div>

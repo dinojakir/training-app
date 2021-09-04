@@ -14,7 +14,7 @@ const routes: Routes = [
     pathMatch: "full",
   },
   { path: "pocetna", component: HomeComponent, canActivate: [AuthGuard] },
-  { path: "add", component: AddComponent, canActivate: [AuthGuard] },
+  { path: "vjezba", component: AddComponent, canActivate: [AuthGuard] },
   {
     path: "postavke",
     component: ConfigurationComponent,

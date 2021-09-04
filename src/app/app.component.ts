@@ -18,7 +18,7 @@ export class AppComponent {
   constructor(public authService: AuthService, private router: Router) {
     this.menuItems = [
       { name: "Imenik", link: "/pocetna", icon: "dx-icon-bulletlist" },
-      { name: "Vježba", link: "/add", icon: "dx-icon-plus" },
+      { name: "Vježba", link: "/vjezba", icon: "dx-icon-plus" },
       { name: "Postavke", link: "/postavke", icon: "dx-icon-preferences" },
     ];
 
