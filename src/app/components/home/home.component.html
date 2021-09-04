@@ -1,19 +1,1 @@
-<div class="container">
-  <div class="sidebar">
-    <div>
-      <div
-        class="menu-item"
-        *ngFor="let menuItem of menuItems"
-        (click)="onSelect(menuItem)"
-      >
-        <div class="menu-icon">
-          <span [ngClass]="menuItem.icon" style="margin-right: 10px"></span>
-        </div>
 
-        <div class="menu-text">
-          <span>{{ menuItem.name }}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>

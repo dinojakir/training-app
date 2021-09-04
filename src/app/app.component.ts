@@ -11,6 +11,10 @@ import { NavigationEnd, Router } from "@angular/router";
 export class AppComponent {
   @ViewChild(DxContextMenuComponent, { static: true })
   contextMenu: DxContextMenuComponent | undefined;
+  menuItems = [
+    { name: "Vjezba", link: "/add", icon: "dx-icon-plus" },
+    { name: "Postavke", link: "/postavke", icon: "dx-icon-preferences" },
+  ];
 
   items: any[];
   title = "training-app";
@@ -27,6 +31,10 @@ export class AppComponent {
         this.url = event.url;
       }
     });
+  }
+
+  onSelect(menuItem: any): void {
+    this.router.navigate([menuItem.link]);
   }
 
   async onUserBtnClick(): Promise<void> {

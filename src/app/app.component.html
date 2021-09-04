@@ -10,7 +10,24 @@
     </div>
   </div>
   <div class="page-container">
-    <router-outlet></router-outlet>
+    <div *ngIf="url !== '/prijava' && authService?.user" class="sidebar">
+      <div>
+        <div
+          class="menu-item"
+          *ngFor="let menuItem of menuItems"
+          (click)="onSelect(menuItem)"
+        >
+          <div class="menu-icon">
+            <span [ngClass]="menuItem.icon" style="margin-right: 10px"></span>
+          </div>
+
+          <div class="menu-text">
+            <span>{{ menuItem.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page-content"><router-outlet></router-outlet></div>
   </div>
 </div>
 

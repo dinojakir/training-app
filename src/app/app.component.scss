@@ -33,6 +33,46 @@
 
 .page-container {
   display: flex;
-  flex-direction: column;
+  flex-grow: 1;
+  padding-left: 60px;
+  padding-top: 30px;
+  padding-right: 60px;
+  padding-bottom: 30px;
+}
+
+.sidebar {
+  padding-left: 50px;
+  width: 300px;
+}
+
+.menu-item {
+  cursor: pointer;
+  font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+  font-size: 0.875rem;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 24px;
+  letter-spacing: 0.3px;
+  text-shadow: none;
+  display: flex;
+}
+
+.menu-item:hover {
+  background-color: #fce8e6;
+  color: #d93025;
+  font-weight: 500;
+}
+
+.menu-icon {
+  display: flex;
+  align-items: center;
+}
+
+.menu-text {
+  display: flex;
+  align-items: center;
+}
+
+.page-content {
   flex-grow: 1;
 }
