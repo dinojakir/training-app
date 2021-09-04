@@ -7,9 +7,14 @@ import { Router } from "@angular/router";
   styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent {
+  menuItems = [
+    { name: "Vjezba", link: "/add", icon: "dx-icon-plus" },
+    { name: "Postavke", link: "/postavke", icon: "dx-icon-preferences" },
+  ];
+
   constructor(private router: Router) {}
 
-  onAddClick(): void {
-    this.router.navigate(["/add"]);
+  onSelect(menuItem: any): void {
+    this.router.navigate([menuItem.link]);
   }
 }

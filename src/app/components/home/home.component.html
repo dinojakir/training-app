@@ -1,8 +1,19 @@
-<section>
-  <div class="toolbar">
-    <button mat-icon-button color="primary" title="Add" (click)="onAddClick()">
-      <mat-icon>new_label</mat-icon>
-    </button>
+<div class="container">
+  <div class="sidebar">
+    <div>
+      <div
+        class="menu-item"
+        *ngFor="let menuItem of menuItems"
+        (click)="onSelect(menuItem)"
+      >
+        <div class="menu-icon">
+          <span [ngClass]="menuItem.icon" style="margin-right: 10px"></span>
+        </div>
+
+        <div class="menu-text">
+          <span>{{ menuItem.name }}</span>
+        </div>
+      </div>
+    </div>
   </div>
-</section>
-<mat-divider></mat-divider>
+</div>
