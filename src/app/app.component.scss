@@ -55,17 +55,22 @@
   letter-spacing: 0.3px;
   text-shadow: none;
   display: flex;
-}
 
-.menu-item:hover {
-  background-color: #fce8e6;
-  color: #d93025;
-  font-weight: 500;
+  &.active {
+    background-color: #fce8e6;
+    color: #d93025;
+    font-weight: 500;
+  }
+
+  &:not(.active):hover {
+    background-color: #e8eaed;
+  }
 }
 
 .menu-icon {
   display: flex;
   align-items: center;
+  width: 30px;
 }
 
 .menu-text {

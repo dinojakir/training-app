@@ -11,19 +11,15 @@ import { NavigationEnd, Router } from "@angular/router";
 export class AppComponent {
   @ViewChild(DxContextMenuComponent, { static: true })
   contextMenu: DxContextMenuComponent | undefined;
-  menuItems = [
-    { name: "Vjezba", link: "/add", icon: "dx-icon-plus" },
-    { name: "Postavke", link: "/postavke", icon: "dx-icon-preferences" },
-  ];
-
-  items: any[];
-  title = "training-app";
+  contextMenuItems = [{ id: 1, text: "Odjava", icon: "dx-icon-export" }];
+  menuItems: any[];
   url: string = "";
 
   constructor(public authService: AuthService, private router: Router) {
-    this.items = [
-      { id: 1, text: "Postavke", icon: "dx-icon-preferences" },
-      { id: 2, text: "Odjava", icon: "dx-icon-export" },
+    this.menuItems = [
+      { name: "Imenik", link: "/pocetna", icon: "dx-icon-bulletlist" },
+      { name: "Vjezba", link: "/add", icon: "dx-icon-plus" },
+      { name: "Postavke", link: "/postavke", icon: "dx-icon-preferences" },
     ];
 
     router.events.subscribe((event) => {
@@ -33,24 +29,20 @@ export class AppComponent {
     });
   }
 
+  async onItemClick(e: any): Promise<void> {
+    switch (e.itemData.id) {
+      case 1: {
+        await this.authService.signOut();
+        break;
+      }
+    }
+  }
+
   onSelect(menuItem: any): void {
     this.router.navigate([menuItem.link]);
   }
 
   async onUserBtnClick(): Promise<void> {
     await this.contextMenu?.instance.show();
-  }
-
-  async itemClick(e: any): Promise<void> {
-    switch (e.itemData.id) {
-      case 1: {
-        await this.router.navigate(["postavke"]);
-        break;
-      }
-      case 2: {
-        await this.authService.signOut();
-        break;
-      }
-    }
   }
 }

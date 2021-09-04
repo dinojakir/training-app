@@ -13,12 +13,13 @@
     <div *ngIf="url !== '/prijava' && authService?.user" class="sidebar">
       <div>
         <div
-          class="menu-item"
           *ngFor="let menuItem of menuItems"
+          class="menu-item"
+          [class.active]="url === menuItem.link"
           (click)="onSelect(menuItem)"
         >
           <div class="menu-icon">
-            <span [ngClass]="menuItem.icon" style="margin-right: 10px"></span>
+            <span [ngClass]="menuItem.icon"></span>
           </div>
 
           <div class="menu-text">
@@ -32,11 +33,11 @@
 </div>
 
 <dx-context-menu
-  [dataSource]="items"
+  [dataSource]="contextMenuItems"
   [width]="200"
   [position]="{ my: 'right top', at: 'right bottom', offset: '0 5' }"
   target="#userBtn"
-  (onItemClick)="itemClick($event)"
+  (onItemClick)="onItemClick($event)"
 >
   <div *dxTemplate="let e of 'item'">
     <div>
