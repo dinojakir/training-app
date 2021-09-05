@@ -3,11 +3,15 @@
     <div class="column">
       <mat-form-field appearance="fill">
         <mat-label>Naziv</mat-label>
-        <input matInput value="" />
+        <input matInput [(ngModel)]="exercise.name" />
       </mat-form-field>
     </div>
     <div class="column">
-      <mat-button-toggle-group name="type" aria-label="type">
+      <mat-button-toggle-group
+        aria-label="type"
+        name="type"
+        [(ngModel)]="exercise.type"
+      >
         <mat-button-toggle value="isolated">Izolirana</mat-button-toggle>
         <mat-button-toggle value="complex">Kompleksna</mat-button-toggle>
       </mat-button-toggle-group>
@@ -18,11 +22,11 @@
       <mat-form-field appearance="fill">
         <mat-label>Mišić</mat-label>
         <mat-select
-          [(value)]="selectedMuscle"
+          [(ngModel)]="exercise.muscle"
           (selectionChange)="onSelectMuscle($event)"
         >
-          <mat-option *ngFor="let muscle of muscles" [value]="muscle.value">
-            {{ muscle.viewValue }}
+          <mat-option *ngFor="let muscle of muscles" [value]="muscle.item">
+            {{ muscle.item }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -30,9 +34,15 @@
     <div class="column">
       <mat-form-field appearance="fill">
         <mat-label>Podmišić</mat-label>
-        <mat-select [disabled]="selectionDisabled">
-          <mat-option *ngFor="let muscle of muscles" [value]="muscle.value">
-            {{ muscle.viewValue }}
+        <mat-select
+          [disabled]="!submuscles || submuscles.length === 0"
+          [(ngModel)]="exercise.submuscle"
+        >
+          <mat-option
+            *ngFor="let submuscle of submuscles"
+            [value]="submuscle.item"
+          >
+            {{ submuscle.item }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -40,7 +50,11 @@
   </div>
   <div class="row">
     <div>
-      <mat-button-toggle-group name="mode" aria-label="mode">
+      <mat-button-toggle-group
+        aria-label="mode"
+        name="mode"
+        [(ngModel)]="exercise.mode.name"
+      >
         <mat-button-toggle value="bodyweight">Tijelo</mat-button-toggle>
         <mat-button-toggle value="props">Rekvizit</mat-button-toggle>
         <mat-button-toggle value="trainer">Trenažer</mat-button-toggle>
@@ -65,7 +79,8 @@
     <div class="column">
       <mat-form-field class="text-input" appearance="fill">
         <mat-label>Komentar</mat-label>
-        <textarea matInput placeholder="..."></textarea>
+        <textarea matInput placeholder="..." [(ngModel)]="exercise.comment">
+        </textarea>
       </mat-form-field>
     </div>
   </div>

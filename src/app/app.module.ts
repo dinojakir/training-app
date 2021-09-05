@@ -4,6 +4,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { FormsModule } from "@angular/forms";
 
 import { A11yModule } from "@angular/cdk/a11y";
 import { ClipboardModule } from "@angular/cdk/clipboard";
@@ -80,6 +81,7 @@ import {
     AngularFireAuthModule,
     AngularFirestoreModule,
     BrowserAnimationsModule,
+    FormsModule,
     A11yModule,
     ClipboardModule,
     CdkStepperModule,
