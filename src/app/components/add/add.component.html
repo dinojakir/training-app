@@ -9,7 +9,7 @@
             matInput
             [formControl]="nameFormControl"
             [errorStateMatcher]="errorStateMatcher"
-            (updateValue)="onNameChanged($event)"
+            (input)="onNameChanged($event)"
           />
           <mat-error *ngIf="nameFormControl.hasError('required')">
             Naziv je obvezan
@@ -21,6 +21,7 @@
           aria-label="type"
           name="type"
           [(ngModel)]="exercise.type"
+          [ngModelOptions]="{ standalone: true }"
         >
           <mat-button-toggle value="isolated">Izolirana</mat-button-toggle>
           <mat-button-toggle value="complex">Kompleksna</mat-button-toggle>
@@ -33,6 +34,7 @@
           <mat-label>Mišić</mat-label>
           <mat-select
             [(ngModel)]="exercise.muscle"
+            [ngModelOptions]="{ standalone: true }"
             (selectionChange)="onSelectMuscle($event)"
           >
             <mat-option *ngFor="let muscle of muscles" [value]="muscle.item">
@@ -47,6 +49,7 @@
           <mat-select
             [disabled]="!submuscles || submuscles.length === 0"
             [(ngModel)]="exercise.submuscle"
+            [ngModelOptions]="{ standalone: true }"
           >
             <mat-option
               *ngFor="let submuscle of submuscles"
@@ -158,7 +161,12 @@
       <div class="column">
         <mat-form-field class="text-input" appearance="fill">
           <mat-label>Komentar</mat-label>
-          <textarea matInput placeholder="..." [(ngModel)]="exercise.comment">
+          <textarea
+            matInput
+            placeholder="..."
+            [(ngModel)]="exercise.comment"
+            [ngModelOptions]="{ standalone: true }"
+          >
           </textarea>
         </mat-form-field>
       </div>

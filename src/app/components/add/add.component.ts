@@ -5,7 +5,9 @@ import {
   AngularFireUploadTask,
 } from "@angular/fire/storage";
 import {
+  FormBuilder,
   FormControl,
+  FormGroup,
   FormGroupDirective,
   NgForm,
   Validators,
@@ -13,6 +15,7 @@ import {
 import { ErrorStateMatcher } from "@angular/material/core";
 import { Exercise } from "src/app/model/exercise.dto";
 import { DbService } from "src/app/services/auth/db.service";
+import { v4 as uuidv4 } from "uuid";
 
 export class CustomErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -45,12 +48,20 @@ export class AddComponent implements OnInit {
   trainers: any[] = [];
   subtrainers: any[] = [];
 
-  exerciseForm: any;
   nameFormControl = new FormControl("", [Validators.required]);
+  exerciseForm: FormGroup;
 
   errorStateMatcher = new CustomErrorStateMatcher();
 
-  constructor(private db: DbService, private storage: AngularFireStorage) {}
+  constructor(
+    private db: DbService,
+    private formBuilder: FormBuilder,
+    private storage: AngularFireStorage
+  ) {
+    this.exerciseForm = this.formBuilder.group({
+      name: this.nameFormControl,
+    });
+  }
 
   async ngOnInit(): Promise<void> {
     this.muscles = await this.db.getCollectionDocuments("Muscles");
@@ -67,8 +78,7 @@ export class AddComponent implements OnInit {
   }
 
   onNameChanged(e: any): void {
-    console.log(e);
-    this.exercise.name = e.value;
+    this.exercise.name = e.target.value;
   }
 
   onSelectMuscle(e: any): void {
@@ -117,7 +127,7 @@ export class AddComponent implements OnInit {
       return;
     }
 
-    this.exercise.id = this.exercise.name;
+    this.exercise.id = uuidv4();
 
     if (this.file && this.file.name) {
       const filePath: string = `Videos/${this.file.name}`;
