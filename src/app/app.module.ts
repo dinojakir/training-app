@@ -57,6 +57,7 @@ import { ConfigurationComponent } from "./components/configuration/configuration
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from "@angular/fire/firestore";
+import { AngularFireStorageModule } from "@angular/fire/storage";
 import { environment } from "../environments/environment";
 import { SignInComponent } from "./components/sign-in/sign-in.component";
 import { AuthService } from "./services/auth/auth.service";
@@ -80,6 +81,7 @@ import {
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    AngularFireStorageModule,
     BrowserAnimationsModule,
     FormsModule,
     A11yModule,

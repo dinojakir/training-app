@@ -49,7 +49,7 @@
     </div>
   </div>
   <div class="row">
-    <div>
+    <div class="column">
       <mat-button-toggle-group
         aria-label="mode"
         name="mode"
@@ -60,18 +60,50 @@
         <mat-button-toggle value="trainer">Trenažer</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
+    <ng-container *ngIf="exercise?.mode?.name === 'props'">
+      <div class="column">
+        <mat-form-field appearance="fill">
+          <mat-label>Rekvizit</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let prop of props" [value]="prop.item">
+              {{ prop.item }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="exercise?.mode?.name === 'trainer'">
+      <div class="column">
+        <mat-form-field appearance="fill">
+          <mat-label>Trenažer</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let trainer of trainers" [value]="trainer.item">
+              {{ trainer.item }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </ng-container>
   </div>
   <div class="row">
-    <div>
-      <button mat-raised-button color="primary" (click)="fileInput.click()">
-        Video
-      </button>
+    <div class="column">
+      <div style="display: flex; flex-direction: column">
+        <button
+          class="btn-video"
+          mat-raised-button
+          color="primary"
+          (click)="fileInput.click()"
+        >
+          Video
+        </button>
+        <span *ngIf="file?.name">{{ file.name }}</span>
+      </div>
       <input
-        hidden
-        (change)="onFileSelected()"
         #fileInput
-        type="file"
         id="file"
+        hidden
+        type="file"
+        (change)="onFileSelected($event)"
       />
     </div>
   </div>

@@ -48,10 +48,23 @@ export class DbService {
     if (documents && documents.length > 0) {
       for (const document of documents) {
         const documentRef: AngularFirestoreDocument = collectionRef.doc(
-          document.uuid
+          document.id
         );
         await documentRef.set(document);
       }
     }
+  }
+
+  async saveCollectionDocument(
+    collection: string,
+    document: any
+  ): Promise<void> {
+    const collectionRef: AngularFirestoreCollection =
+      this.db.collection(collection);
+    const documentRef: AngularFirestoreDocument = collectionRef.doc(
+      document.id
+    );
+    const dto: any = JSON.parse(JSON.stringify(document));
+    await documentRef.set(dto);
   }
 }
