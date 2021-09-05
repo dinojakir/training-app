@@ -1,6 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { Exercise } from "src/app/model/exercise.dto";
-import { DbService } from "src/app/services/auth/db.service";
 import {
   AngularFireStorage,
   AngularFireStorageReference,
@@ -8,12 +6,13 @@ import {
 } from "@angular/fire/storage";
 import {
   FormControl,
-  FormGroup,
   FormGroupDirective,
   NgForm,
   Validators,
 } from "@angular/forms";
 import { ErrorStateMatcher } from "@angular/material/core";
+import { Exercise } from "src/app/model/exercise.dto";
+import { DbService } from "src/app/services/auth/db.service";
 
 export class CustomErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
