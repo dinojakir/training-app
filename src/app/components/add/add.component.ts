@@ -32,21 +32,58 @@ export class AddComponent implements OnInit {
     this.trainers = await this.db.getCollectionDocuments("Trainers");
   }
 
+  onButtonGroupChange(e: any): void {
+    this.exercise.mode = { name: e.value };
+    console.log(this.exercise);
+  }
+
   onFileSelected(e: any): void {
     this.file = e.target.files[0];
   }
 
   onSelectMuscle(e: any): void {
     const muscle: any = this.muscles.find((i) => i.item === e.value);
-    if (muscle && muscle.children) {
+    if (muscle.children) {
       this.submuscles = muscle.children;
     } else {
       this.submuscles = [];
     }
   }
 
+  onSelectProp(e: any): void {
+    this.exercise.mode.item = { name: e.value };
+    const prop: any = this.props.find((i) => i.item === e.value);
+    if (prop.children) {
+      this.subprops = prop.children;
+    } else {
+      this.subprops = [];
+    }
+  }
+
+  onSelectSubprop(e: any): void {
+    if (this.exercise.mode.item) {
+      this.exercise.mode.item!.subItem = e.value;
+    }
+  }
+
+  onSelectTrainer(e: any): void {
+    this.exercise.mode.item = { name: e.value };
+    const trainer: any = this.trainers.find((i) => i.item === e.value);
+    if (trainer.children) {
+      this.subtrainers = trainer.children;
+    } else {
+      this.subtrainers = [];
+    }
+  }
+
+  onSelectSubtrainer(e: any): void {
+    if (this.exercise.mode.item) {
+      this.exercise.mode.item!.subItem = e.value;
+    }
+  }
+
   async onSaveClick(): Promise<void> {
-    if (this.file) {
+    if (this.file && this.file.name) {
       const filePath: string = `Videos/${this.file.name}`;
       const fileRef: AngularFireStorageReference = this.storage.ref(filePath);
       const task: AngularFireUploadTask = this.storage.upload(

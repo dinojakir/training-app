@@ -53,7 +53,7 @@
       <mat-button-toggle-group
         aria-label="mode"
         name="mode"
-        [(ngModel)]="exercise.mode.name"
+        (change)="onButtonGroupChange($event)"
       >
         <mat-button-toggle value="bodyweight">Tijelo</mat-button-toggle>
         <mat-button-toggle value="props">Rekvizit</mat-button-toggle>
@@ -64,25 +64,55 @@
       <div class="column">
         <mat-form-field appearance="fill">
           <mat-label>Rekvizit</mat-label>
-          <mat-select>
+          <mat-select (selectionChange)="onSelectProp($event)">
             <mat-option *ngFor="let prop of props" [value]="prop.item">
               {{ prop.item }}
             </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
+      <ng-container *ngIf="subprops && subprops.length > 0">
+        <div class="column">
+          <mat-form-field appearance="fill">
+            <mat-label>Podrekvizit</mat-label>
+            <mat-select (selectionChange)="onSelectSubprop($event)">
+              <mat-option
+                *ngFor="let subprop of subprops"
+                [value]="subprop.item"
+              >
+                {{ subprop.item }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </ng-container>
     </ng-container>
     <ng-container *ngIf="exercise?.mode?.name === 'trainer'">
       <div class="column">
         <mat-form-field appearance="fill">
           <mat-label>Trenažer</mat-label>
-          <mat-select>
+          <mat-select (selectionChange)="onSelectTrainer($event)">
             <mat-option *ngFor="let trainer of trainers" [value]="trainer.item">
               {{ trainer.item }}
             </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
+      <ng-container *ngIf="subtrainers && subtrainers.length > 0">
+        <div class="column">
+          <mat-form-field appearance="fill">
+            <mat-label>Podtrenažer</mat-label>
+            <mat-select (selectionChange)="onSelectSubtrainer($event)">
+              <mat-option
+                *ngFor="let subtrainer of subtrainers"
+                [value]="subtrainer.item"
+              >
+                {{ subtrainer.item }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </ng-container>
     </ng-container>
   </div>
   <div class="row">
