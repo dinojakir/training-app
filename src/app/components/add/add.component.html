@@ -135,6 +135,10 @@
         type="file"
         (change)="onFileSelected($event)"
       />
+      <ng-container *ngIf="file?.name">
+        <mat-progress-bar mode="determinate" [value]="uploadPercent">
+        </mat-progress-bar>
+      </ng-container>
     </div>
   </div>
   <div class="row">

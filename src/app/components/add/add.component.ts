@@ -15,7 +15,7 @@ import {
 export class AddComponent implements OnInit {
   exercise: Exercise = new Exercise();
   file: any;
-  uploadPercent: any;
+  uploadPercent: number | undefined;
 
   muscles: any[] = [];
   submuscles: any[] = [];
@@ -34,7 +34,6 @@ export class AddComponent implements OnInit {
 
   onButtonGroupChange(e: any): void {
     this.exercise.mode = { name: e.value };
-    console.log(this.exercise);
   }
 
   onFileSelected(e: any): void {
@@ -83,6 +82,8 @@ export class AddComponent implements OnInit {
   }
 
   async onSaveClick(): Promise<void> {
+    this.exercise.id = this.exercise.name;
+
     if (this.file && this.file.name) {
       const filePath: string = `Videos/${this.file.name}`;
       const fileRef: AngularFireStorageReference = this.storage.ref(filePath);
@@ -90,13 +91,14 @@ export class AddComponent implements OnInit {
         filePath,
         this.file
       );
-      this.uploadPercent = task.percentageChanges();
+      task.percentageChanges().subscribe((value) => {
+        this.uploadPercent = value;
+      });
       await task;
       const url: any = await fileRef.getDownloadURL().toPromise();
       this.exercise.video = url;
     }
 
-    this.exercise.id = this.exercise.name;
     await this.db.saveCollectionDocument("Exercises", this.exercise);
   }
 }
