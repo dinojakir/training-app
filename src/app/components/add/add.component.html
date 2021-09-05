@@ -138,6 +138,7 @@
             class="btn-video"
             mat-raised-button
             color="primary"
+            type="button"
             (click)="fileInput.click()"
           >
             Video
@@ -152,7 +153,11 @@
           (change)="onFileSelected($event)"
         />
         <ng-container *ngIf="file?.name">
-          <mat-progress-bar mode="determinate" [value]="uploadPercent">
+          <mat-progress-bar
+            class="file-progress"
+            mode="determinate"
+            [value]="uploadPercent"
+          >
           </mat-progress-bar>
         </ng-container>
       </div>
@@ -171,8 +176,17 @@
         </mat-form-field>
       </div>
     </div>
-    <button class="save-btn" mat-raised-button color="primary" type="submit">
+    <button
+      class="save-btn"
+      [disabled]="submitting"
+      mat-raised-button
+      color="primary"
+      type="submit"
+    >
       Spremi
     </button>
+    <ng-container *ngIf="submitting">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </ng-container>
   </form>
 </div>

@@ -17,7 +17,7 @@ mat-form-field {
   width: 300px;
 }
 
-mat-progress-bar {
+.file-progress {
   margin-top: 10px;
   width: 300px;
 }
@@ -37,4 +37,5 @@ mat-progress-bar {
 
 .save-btn {
   float: right;
+  margin-bottom: 10px;
 }

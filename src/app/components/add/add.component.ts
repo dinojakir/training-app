@@ -53,6 +53,8 @@ export class AddComponent implements OnInit {
 
   errorStateMatcher = new CustomErrorStateMatcher();
 
+  submitting: boolean = false;
+
   constructor(
     private db: DbService,
     private formBuilder: FormBuilder,
@@ -127,6 +129,8 @@ export class AddComponent implements OnInit {
       return;
     }
 
+    this.submitting = true;
+
     this.exercise.id = uuidv4();
 
     if (this.file && this.file.name) {
@@ -145,5 +149,7 @@ export class AddComponent implements OnInit {
     }
 
     await this.db.saveCollectionDocument("Exercises", this.exercise);
+
+    this.submitting = false;
   }
 }
