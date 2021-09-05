@@ -6,6 +6,28 @@ import {
   AngularFireStorageReference,
   AngularFireUploadTask,
 } from "@angular/fire/storage";
+import {
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  NgForm,
+  Validators,
+} from "@angular/forms";
+import { ErrorStateMatcher } from "@angular/material/core";
+
+export class CustomErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null
+  ): boolean {
+    const isSubmitted: any = form && form.submitted;
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || isSubmitted)
+    );
+  }
+}
 
 @Component({
   selector: "app-add",
@@ -24,6 +46,11 @@ export class AddComponent implements OnInit {
   trainers: any[] = [];
   subtrainers: any[] = [];
 
+  exerciseForm: any;
+  nameFormControl = new FormControl("", [Validators.required]);
+
+  errorStateMatcher = new CustomErrorStateMatcher();
+
   constructor(private db: DbService, private storage: AngularFireStorage) {}
 
   async ngOnInit(): Promise<void> {
@@ -38,6 +65,11 @@ export class AddComponent implements OnInit {
 
   onFileSelected(e: any): void {
     this.file = e.target.files[0];
+  }
+
+  onNameChanged(e: any): void {
+    console.log(e);
+    this.exercise.name = e.value;
   }
 
   onSelectMuscle(e: any): void {
@@ -81,7 +113,11 @@ export class AddComponent implements OnInit {
     }
   }
 
-  async onSaveClick(): Promise<void> {
+  async submit(): Promise<void> {
+    if (!this.exerciseForm.valid) {
+      return;
+    }
+
     this.exercise.id = this.exercise.name;
 
     if (this.file && this.file.name) {

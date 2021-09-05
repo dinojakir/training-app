@@ -35,10 +35,6 @@ mat-progress-bar {
   height: 36px;
 }
 
-.save-container {
-  margin-bottom: 50px;
-  margin-left: 100px;
-  margin-right: 100px;
-  display: flex;
-  justify-content: flex-end;
+.save-btn {
+  float: right;
 }
