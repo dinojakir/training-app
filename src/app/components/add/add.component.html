@@ -66,6 +66,8 @@
         <mat-button-toggle-group
           aria-label="mode"
           name="mode"
+          [(ngModel)]="exercise.mode.name"
+          [ngModelOptions]="{ standalone: true }"
           (change)="onButtonGroupChange($event)"
         >
           <mat-button-toggle value="bodyweight">Tijelo</mat-button-toggle>

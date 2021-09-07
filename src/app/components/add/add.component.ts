@@ -71,8 +71,27 @@ export class AddComponent implements OnInit {
     this.trainers = await this.db.getCollectionDocuments("Trainers");
 
     if (history.state.data) {
-      console.log(history.state.data);
-      this.exercise = history.state.data;
+      const exercise: Exercise = history.state.data;
+      const edit: Exercise = new Exercise();
+
+      if (exercise.muscle) {
+        edit.name = exercise.name;
+        edit.type = exercise.type;
+        edit.muscle = exercise.muscle;
+        if (edit.muscle) {
+          const muscle: any = this.muscles.find((i) => i.item === edit.muscle);
+          if (muscle.children) {
+            this.submuscles = muscle.children;
+          } else {
+            this.submuscles = [];
+          }
+        }
+        edit.submuscle = exercise.submuscle;
+        edit.video = exercise.video;
+        edit.mode = exercise.mode;
+        edit.comment = exercise.comment;
+      }
+      this.exercise = edit;
       this.nameFormControl.setValue(this.exercise.name);
     }
   }
