@@ -5,10 +5,42 @@
 
 table {
   width: 100%;
+}
 
-  th {
-    font-weight: bold;
-  }
+th {
+  font-weight: bold;
+}
+
+tr.element-row:not(.expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.element-row:not(.expanded-row):active {
+  background: #efefef;
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+.element-row td {
+  border-bottom-width: 0;
+}
+
+.element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.element-description {
+  font-size: 12px;
+  padding: 16px;
+}
+
+.element-label {
+  color: rgba(0, 0, 0, 0.54);
+  font-weight: bold;
+  font-size: 12px;
 }
 
 .load-container {
