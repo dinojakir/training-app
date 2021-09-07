@@ -14,6 +14,5 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.exercises = await this.db.getCollectionDocuments("Exercises");
-    console.log(this.exercises);
   }
 }
