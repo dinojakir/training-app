@@ -7,6 +7,8 @@ import {
   transition,
   trigger,
 } from "@angular/animations";
+import { Router } from "@angular/router";
+import { Exercise } from "src/app/model/exercise.dto";
 
 @Component({
   selector: "app-home",
@@ -24,18 +26,20 @@ import {
   ],
 })
 export class HomeComponent implements OnInit {
-  exercises: any[] = [];
-  displayedColumns: string[] = ["name", "type", "muscle"];
+  exercises: Exercise[] = [];
+  displayedColumns: string[] = ["name", "type", "muscle", "edit"];
   expandedElement: any;
   isLoadIndicatorVisible: boolean = false;
 
-  constructor(private db: DbService) {}
+  constructor(private db: DbService, private router: Router) {}
 
   async ngOnInit(): Promise<void> {
     this.isLoadIndicatorVisible = true;
     this.exercises = await this.db.getCollectionDocuments("Exercises");
     this.isLoadIndicatorVisible = false;
+  }
 
-    console.log(this.exercises);
+  onEdit(exercise: Exercise): void {
+    this.router.navigate(["/vjezba"], { state: { data: exercise } });
   }
 }

@@ -69,6 +69,12 @@ export class AddComponent implements OnInit {
     this.muscles = await this.db.getCollectionDocuments("Muscles");
     this.props = await this.db.getCollectionDocuments("Props");
     this.trainers = await this.db.getCollectionDocuments("Trainers");
+
+    if (history.state.data) {
+      console.log(history.state.data);
+      this.exercise = history.state.data;
+      this.nameFormControl.setValue(this.exercise.name);
+    }
   }
 
   onButtonGroupChange(e: any): void {
