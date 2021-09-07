@@ -1,5 +1,3 @@
-import { Component, OnInit } from "@angular/core";
-import { DbService } from "src/app/services/auth/db.service";
 import {
   animate,
   state,
@@ -7,8 +5,12 @@ import {
   transition,
   trigger,
 } from "@angular/animations";
+import { Component, OnInit } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { Exercise } from "src/app/model/exercise.dto";
+import { DbService } from "src/app/services/auth/db.service";
+import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: "app-home",
@@ -27,11 +29,15 @@ import { Exercise } from "src/app/model/exercise.dto";
 })
 export class HomeComponent implements OnInit {
   exercises: Exercise[] = [];
-  displayedColumns: string[] = ["name", "type", "muscle", "edit"];
+  displayedColumns: string[] = ["name", "type", "muscle", "edit", "delete"];
   expandedElement: any;
   isLoadIndicatorVisible: boolean = false;
 
-  constructor(private db: DbService, private router: Router) {}
+  constructor(
+    private db: DbService,
+    private router: Router,
+    public dialog: MatDialog
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.isLoadIndicatorVisible = true;
@@ -41,5 +47,23 @@ export class HomeComponent implements OnInit {
 
   onEdit(exercise: Exercise): void {
     this.router.navigate(["/vjezba"], { state: { data: exercise } });
+  }
+
+  async onDelete(exercise: Exercise): Promise<void> {
+    this.openDialog(exercise);
+  }
+
+  openDialog(exercise: Exercise): void {
+    const dialogRef: any = this.dialog.open(ConfirmationDialogComponent, {
+      width: "250px",
+      data: exercise,
+    });
+
+    dialogRef.afterClosed().subscribe(async (result: Exercise) => {
+      if (result) {
+        await this.db.deleteCollectionDocument("Exercises", exercise);
+        this.exercises = this.exercises.filter((i) => i.id !== exercise.id);
+      }
+    });
   }
 }

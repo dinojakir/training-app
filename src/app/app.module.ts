@@ -66,6 +66,7 @@ import {
   DxLoadIndicatorModule,
   DxLoadPanelModule,
 } from "devextreme-angular";
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import {
     HomeComponent,
     ConfigurationComponent,
     SignInComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,

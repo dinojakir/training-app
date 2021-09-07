@@ -67,4 +67,17 @@ export class DbService {
     const dto: any = JSON.parse(JSON.stringify(document));
     await documentRef.set(dto);
   }
+
+  async deleteCollectionDocument(
+    collection: string,
+    document: any
+  ): Promise<void> {
+    const collectionRef: AngularFirestoreCollection =
+      this.db.collection(collection);
+    const documentRef: AngularFirestoreDocument = collectionRef.doc(
+      document.id
+    );
+
+    await documentRef.delete();
+  }
 }
