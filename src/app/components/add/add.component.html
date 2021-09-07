@@ -79,7 +79,10 @@
         <div class="column">
           <mat-form-field appearance="fill">
             <mat-label>Rekvizit</mat-label>
-            <mat-select (selectionChange)="onSelectProp($event)">
+            <mat-select
+              [formControl]="propsFormControl"
+              (selectionChange)="onSelectProp($event)"
+            >
               <mat-option *ngFor="let prop of props" [value]="prop.item">
                 {{ prop.item }}
               </mat-option>
@@ -90,7 +93,10 @@
           <div class="column">
             <mat-form-field appearance="fill">
               <mat-label>Podrekvizit</mat-label>
-              <mat-select (selectionChange)="onSelectSubprop($event)">
+              <mat-select
+                [formControl]="subpropsFormControl"
+                (selectionChange)="onSelectSubprop($event)"
+              >
                 <mat-option
                   *ngFor="let subprop of subprops"
                   [value]="subprop.item"
@@ -106,7 +112,10 @@
         <div class="column">
           <mat-form-field appearance="fill">
             <mat-label>Trenažer</mat-label>
-            <mat-select (selectionChange)="onSelectTrainer($event)">
+            <mat-select
+              [formControl]="trainersFormControl"
+              (selectionChange)="onSelectTrainer($event)"
+            >
               <mat-option
                 *ngFor="let trainer of trainers"
                 [value]="trainer.item"
@@ -120,7 +129,10 @@
           <div class="column">
             <mat-form-field appearance="fill">
               <mat-label>Podtrenažer</mat-label>
-              <mat-select (selectionChange)="onSelectSubtrainer($event)">
+              <mat-select
+                [formControl]="subtrainersFormControl"
+                (selectionChange)="onSelectSubtrainer($event)"
+              >
                 <mat-option
                   *ngFor="let subtrainer of subtrainers"
                   [value]="subtrainer.item"

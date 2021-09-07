@@ -13,6 +13,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { ErrorStateMatcher } from "@angular/material/core";
+import { Router } from "@angular/router";
 import { Exercise } from "src/app/model/exercise.dto";
 import { DbService } from "src/app/services/auth/db.service";
 import { v4 as uuidv4 } from "uuid";
@@ -49,6 +50,10 @@ export class AddComponent implements OnInit {
   subtrainers: any[] = [];
 
   nameFormControl = new FormControl("", [Validators.required]);
+  propsFormControl = new FormControl("", []);
+  subpropsFormControl = new FormControl("", []);
+  trainersFormControl = new FormControl("", []);
+  subtrainersFormControl = new FormControl("", []);
   exerciseForm: FormGroup;
 
   errorStateMatcher = new CustomErrorStateMatcher();
@@ -58,10 +63,15 @@ export class AddComponent implements OnInit {
   constructor(
     private db: DbService,
     private formBuilder: FormBuilder,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private router: Router
   ) {
     this.exerciseForm = this.formBuilder.group({
       name: this.nameFormControl,
+      props: this.propsFormControl,
+      subprops: this.subpropsFormControl,
+      trainers: this.trainersFormControl,
+      subtrainers: this.subtrainersFormControl,
     });
   }
 
@@ -91,6 +101,45 @@ export class AddComponent implements OnInit {
         edit.mode = exercise.mode;
         edit.comment = exercise.comment;
       }
+      if (exercise.mode.name === "props") {
+        if (exercise.mode.item) {
+          this.propsFormControl.setValue(exercise.mode.item.name);
+
+          const prop: any = this.props.find(
+            (i) => i.item === exercise.mode.item?.name
+          );
+          if (prop.children) {
+            this.subprops = prop.children;
+          } else {
+            this.subprops = [];
+          }
+
+          if (this.exercise.mode.item?.subItem) {
+            this.subpropsFormControl.setValue(exercise.mode.item.subItem);
+          }
+        }
+      }
+
+      if (exercise.mode.name === "trainer") {
+        if (exercise.mode.item) {
+          this.trainersFormControl.setValue(exercise.mode.item.name);
+
+          const trainer: any = this.trainers.find(
+            (i) => i.item === exercise.mode.item?.name
+          );
+          if (trainer.children) {
+            this.subtrainers = trainer.children;
+          } else {
+            this.subtrainers = [];
+          }
+
+          if (exercise.mode.item?.subItem) {
+            this.subtrainersFormControl.setValue(exercise.mode.item.subItem);
+          }
+        }
+      }
+
+      console.log(exercise);
       this.exercise = edit;
       this.nameFormControl.setValue(this.exercise.name);
     }
@@ -176,5 +225,7 @@ export class AddComponent implements OnInit {
     await this.db.saveCollectionDocument("Exercises", this.exercise);
 
     this.submitting = false;
+
+    this.router.navigate(["pocetna"]);
   }
 }
