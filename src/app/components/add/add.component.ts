@@ -38,6 +38,7 @@ export class CustomErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ["./add.component.scss"],
 })
 export class AddComponent implements OnInit {
+  editMode: boolean = false;
   exercise: Exercise = new Exercise();
   file: any;
   uploadPercent: number | undefined;
@@ -58,7 +59,7 @@ export class AddComponent implements OnInit {
 
   errorStateMatcher = new CustomErrorStateMatcher();
 
-  submitting: boolean = false;
+  loading: boolean = false;
 
   constructor(
     private db: DbService,
@@ -76,15 +77,19 @@ export class AddComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this.loading = true;
+
     this.muscles = await this.db.getCollectionDocuments("Muscles");
     this.props = await this.db.getCollectionDocuments("Props");
     this.trainers = await this.db.getCollectionDocuments("Trainers");
 
     if (history.state.data) {
+      this.editMode = true;
       const exercise: Exercise = history.state.data;
       const edit: Exercise = new Exercise();
 
       if (exercise.muscle) {
+        edit.id = exercise.id;
         edit.name = exercise.name;
         edit.type = exercise.type;
         edit.muscle = exercise.muscle;
@@ -139,10 +144,11 @@ export class AddComponent implements OnInit {
         }
       }
 
-      console.log(exercise);
       this.exercise = edit;
       this.nameFormControl.setValue(this.exercise.name);
     }
+
+    this.loading = false;
   }
 
   onButtonGroupChange(e: any): void {
@@ -203,9 +209,11 @@ export class AddComponent implements OnInit {
       return;
     }
 
-    this.submitting = true;
+    this.loading = true;
 
-    this.exercise.id = uuidv4();
+    if (!this.editMode) {
+      this.exercise.id = uuidv4();
+    }
 
     if (this.file && this.file.name) {
       const filePath: string = `Videos/${this.file.name}`;
@@ -224,7 +232,7 @@ export class AddComponent implements OnInit {
 
     await this.db.saveCollectionDocument("Exercises", this.exercise);
 
-    this.submitting = false;
+    this.loading = false;
 
     this.router.navigate(["pocetna"]);
   }

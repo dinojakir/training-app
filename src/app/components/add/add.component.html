@@ -192,14 +192,14 @@
     </div>
     <button
       class="save-btn"
-      [disabled]="submitting"
+      [disabled]="loading"
       mat-raised-button
       color="primary"
       type="submit"
     >
       Spremi
     </button>
-    <ng-container *ngIf="submitting">
+    <ng-container *ngIf="loading">
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </ng-container>
   </form>
