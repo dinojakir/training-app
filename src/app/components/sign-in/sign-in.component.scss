@@ -102,14 +102,6 @@
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
-  .form-container {
-    padding: 20px 40px;
-    width: 260px;
-  }
-
-  .input {
-    width: 220px;
-  }
 }
 
 /* Large devices (large laptops and desktops, 1200px and up) */
@@ -119,11 +111,11 @@
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1600px) {
   .form-container {
-    width: 300px;
+    width: 280px;
   }
 
   .input {
-    width: 260px;
+    width: 240px;
   }
 }
 
