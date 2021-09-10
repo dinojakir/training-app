@@ -1,19 +1,38 @@
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .background-image {
+    background-image: url("../assets/image/photo_1.jpg");
+  }
+}
+
 .container {
+  background-size: cover;
   display: flex;
   flex-flow: column;
   height: 100%;
   width: 100%;
-  background-size: cover;
-}
-
-.background-image {
-  background-image: url("../assets/image/photo_1.jpg");
 }
 
 .top {
   display: flex;
-  height: 50px;
   padding-top: 10px;
+  height: 50px;
 
   .btn-user {
     background-color: #7b1fa2;
@@ -34,10 +53,6 @@
 .page-container {
   display: flex;
   flex-grow: 1;
-  padding-left: 60px;
-  padding-top: 30px;
-  padding-right: 60px;
-  padding-bottom: 30px;
 }
 
 .sidebar {
