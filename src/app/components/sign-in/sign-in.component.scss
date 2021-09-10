@@ -1,7 +1,12 @@
 /* Extra small devices (phones, 300px and down) */
 @media only screen and (max-width: 350px) {
+  .sign-in-container {
+    justify-content: center;
+  }
+
   .form-container {
     flex-grow: 1;
+    padding: 10px 20px;
   }
 
   .form-group {
@@ -11,6 +16,16 @@
 
   .input {
     padding: 8px 10px 6px;
+
+    font-size: 12px;
+
+    &:-webkit-autofill::first-line,
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      font-size: 12px;
+    }
   }
 
   .submit-container {
@@ -20,8 +35,13 @@
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (min-width: 350px) {
+  .sign-in-container {
+    justify-content: center;
+  }
+
   .form-container {
-    width: min(60%, 300px);
+    width: 200px;
+    padding: 10px 20px;
     height: 300px;
   }
 
@@ -35,19 +55,43 @@
 
   .input {
     padding: 12px 20px 8px;
-    width: 80%;
+    width: 160px;
+    font-size: 12px;
+
+    &:-webkit-autofill::first-line,
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      font-size: 12px;
+    }
   }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
+  .sign-in-container {
+    justify-content: left;
+  }
+
   .form-container {
+    margin-left: 20%;
     width: 300px;
     padding: 20px 40px;
   }
 
   .input {
     width: 260px;
+
+    font-size: 14px;
+
+    &:-webkit-autofill::first-line,
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      font-size: 14px;
+    }
   }
 
   .submit-container {
@@ -65,9 +109,6 @@
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-  .form-container {
-    margin-left: 20%;
-  }
 }
 
 :host {
@@ -78,7 +119,6 @@
   padding: 5px;
   flex-grow: 1;
   display: flex;
-  justify-content: center;
 }
 
 .container {
@@ -90,7 +130,6 @@
   border: 1px solid lightgray;
   border-radius: 5px;
   margin-top: 5%;
-  padding: 10px 20px;
 }
 
 form {
@@ -119,7 +158,6 @@ form {
     color: #444;
     display: block;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
     outline: none;
     z-index: 1;
 
@@ -131,7 +169,6 @@ form {
       box-shadow: 0 0 0 30px #e8fce8 inset !important;
       -webkit-box-shadow: 0 0 0 30px #e8fce8 inset !important;
       font-family: Arial, Helvetica, sans-serif;
-      font-size: 14px;
     }
   }
 }

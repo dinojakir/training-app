@@ -12,13 +12,13 @@
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
+  .background-image {
+    background-image: url("../assets/image/photo_1.jpg");
+  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-  .background-image {
-    background-image: url("../assets/image/photo_1.jpg");
-  }
 }
 
 .container {
