@@ -1,62 +1,80 @@
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
-  :host {
-    display: flex;
-    justify-content: center;
+/* Extra small devices (phones, 300px and down) */
+@media only screen and (max-width: 350px) {
+  .form-container {
+    flex-grow: 1;
   }
 
-  .form-container {
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .input {
+    padding: 8px 10px 6px;
+  }
+
+  .submit-container {
     margin-top: 50px;
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (min-width: 350px) {
+  .form-container {
+    width: 300px;
+    height: 400px;
+  }
+
+  .form-group {
+    display: block;
+  }
+
+  .submit-container {
+    margin-top: auto;
+  }
+
+  .input {
+    padding: 12px 20px 8px;
+    width: 80%;
   }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-  :host {
-    display: flex;
-    justify-content: center;
+  .form-container {
+    padding: 20px 40px;
   }
 
-  .form-container {
-    margin-top: 50px;
+  .input {
+    width: 260px;
   }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-  :host {
-    display: flex;
-    justify-content: center;
-  }
-
-  .form-container {
-    margin-top: 50px;
-  }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
-  :host {
-    display: flex;
-    justify-content: center;
-  }
-
-  .form-container {
-    margin-top: 50px;
-  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-  :host {
-    display: flex;
-    justify-content: left;
-  }
-
   .form-container {
     margin-left: 20%;
     margin-top: 50px;
   }
+}
+
+:host {
+  display: flex;
+}
+
+.sign-in-container {
+  padding: 5px;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .container {
@@ -65,11 +83,10 @@
 
 .form-container {
   background-color: #fff0a4;
-  width: 300px;
-  height: 400px;
-  padding: 20px 40px;
   border: 1px solid lightgray;
   border-radius: 5px;
+  margin-top: 5%;
+  padding: 10px 20px;
 }
 
 form {
@@ -100,8 +117,6 @@ form {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
     outline: none;
-    padding: 12px 20px 8px;
-    width: 260px;
     z-index: 1;
 
     &:-webkit-autofill::first-line,
@@ -121,7 +136,6 @@ form {
   bottom: 0;
   display: flex;
   justify-content: flex-end;
-  margin-top: auto;
 }
 
 .load-container {
