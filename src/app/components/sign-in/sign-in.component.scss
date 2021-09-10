@@ -21,8 +21,8 @@
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (min-width: 350px) {
   .form-container {
-    width: 300px;
-    height: 400px;
+    width: min(60%, 300px);
+    height: 300px;
   }
 
   .form-group {
@@ -30,7 +30,7 @@
   }
 
   .submit-container {
-    margin-top: auto;
+    margin-top: 50px;
   }
 
   .input {
@@ -42,11 +42,16 @@
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
   .form-container {
+    width: 300px;
     padding: 20px 40px;
   }
 
   .input {
     width: 260px;
+  }
+
+  .submit-container {
+    margin-top: auto;
   }
 }
 
