@@ -2,11 +2,16 @@
   table {
     font-size: 12px;
     margin: auto;
-    width: 90%;
+    width: 95%;
 
     .mat-cell,
     .mat-footer-cell {
       font-size: 11px;
+    }
+
+    td.mat-cell:first-of-type,
+    td.mat-footer-cell:first-of-type {
+      padding-left: 12px;
     }
   }
 }
@@ -15,11 +20,16 @@
 @media only screen and (min-width: 350px) {
   table {
     margin: auto;
-    width: 90%;
+    width: 95%;
 
     .mat-cell,
     .mat-footer-cell {
       font-size: 12px;
+    }
+
+    td.mat-cell:first-of-type,
+    td.mat-footer-cell:first-of-type {
+      padding-left: 12px;
     }
   }
 }
@@ -51,6 +61,11 @@
     .mat-cell,
     .mat-footer-cell {
       font-size: 12px;
+    }
+
+    td.mat-cell:first-of-type,
+    td.mat-footer-cell:first-of-type {
+      padding-left: 24px;
     }
   }
 }

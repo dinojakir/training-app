@@ -29,7 +29,8 @@ import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation
 })
 export class HomeComponent implements OnInit {
   exercises: Exercise[] = [];
-  displayedColumns: string[] = ["name", "type", "muscle", "edit", "delete"];
+  data: any[] = [];
+  displayedColumns: string[] = ["name", "type", "edit", "delete"];
   expandedElement: any;
   isLoadIndicatorVisible: boolean = false;
 
@@ -43,6 +44,24 @@ export class HomeComponent implements OnInit {
     this.isLoadIndicatorVisible = true;
     this.exercises = await this.db.getCollectionDocuments("Exercises");
     this.isLoadIndicatorVisible = false;
+
+    const groups: string[] = [];
+    this.exercises.forEach((i) => {
+      if (groups.findIndex((j) => j === i.muscle) < 0) {
+        groups.push(i.muscle);
+      }
+    });
+
+    const data: any[] = [];
+    groups.forEach((group) => {
+      data.push({ group: group, isGroupBy: true });
+      const filtered: Exercise[] = this.exercises.filter(
+        (i) => i.muscle === group
+      );
+      filtered.forEach((j) => data.push(j));
+    });
+
+    this.data = data;
   }
 
   onEdit(exercise: Exercise): void {
@@ -65,5 +84,13 @@ export class HomeComponent implements OnInit {
         this.exercises = this.exercises.filter((i) => i.id !== exercise.id);
       }
     });
+  }
+
+  isGroup(index: any, item: any): boolean {
+    return item.isGroupBy;
+  }
+
+  isElement(index: any, item: any): boolean {
+    return !item.isGroupBy;
   }
 }
