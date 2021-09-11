@@ -40,11 +40,11 @@ export class AppComponent {
         e.target &&
         !e.target.classList.contains("dx-icon-menu")
       ) {
-        if (
+        const shortFormPresent: boolean =
           window
             .getComputedStyle(this.sidebar.nativeElement)
-            .getPropertyValue("z-index") === "1000"
-        ) {
+            .getPropertyValue("z-index") === "1000";
+        if (shortFormPresent) {
           this.sidebar.nativeElement.style.visibility = "hidden";
         }
       }

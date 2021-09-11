@@ -13,11 +13,35 @@
     </div>
   </div>
   <div class="page-container">
-    <div
-      #sidebar
-      *ngIf="url !== '/prijava' && authService?.user"
-      class="sidebar"
-    >
+    <div class="sidebar-container">
+      <div
+        #sidebar
+        *ngIf="url !== '/prijava' && authService?.user"
+        class="sidebar"
+      >
+        <div>
+          <div
+            *ngFor="let menuItem of menuItems"
+            class="menu-item"
+            [class.active]="
+              (url === '/' && menuItem.link === '/pocetna') ||
+              url === menuItem.link
+            "
+            (click)="onSelect(menuItem)"
+          >
+            <div class="menu-icon">
+              <span [ngClass]="menuItem.icon"></span>
+            </div>
+
+            <div class="menu-text">
+              <span>{{ menuItem.name }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="url !== '/prijava' && authService?.user" class="sidebarlong">
       <div>
         <div
           *ngFor="let menuItem of menuItems"

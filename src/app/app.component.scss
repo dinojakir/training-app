@@ -4,6 +4,10 @@
     flex-direction: column;
   }
 
+  .sidebar-container {
+    display: block;
+  }
+
   .sidebar {
     background-color: white;
     position: absolute;
@@ -12,6 +16,19 @@
     top: 40px;
     visibility: hidden;
     width: 200px;
+
+    .menu-item {
+      height: 40px;
+    }
+  }
+
+  .sidebarlong {
+    height: 0px;
+    visibility: hidden;
+
+    .menu-item {
+      height: 0px;
+    }
   }
 
   .btn-user {
@@ -33,6 +50,23 @@
     top: 40px;
     visibility: hidden;
     width: 250px;
+
+    .menu-item {
+      height: 40px;
+    }
+  }
+
+  .sidebar-container {
+    display: block;
+  }
+
+  .sidebarlong {
+    height: 0px;
+    visibility: hidden;
+
+    .menu-item {
+      height: 0px;
+    }
   }
 
   .btn-user {
@@ -46,6 +80,10 @@
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
   .dx-icon-menu {
     display: none;
   }
@@ -54,24 +92,27 @@
     flex-direction: row;
   }
 
-  .sidebar {
+  .btn-user {
+    margin-right: 50px;
+  }
+
+  .sidebar-container {
+    display: none;
+  }
+
+  .sidebarlong {
+    padding-left: 50px;
     position: static;
     left: auto;
     top: auto;
     z-index: auto;
     visibility: visible;
-  }
-
-  .btn-user {
-    margin-right: 50px;
-  }
-}
-
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
-  .sidebar {
-    padding-left: 50px;
     width: 300px;
+
+    .menu-item {
+      height: 40px;
+      width: 250px;
+    }
   }
 }
 
@@ -116,12 +157,12 @@
   flex-grow: 1;
 }
 
-.sidebar {
+.sidebar,
+.sidebarlong {
   .menu-item {
     cursor: pointer;
     font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
     font-size: 0.875rem;
-    height: 40px;
     letter-spacing: 0.3px;
     text-shadow: none;
     display: flex;
