@@ -48,6 +48,10 @@
   .mat-column-type {
     display: none;
   }
+
+  .mat-column-delete {
+    display: none;
+  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -59,6 +63,10 @@
     }
 
     .mat-column-type {
+      display: table-cell;
+    }
+
+    .mat-column-delete {
       display: table-cell;
     }
   }
