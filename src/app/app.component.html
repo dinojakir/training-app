@@ -1,5 +1,8 @@
-<div class="container" [class.background-image]="url === '/prijava'">
+<div class="app-container" [class.background-image]="url === '/prijava'">
   <div class="top">
+    <div>
+      <span class="dx-icon-menu" (click)="expandMenu()"></span>
+    </div>
     <div
       *ngIf="url !== '/prijava' && authService?.user"
       id="userBtn"
@@ -10,7 +13,11 @@
     </div>
   </div>
   <div class="page-container">
-    <div *ngIf="url !== '/prijava' && authService?.user" class="sidebar">
+    <div
+      #sidebar
+      *ngIf="url !== '/prijava' && authService?.user"
+      class="sidebar"
+    >
       <div>
         <div
           *ngFor="let menuItem of menuItems"
