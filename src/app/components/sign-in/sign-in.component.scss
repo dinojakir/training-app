@@ -39,13 +39,15 @@
   }
 
   .form-container {
-    width: 200px;
-    padding: 10px 20px;
+    margin-top: 10px;
+    width: 220px;
+    padding: 5px 20px;
     height: 300px;
   }
 
   .form-group {
     display: block;
+    margin-top: 10px;
   }
 
   .submit-container {
@@ -54,7 +56,7 @@
 
   .input {
     padding: 12px 20px 8px;
-    width: 160px;
+    width: 180px;
     font-size: 12px;
 
     &:-webkit-autofill::first-line,
@@ -106,17 +108,18 @@
 
 /* Large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-}
-
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1600px) {
   .form-container {
+    margin-top: 5%;
     width: 280px;
   }
 
   .input {
     width: 240px;
   }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1600px) {
 }
 
 :host {
@@ -137,7 +140,6 @@
   background-color: #fff0a4;
   border: 1px solid lightgray;
   border-radius: 5px;
-  margin-top: 5%;
 }
 
 form {
@@ -147,8 +149,6 @@ form {
 }
 
 .form-group {
-  margin-top: 30px;
-
   label {
     cursor: text;
     font-family: "Montserrat", sans-serif;

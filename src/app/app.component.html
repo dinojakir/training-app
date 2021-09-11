@@ -1,14 +1,9 @@
 <div class="app-container" [class.background-image]="url === '/prijava'">
-  <div class="top">
+  <div class="top" *ngIf="url !== '/prijava' && authService?.user">
     <div>
       <span class="dx-icon-menu" (click)="expandMenu()"></span>
     </div>
-    <div
-      *ngIf="url !== '/prijava' && authService?.user"
-      id="userBtn"
-      class="btn-user"
-      (click)="onUserBtnClick()"
-    >
+    <div id="userBtn" class="btn-user" (click)="onUserBtnClick()">
       {{ authService?.user?.email.substring(0, 1).toUpperCase() }}
     </div>
   </div>
