@@ -98,6 +98,7 @@
 
 .home-container {
   margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 th {
@@ -152,10 +153,12 @@ tr.detail-row {
   color: rgba(0, 0, 0, 0.54);
 }
 
-.mat-column-edit {
-  width: 24px;
-}
+.table {
+  .mat-column-edit {
+    width: 24px;
+  }
 
-.mat-column-delete {
-  width: 24px;
+  .mat-column-delete {
+    width: 24px;
+  }
 }
