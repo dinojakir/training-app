@@ -44,6 +44,10 @@
       padding-right: 4px;
     }
   }
+
+  .mat-column-type {
+    display: none;
+  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -52,6 +56,10 @@
     .mat-cell,
     .mat-footer-cell {
       padding-right: 5px;
+    }
+
+    .mat-column-type {
+      display: table-cell;
     }
   }
 }
