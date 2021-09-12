@@ -3,6 +3,10 @@
     margin-left: 10px;
     margin-right: 10px;
   }
+
+  .add-container {
+    margin-top: 30px;
+  }
 }
 
 /* Extra small devices (phones, 600px and down) */
@@ -14,6 +18,10 @@
 
   .text-input {
     width: min(100%, 800px);
+  }
+
+  .add-container {
+    margin-top: 30px;
   }
 }
 
@@ -31,13 +39,13 @@
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
+  .add-container {
+    margin-top: 30px;
+  }
+
   form {
     margin-left: 100px;
   }
-}
-
-.add-container {
-  margin-top: 30px;
 }
 
 .col {
@@ -48,6 +56,8 @@
   min-height: 70px;
   margin-right: 0px;
   margin-left: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 mat-button-toggle-group {
