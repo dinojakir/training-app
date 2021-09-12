@@ -1,204 +1,211 @@
 <div class="add-container">
   <form [formGroup]="exerciseForm" (submit)="submit()">
-    <div class="row">
-      <div class="column">
-        <mat-form-field appearance="fill">
-          <mat-label>Naziv</mat-label>
-          <input
-            type="email"
-            matInput
-            [formControl]="nameFormControl"
-            [errorStateMatcher]="errorStateMatcher"
-            (input)="onNameChanged($event)"
-          />
-          <mat-error *ngIf="nameFormControl.hasError('required')">
-            Naziv je obvezan
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="column">
-        <mat-button-toggle-group
-          aria-label="type"
-          name="type"
-          [(ngModel)]="exercise.type"
-          [ngModelOptions]="{ standalone: true }"
-        >
-          <mat-button-toggle value="isolated">Izolirana</mat-button-toggle>
-          <mat-button-toggle value="complex">Kompleksna</mat-button-toggle>
-        </mat-button-toggle-group>
-      </div>
-    </div>
-    <div class="row">
-      <div class="column">
-        <mat-form-field appearance="fill">
-          <mat-label>Mišić</mat-label>
-          <mat-select
-            [(ngModel)]="exercise.muscle"
-            [ngModelOptions]="{ standalone: true }"
-            (selectionChange)="onSelectMuscle($event)"
-          >
-            <mat-option *ngFor="let muscle of muscles" [value]="muscle.item">
-              {{ muscle.item }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="column">
-        <mat-form-field appearance="fill">
-          <mat-label>Podmišić</mat-label>
-          <mat-select
-            [disabled]="!submuscles || submuscles.length === 0"
-            [(ngModel)]="exercise.submuscle"
-            [ngModelOptions]="{ standalone: true }"
-          >
-            <mat-option
-              *ngFor="let submuscle of submuscles"
-              [value]="submuscle.item"
-            >
-              {{ submuscle.item }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
-    <div class="row">
-      <div class="column">
-        <mat-button-toggle-group
-          aria-label="mode"
-          name="mode"
-          [(ngModel)]="exercise.mode.name"
-          [ngModelOptions]="{ standalone: true }"
-          (change)="onButtonGroupChange($event)"
-        >
-          <mat-button-toggle value="bodyweight">Tijelo</mat-button-toggle>
-          <mat-button-toggle value="props">Rekvizit</mat-button-toggle>
-          <mat-button-toggle value="trainer">Trenažer</mat-button-toggle>
-        </mat-button-toggle-group>
-      </div>
-      <ng-container *ngIf="exercise?.mode?.name === 'props'">
-        <div class="column">
+    <div>
+      <div class="row">
+        <div class="col col-lg-5 col-xl-6">
           <mat-form-field appearance="fill">
-            <mat-label>Rekvizit</mat-label>
+            <mat-label>Naziv</mat-label>
+            <input
+              type="email"
+              matInput
+              [formControl]="nameFormControl"
+              [errorStateMatcher]="errorStateMatcher"
+              (input)="onNameChanged($event)"
+            />
+            <mat-error *ngIf="nameFormControl.hasError('required')">
+              Naziv je obvezan
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col col-lg-5 co-xl-6">
+          <mat-button-toggle-group
+            aria-label="type"
+            name="type"
+            [(ngModel)]="exercise.type"
+            [ngModelOptions]="{ standalone: true }"
+          >
+            <mat-button-toggle value="isolated">Izolirana</mat-button-toggle>
+            <mat-button-toggle value="complex">Kompleksna</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-lg-5 col-xl-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Mišić</mat-label>
             <mat-select
-              [formControl]="propsFormControl"
-              (selectionChange)="onSelectProp($event)"
+              [(ngModel)]="exercise.muscle"
+              [ngModelOptions]="{ standalone: true }"
+              (selectionChange)="onSelectMuscle($event)"
             >
-              <mat-option *ngFor="let prop of props" [value]="prop.item">
-                {{ prop.item }}
+              <mat-option *ngFor="let muscle of muscles" [value]="muscle.item">
+                {{ muscle.item }}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-        <ng-container *ngIf="subprops && subprops.length > 0">
-          <div class="column">
-            <mat-form-field appearance="fill">
-              <mat-label>Podrekvizit</mat-label>
-              <mat-select
-                [formControl]="subpropsFormControl"
-                (selectionChange)="onSelectSubprop($event)"
-              >
-                <mat-option
-                  *ngFor="let subprop of subprops"
-                  [value]="subprop.item"
-                >
-                  {{ subprop.item }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </ng-container>
-      </ng-container>
-      <ng-container *ngIf="exercise?.mode?.name === 'trainer'">
-        <div class="column">
+        <div class="col col-lg-5 col-xl-6">
           <mat-form-field appearance="fill">
-            <mat-label>Trenažer</mat-label>
+            <mat-label>Podmišić</mat-label>
             <mat-select
-              [formControl]="trainersFormControl"
-              (selectionChange)="onSelectTrainer($event)"
+              [disabled]="!submuscles || submuscles.length === 0"
+              [(ngModel)]="exercise.submuscle"
+              [ngModelOptions]="{ standalone: true }"
             >
               <mat-option
-                *ngFor="let trainer of trainers"
-                [value]="trainer.item"
+                *ngFor="let submuscle of submuscles"
+                [value]="submuscle.item"
               >
-                {{ trainer.item }}
+                {{ submuscle.item }}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-        <ng-container *ngIf="subtrainers && subtrainers.length > 0">
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-button-toggle-group
+            aria-label="mode"
+            name="mode"
+            [(ngModel)]="exercise.mode.name"
+            [ngModelOptions]="{ standalone: true }"
+            (change)="onButtonGroupChange($event)"
+          >
+            <mat-button-toggle value="bodyweight">Tijelo</mat-button-toggle>
+            <mat-button-toggle value="props">Rekvizit</mat-button-toggle>
+            <mat-button-toggle value="trainer">Trenažer</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <ng-container *ngIf="exercise?.mode?.name === 'props'">
           <div class="column">
             <mat-form-field appearance="fill">
-              <mat-label>Podtrenažer</mat-label>
+              <mat-label>Rekvizit</mat-label>
               <mat-select
-                [formControl]="subtrainersFormControl"
-                (selectionChange)="onSelectSubtrainer($event)"
+                [formControl]="propsFormControl"
+                (selectionChange)="onSelectProp($event)"
               >
-                <mat-option
-                  *ngFor="let subtrainer of subtrainers"
-                  [value]="subtrainer.item"
-                >
-                  {{ subtrainer.item }}
+                <mat-option *ngFor="let prop of props" [value]="prop.item">
+                  {{ prop.item }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
+          <ng-container *ngIf="subprops && subprops.length > 0">
+            <div class="col">
+              <mat-form-field appearance="fill">
+                <mat-label>Podrekvizit</mat-label>
+                <mat-select
+                  [formControl]="subpropsFormControl"
+                  (selectionChange)="onSelectSubprop($event)"
+                >
+                  <mat-option
+                    *ngFor="let subprop of subprops"
+                    [value]="subprop.item"
+                  >
+                    {{ subprop.item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </ng-container>
         </ng-container>
-      </ng-container>
-    </div>
-    <div class="row">
-      <div class="column">
-        <div style="display: flex; flex-direction: column">
+        <ng-container *ngIf="exercise?.mode?.name === 'trainer'">
+          <div class="column">
+            <mat-form-field appearance="fill">
+              <mat-label>Trenažer</mat-label>
+              <mat-select
+                [formControl]="trainersFormControl"
+                (selectionChange)="onSelectTrainer($event)"
+              >
+                <mat-option
+                  *ngFor="let trainer of trainers"
+                  [value]="trainer.item"
+                >
+                  {{ trainer.item }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <ng-container *ngIf="subtrainers && subtrainers.length > 0">
+            <div class="column">
+              <mat-form-field appearance="fill">
+                <mat-label>Podtrenažer</mat-label>
+                <mat-select
+                  [formControl]="subtrainersFormControl"
+                  (selectionChange)="onSelectSubtrainer($event)"
+                >
+                  <mat-option
+                    *ngFor="let subtrainer of subtrainers"
+                    [value]="subtrainer.item"
+                  >
+                    {{ subtrainer.item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div style="display: flex; flex-direction: column">
+            <button
+              class="btn-video"
+              mat-raised-button
+              color="primary"
+              type="button"
+              (click)="fileInput.click()"
+            >
+              Video
+            </button>
+            <span *ngIf="file?.name">{{ file.name }}</span>
+          </div>
+          <input
+            #fileInput
+            id="file"
+            hidden
+            type="file"
+            (change)="onFileSelected($event)"
+          />
+          <ng-container *ngIf="file?.name">
+            <mat-progress-bar
+              class="file-progress"
+              mode="determinate"
+              [value]="uploadPercent"
+            >
+            </mat-progress-bar>
+          </ng-container>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="text-input" appearance="fill">
+            <mat-label>Komentar</mat-label>
+            <textarea
+              matInput
+              placeholder="..."
+              [(ngModel)]="exercise.comment"
+              [ngModelOptions]="{ standalone: true }"
+            >
+            </textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
           <button
-            class="btn-video"
+            class="save-btn"
+            [disabled]="loading"
             mat-raised-button
             color="primary"
-            type="button"
-            (click)="fileInput.click()"
+            type="submit"
           >
-            Video
+            Spremi
           </button>
-          <span *ngIf="file?.name">{{ file.name }}</span>
         </div>
-        <input
-          #fileInput
-          id="file"
-          hidden
-          type="file"
-          (change)="onFileSelected($event)"
-        />
-        <ng-container *ngIf="file?.name">
-          <mat-progress-bar
-            class="file-progress"
-            mode="determinate"
-            [value]="uploadPercent"
-          >
-          </mat-progress-bar>
-        </ng-container>
       </div>
     </div>
-    <div class="row">
-      <div class="column">
-        <mat-form-field class="text-input" appearance="fill">
-          <mat-label>Komentar</mat-label>
-          <textarea
-            matInput
-            placeholder="..."
-            [(ngModel)]="exercise.comment"
-            [ngModelOptions]="{ standalone: true }"
-          >
-          </textarea>
-        </mat-form-field>
-      </div>
-    </div>
-    <button
-      class="save-btn"
-      [disabled]="loading"
-      mat-raised-button
-      color="primary"
-      type="submit"
-    >
-      Spremi
-    </button>
+
     <ng-container *ngIf="loading">
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </ng-container>
