@@ -63,7 +63,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col">
+        <div class="col col-lg-5 col-xl-6">
           <mat-button-toggle-group
             aria-label="mode"
             name="mode"
@@ -77,7 +77,7 @@
           </mat-button-toggle-group>
         </div>
         <ng-container *ngIf="exercise?.mode?.name === 'props'">
-          <div class="column">
+          <div class="col col-lg-5 col-xl-6">
             <mat-form-field appearance="fill">
               <mat-label>Rekvizit</mat-label>
               <mat-select
@@ -91,7 +91,7 @@
             </mat-form-field>
           </div>
           <ng-container *ngIf="subprops && subprops.length > 0">
-            <div class="col">
+            <div class="col col-lg-5 col-xl-6">
               <mat-form-field appearance="fill">
                 <mat-label>Podrekvizit</mat-label>
                 <mat-select
@@ -110,7 +110,7 @@
           </ng-container>
         </ng-container>
         <ng-container *ngIf="exercise?.mode?.name === 'trainer'">
-          <div class="column">
+          <div class="col col-lg-5 col-xl-6">
             <mat-form-field appearance="fill">
               <mat-label>Trenažer</mat-label>
               <mat-select
@@ -127,7 +127,7 @@
             </mat-form-field>
           </div>
           <ng-container *ngIf="subtrainers && subtrainers.length > 0">
-            <div class="column">
+            <div class="col col-lg-5 col-xl-6">
               <mat-form-field appearance="fill">
                 <mat-label>Podtrenažer</mat-label>
                 <mat-select
