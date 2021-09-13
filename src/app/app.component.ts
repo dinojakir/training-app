@@ -23,8 +23,8 @@ export class AppComponent {
     private renderer: Renderer2
   ) {
     this.menuItems = [
-      { name: "Imenik", link: "/pocetna", icon: "dx-icon-bulletlist" },
-      { name: "Vježba", link: "/vjezba", icon: "dx-icon-plus" },
+      { name: "Pregled", link: "/pocetna", icon: "dx-icon-bulletlist" },
+      { name: "Nova vježba", link: "/vjezba", icon: "dx-icon-plus" },
       { name: "Postavke", link: "/postavke", icon: "dx-icon-preferences" },
     ];
 
