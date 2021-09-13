@@ -40,6 +40,7 @@ export class CustomErrorStateMatcher implements ErrorStateMatcher {
 export class AddComponent implements OnInit {
   editMode: boolean = false;
   exercise: Exercise = new Exercise();
+  edit: Exercise | undefined;
   file: any;
   uploadPercent: number | undefined;
 
@@ -86,26 +87,27 @@ export class AddComponent implements OnInit {
     if (history.state.data) {
       this.editMode = true;
       const exercise: Exercise = history.state.data;
-      const edit: Exercise = new Exercise();
+      this.edit = new Exercise();
 
-      if (exercise.muscle) {
-        edit.id = exercise.id;
-        edit.name = exercise.name;
-        edit.type = exercise.type;
-        edit.muscle = exercise.muscle;
-        if (edit.muscle) {
-          const muscle: any = this.muscles.find((i) => i.item === edit.muscle);
-          if (muscle.children) {
-            this.submuscles = muscle.children;
-          } else {
-            this.submuscles = [];
-          }
+      this.edit.id = exercise.id;
+      this.edit.name = exercise.name;
+      this.nameFormControl.setValue(exercise.name);
+      this.edit.type = exercise.type;
+      this.edit.muscle = exercise.muscle;
+      if (this.edit && this.edit.muscle) {
+        const muscle: any = this.muscles.find(
+          (i) => i.item === this.edit?.muscle
+        );
+        if (muscle.children) {
+          this.submuscles = muscle.children;
+        } else {
+          this.submuscles = [];
         }
-        edit.submuscle = exercise.submuscle;
-        edit.video = exercise.video;
-        edit.mode = exercise.mode;
-        edit.comment = exercise.comment;
       }
+      this.edit.submuscle = exercise.submuscle;
+      this.edit.video = exercise.video;
+      this.edit.mode = exercise.mode;
+      this.edit.comment = exercise.comment;
       if (exercise.mode.name === "props") {
         if (exercise.mode.item) {
           this.propsFormControl.setValue(exercise.mode.item.name);
@@ -144,8 +146,7 @@ export class AddComponent implements OnInit {
         }
       }
 
-      this.exercise = edit;
-      this.nameFormControl.setValue(this.exercise.name);
+      this.exercise = this.edit;
     }
 
     this.loading = false;
@@ -218,6 +219,10 @@ export class AddComponent implements OnInit {
     if (this.file && this.file.name) {
       const filePath: string = `Videos/${this.file.name}`;
       const fileRef: AngularFireStorageReference = this.storage.ref(filePath);
+
+      if (this.editMode && this.edit?.video) {
+        await this.storage.refFromURL(this.edit?.video).delete().toPromise();
+      }
       const task: AngularFireUploadTask = this.storage.upload(
         filePath,
         this.file

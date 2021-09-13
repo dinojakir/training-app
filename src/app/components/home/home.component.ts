@@ -6,6 +6,7 @@ import {
   trigger,
 } from "@angular/animations";
 import { Component, OnInit } from "@angular/core";
+import { AngularFireStorage } from "@angular/fire/storage";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { Exercise } from "src/app/model/exercise.dto";
@@ -37,7 +38,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private db: DbService,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private storage: AngularFireStorage
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -80,6 +82,10 @@ export class HomeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async (result: Exercise) => {
       if (result) {
+        if (exercise.video) {
+          await this.storage.refFromURL(exercise.video).delete().toPromise();
+        }
+
         await this.db.deleteCollectionDocument("Exercises", exercise);
         this.exercises = this.exercises.filter((i) => i.id !== exercise.id);
       }
