@@ -24,9 +24,9 @@
           (keyup.enter)="signIn(userEmail.value, userPassword.value)"
         />
       </div>
-      <div *ngIf="isLoadIndicatorVisible" class="load-container">
-        <dx-load-indicator id="medium-indicator" height="40" width="40">
-        </dx-load-indicator>
+      <div class="load-container">
+        <mat-spinner *ngIf="isLoadIndicatorVisible" [diameter]="30">
+        </mat-spinner>
       </div>
       <div class="submit-container">
         <div>
