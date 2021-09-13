@@ -121,3 +121,10 @@ mat-form-field {
   float: right;
   margin-bottom: 10px;
 }
+
+.load-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
