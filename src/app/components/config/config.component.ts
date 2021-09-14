@@ -19,6 +19,7 @@ export class ConfigComponent implements OnInit {
     | DxTreeListComponent
     | undefined;
 
+  isLoadIndicatorVisible: boolean = false;
   muscles: any[] = [];
   savingMuscles: boolean = false;
   windowWidth: number | undefined;
@@ -32,11 +33,11 @@ export class ConfigComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this.isLoadIndicatorVisible = true;
     this.windowWidth = window.innerWidth;
     const muscles: any[] = await (
       await this.db.getCollectionDocuments("Muscles")
     ).sort((a: any, b: any) => a.order - b.order);
-    console.log(muscles);
 
     const data: any[] = [];
     muscles.forEach((i: any) => {
@@ -49,6 +50,7 @@ export class ConfigComponent implements OnInit {
     });
 
     this.muscles = data;
+    this.isLoadIndicatorVisible = false;
   }
 
   @HostListener("window:resize", ["$event"])
