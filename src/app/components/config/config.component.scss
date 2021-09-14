@@ -1,0 +1,69 @@
+@media only screen and (max-width: 350px) {
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (min-width: 350px) {
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}
+
+.config-container {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+dx-tree-list {
+  margin: auto;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 12px;
+  box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
+    0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+}
+
+.treelist-header {
+  color: rgba(0, 0, 0, 0.87);
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-weight: bold;
+  margin-left: 20px;
+}
+
+.row {
+  min-height: 70px;
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+.save-btn {
+  float: right;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
+.load-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+
+.dx-treelist-table-fixed {
+  width: "80%";
+}

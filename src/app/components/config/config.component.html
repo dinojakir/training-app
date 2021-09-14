@@ -1,0 +1,51 @@
+<div class="config-container">
+  <div class="table-container">
+    <div>
+      <dx-tree-list
+        id="muscles"
+        [dataSource]="muscles"
+        [rootValue]="null"
+        itemsExpr="items"
+        [keyExpr]="getKey"
+        [showRowLines]="true"
+        [showBorders]="false"
+        parentIdExpr="parent"
+        [columnAutoWidth]="true"
+        [width]="'80%'"
+      >
+        <dxo-row-dragging
+          [onReorder]="onReorder"
+          [allowReordering]="true"
+          [showDragIcons]="true"
+        >
+        </dxo-row-dragging>
+        <dxi-column
+          dataField="name"
+          caption="Mišić"
+          headerCellTemplate="headerTemplate"
+        >
+        </dxi-column>
+        <div *dxTemplate="let info of 'headerTemplate'">
+          <span class="treelist-header">{{ info.column.caption }}</span>
+        </div>
+      </dx-tree-list>
+      <div class="row">
+        <div class="col">
+          <button
+            class="save-btn"
+            mat-raised-button
+            color="primary"
+            (click)="saveMuscles()"
+          >
+            Spremi
+          </button>
+        </div>
+      </div>
+      <ng-container>
+        <div class="load-container">
+          <mat-spinner *ngIf="savingMuscles" [diameter]="30"> </mat-spinner>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

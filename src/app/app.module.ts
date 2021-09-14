@@ -65,8 +65,10 @@ import {
   DxContextMenuModule,
   DxLoadIndicatorModule,
   DxLoadPanelModule,
+  DxTreeListModule,
 } from "devextreme-angular";
-import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from "./components/confirmation-dialog/confirmation-dialog.component";
+import { ConfigComponent } from "./components/config/config.component";
 
 @NgModule({
   declarations: [
@@ -76,6 +78,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     ConfigurationComponent,
     SignInComponent,
     ConfirmationDialogComponent,
+    ConfigComponent,
   ],
   imports: [
     BrowserModule,
@@ -134,6 +137,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     DxContextMenuModule,
     DxLoadIndicatorModule,
     DxLoadPanelModule,
+    DxTreeListModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],
