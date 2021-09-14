@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   HostListener,
+  Input,
   OnInit,
   ViewChild,
 } from "@angular/core";
@@ -19,24 +20,21 @@ export class ConfigComponent implements OnInit {
     | DxTreeListComponent
     | undefined;
 
+  @Input() setting: string = "";
+
   isLoadIndicatorVisible: boolean = false;
   muscles: any[] = [];
   savingMuscles: boolean = false;
-  windowWidth: number | undefined;
 
-  get treeListWidth(): string {
-    return !this.windowWidth || this.windowWidth < 1200 ? "95%" : "80%";
-  }
-
-  constructor(private cdRef: ChangeDetectorRef, private db: DbService) {
+  constructor(private db: DbService) {
     this.onReorder = this.onReorder.bind(this);
   }
 
   async ngOnInit(): Promise<void> {
     this.isLoadIndicatorVisible = true;
-    this.windowWidth = window.innerWidth;
+
     const muscles: any[] = await (
-      await this.db.getCollectionDocuments("Muscles")
+      await this.db.getCollectionDocuments(this.setting)
     ).sort((a: any, b: any) => a.order - b.order);
 
     const data: any[] = [];
@@ -51,14 +49,6 @@ export class ConfigComponent implements OnInit {
 
     this.muscles = data;
     this.isLoadIndicatorVisible = false;
-  }
-
-  @HostListener("window:resize", ["$event"])
-  onResize(event: any): void {
-    this.windowWidth = window.innerWidth;
-    this.cdRef.detectChanges();
-    this.renderTreeList(event.target.innerWidth);
-    console.log(window.innerWidth, event.target.innerWidth);
   }
 
   onReorder(e: any): void {
@@ -85,10 +75,10 @@ export class ConfigComponent implements OnInit {
     if (this.muscles && this.muscles.length > 0) {
       this.savingMuscles = true;
 
-      const muscles: any[] = await this.db.getCollectionDocuments("Muscles");
+      const muscles: any[] = await this.db.getCollectionDocuments(this.setting);
       for (const muscle of muscles) {
         if (muscle.id) {
-          await this.db.deleteCollectionDocument("Muscles", muscle);
+          await this.db.deleteCollectionDocument(this.setting, muscle);
         }
       }
 
@@ -110,7 +100,7 @@ export class ConfigComponent implements OnInit {
             children: children,
             order: idx,
           };
-          await this.db.saveCollectionDocument("Muscles", newMuscle);
+          await this.db.saveCollectionDocument(this.setting, newMuscle);
 
           idx++;
         }
@@ -124,11 +114,5 @@ export class ConfigComponent implements OnInit {
     return rowData.parent
       ? `${rowData.parent}-${rowData.name}`
       : `${rowData.name}`;
-  }
-
-  renderTreeList(width: any): void {
-    if (this.treeList) {
-      this.treeList.instance.updateDimensions();
-    }
   }
 }
