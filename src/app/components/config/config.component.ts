@@ -16,7 +16,9 @@ export class ConfigComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    const muscles: any[] = await this.db.getCollectionDocuments("Muscles");
+    const muscles: any[] = await (
+      await this.db.getCollectionDocuments("Muscles")
+    ).sort((a: any, b: any) => a.order - b.order);
     console.log(muscles);
 
     const data: any[] = [];
@@ -56,13 +58,14 @@ export class ConfigComponent implements OnInit {
     if (this.muscles && this.muscles.length > 0) {
       this.savingMuscles = true;
 
-      const muscles: any[] = await this.db.getCollectionDocuments("muscles-db");
+      const muscles: any[] = await this.db.getCollectionDocuments("Muscles");
       for (const muscle of muscles) {
         if (muscle.id) {
-          await this.db.deleteCollectionDocument("muscles-db", muscle);
+          await this.db.deleteCollectionDocument("Muscles", muscle);
         }
       }
 
+      let idx: number = 1;
       for (const muscle of this.muscles) {
         if (muscle.parent === null) {
           const id: any = uuidv4();
@@ -70,16 +73,19 @@ export class ConfigComponent implements OnInit {
             (i) => i.parent === muscle.name
           );
           if (children.length > 0) {
-            children = children.map((i) => {
-              return { item: i.name };
+            children = children.map((i, index) => {
+              return { item: i.name, order: index };
             });
           }
           const newMuscle: any = {
             id: id,
             item: muscle.name,
             children: children,
+            order: idx,
           };
-          await this.db.saveCollectionDocument("muscles-db", newMuscle);
+          await this.db.saveCollectionDocument("Muscles", newMuscle);
+
+          idx++;
         }
       }
 
