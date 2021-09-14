@@ -19,9 +19,6 @@
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-  dx-tree-list {
-    width: 80%;
-  }
 }
 
 .config-container {
@@ -54,9 +51,7 @@ dx-tree-list {
 
 .save-btn {
   float: right;
-  margin-bottom: 10px;
-  margin-right: 20px;
-  margin-top: 10px;
+  margin: 20px;
 }
 
 .load-container {

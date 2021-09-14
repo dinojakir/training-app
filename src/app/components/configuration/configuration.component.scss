@@ -1,93 +1,40 @@
+@media only screen and (max-width: 350px) {
+  .mat-tab-group {
+    max-width: 95%;
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (min-width: 350px) {
+  .mat-tab-group {
+    max-width: 95%;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .mat-tab-group {
+    max-width: 80%;
+  }
+}
+
 .config-container {
-  display: flex;
-  align-items: stretch;
-  flex-grow: 1;
+  margin-top: 30px;
+  margin-bottom: 20px;
 }
 
-.form-container {
-  display: flex;
-  flex-direction: column;
-  flex: 30%;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-.setting-title {
-  text-align: center;
-}
-
-.load-container {
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
-}
-
-.load-box {
-  height: 40px;
-  width: 40px;
+.mat-tab-group {
   margin: auto;
-}
-
-.tree-container {
-  height: 700px;
-  overflow: auto;
-  border: 1px solid lightgrey;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  padding-right: 10px;
-  padding-bottom: 10px;
-}
-
-.mat-tree-node {
-  font-size: 12px;
-  min-height: 30px;
-
-  button {
-    height: 30px;
-    width: 30px;
-    line-height: 30px;
-  }
-
-  &:hover .add-button {
-    display: block;
-  }
-}
-
-.add-button {
-  display: none;
-}
-
-.new-group-container {
-  margin-top: auto;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.new-group.mat-raised-button {
-  font-size: 12px;
-  padding: 8px;
-
-  line-height: normal;
-  align-self: flex-end;
-}
-
-.new-item {
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  padding-top: 15px;
-  padding-left: 5px;
-}
-
-.save-container {
-  margin-bottom: 50px;
-  margin-left: 100px;
-  margin-right: 100px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-mat-icon {
-  font-size: 18px !important;
 }

@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AddComponent } from "./components/add/add.component";
 import { ConfigComponent } from "./components/config/config.component";
+import { ConfigurationComponent } from "./components/configuration/configuration.component";
 import { HomeComponent } from "./components/home/home.component";
 import { SignInComponent } from "./components/sign-in/sign-in.component";
 import { AuthGuard } from "./services/auth/auth-guard.service";
@@ -17,7 +18,7 @@ const routes: Routes = [
   { path: "vjezba", component: AddComponent, canActivate: [AuthGuard] },
   {
     path: "postavke",
-    component: ConfigComponent,
+    component: ConfigurationComponent,
     canActivate: [AuthGuard],
   },
   { path: "prijava", component: SignInComponent, canActivate: [SignInGuard] },
