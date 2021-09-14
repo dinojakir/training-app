@@ -56,13 +56,31 @@ export class ConfigComponent implements OnInit {
     if (this.muscles && this.muscles.length > 0) {
       this.savingMuscles = true;
 
-      for (const muscle of this.muscles) {
+      const muscles: any[] = await this.db.getCollectionDocuments("muscles-db");
+      for (const muscle of muscles) {
         if (muscle.id) {
-          this.db.deleteCollectionDocument("muscles-db", muscle.id);
+          await this.db.deleteCollectionDocument("muscles-db", muscle);
         }
+      }
 
-        muscle.id = uuidv4();
-        await this.db.saveCollectionDocument("muscles-db", muscle);
+      for (const muscle of this.muscles) {
+        if (muscle.parent === null) {
+          const id: any = uuidv4();
+          let children: any[] = this.muscles.filter(
+            (i) => i.parent === muscle.name
+          );
+          if (children.length > 0) {
+            children = children.map((i) => {
+              return { item: i.name };
+            });
+          }
+          const newMuscle: any = {
+            id: id,
+            item: muscle.name,
+            children: children,
+          };
+          await this.db.saveCollectionDocument("muscles-db", newMuscle);
+        }
       }
 
       this.savingMuscles = false;
