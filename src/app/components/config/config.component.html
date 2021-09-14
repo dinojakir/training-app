@@ -4,8 +4,8 @@
   </div>
   <div *ngIf="!isLoadIndicatorVisible">
     <dx-tree-list
-      id="muscles"
-      [dataSource]="muscles"
+      id="settings"
+      [dataSource]="settings"
       [rootValue]="null"
       itemsExpr="items"
       [keyExpr]="getKey"
@@ -38,7 +38,7 @@
           class="save-btn"
           mat-raised-button
           color="primary"
-          (click)="saveMuscles()"
+          (click)="save()"
         >
           Spremi
         </button>
@@ -46,7 +46,7 @@
     </div>
     <ng-container>
       <div class="load-container">
-        <mat-spinner *ngIf="savingMuscles" [diameter]="30"> </mat-spinner>
+        <mat-spinner *ngIf="saving" [diameter]="30"> </mat-spinner>
       </div>
     </ng-container>
   </div>

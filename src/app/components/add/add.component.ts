@@ -80,9 +80,15 @@ export class AddComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.loading = true;
 
-    this.muscles = await this.db.getCollectionDocuments("Muscles");
-    this.props = await this.db.getCollectionDocuments("Props");
-    this.trainers = await this.db.getCollectionDocuments("Trainers");
+    this.muscles = (await this.db.getCollectionDocuments("Muscles")).sort(
+      (a: any, b: any) => a.order - b.order
+    );
+    this.props = (await this.db.getCollectionDocuments("Props")).sort(
+      (a: any, b: any) => a.order - b.order
+    );
+    this.trainers = (await this.db.getCollectionDocuments("Trainers")).sort(
+      (a: any, b: any) => a.order - b.order
+    );
 
     if (history.state.data) {
       this.editMode = true;

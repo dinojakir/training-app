@@ -1,11 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  HostListener,
-  Input,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { DxTreeListComponent } from "devextreme-angular";
 import { DbService } from "src/app/services/auth/db.service";
 import { v4 as uuidv4 } from "uuid";
@@ -23,8 +16,8 @@ export class ConfigComponent implements OnInit {
   @Input() setting: string = "";
 
   isLoadIndicatorVisible: boolean = false;
-  muscles: any[] = [];
-  savingMuscles: boolean = false;
+  settings: any[] = [];
+  saving: boolean = false;
 
   constructor(private db: DbService) {
     this.onReorder = this.onReorder.bind(this);
@@ -33,12 +26,12 @@ export class ConfigComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.isLoadIndicatorVisible = true;
 
-    const muscles: any[] = await (
+    const settings: any[] = (
       await this.db.getCollectionDocuments(this.setting)
     ).sort((a: any, b: any) => a.order - b.order);
 
     const data: any[] = [];
-    muscles.forEach((i: any) => {
+    settings.forEach((i: any) => {
       data.push({ name: i.item, parent: null });
       if (i.children && i.children.length > 0) {
         i.children.forEach((j: any) => {
@@ -47,7 +40,7 @@ export class ConfigComponent implements OnInit {
       }
     });
 
-    this.muscles = data;
+    this.settings = data;
     this.isLoadIndicatorVisible = false;
   }
 
@@ -63,50 +56,52 @@ export class ConfigComponent implements OnInit {
       (targetData && source.parent === targetData.parent) ||
       (targetData && source.parent === targetData.name)
     ) {
-      const sourceIndex: any = this.muscles.indexOf(source);
-      this.muscles.splice(sourceIndex, 1);
+      const sourceIndex: any = this.settings.indexOf(source);
+      this.settings.splice(sourceIndex, 1);
 
-      const targetIndex: any = this.muscles.indexOf(targetData) + 1;
-      this.muscles.splice(targetIndex, 0, source);
+      const targetIndex: any = this.settings.indexOf(targetData) + 1;
+      this.settings.splice(targetIndex, 0, source);
     }
   }
 
-  async saveMuscles(): Promise<void> {
-    if (this.muscles && this.muscles.length > 0) {
-      this.savingMuscles = true;
+  async save(): Promise<void> {
+    if (this.settings && this.settings.length > 0) {
+      this.saving = true;
 
-      const muscles: any[] = await this.db.getCollectionDocuments(this.setting);
-      for (const muscle of muscles) {
-        if (muscle.id) {
-          await this.db.deleteCollectionDocument(this.setting, muscle);
+      const settings: any[] = await this.db.getCollectionDocuments(
+        this.setting
+      );
+      for (const setting of settings) {
+        if (setting.id) {
+          await this.db.deleteCollectionDocument(this.setting, setting);
         }
       }
 
       let idx: number = 1;
-      for (const muscle of this.muscles) {
-        if (muscle.parent === null) {
+      for (const setting of this.settings) {
+        if (setting.parent === null) {
           const id: any = uuidv4();
-          let children: any[] = this.muscles.filter(
-            (i) => i.parent === muscle.name
+          let children: any[] = this.settings.filter(
+            (i) => i.parent === setting.name
           );
           if (children.length > 0) {
             children = children.map((i, index) => {
               return { item: i.name, order: index };
             });
           }
-          const newMuscle: any = {
+          const newSetting: any = {
             id: id,
-            item: muscle.name,
+            item: setting.name,
             children: children,
             order: idx,
           };
-          await this.db.saveCollectionDocument(this.setting, newMuscle);
+          await this.db.saveCollectionDocument(this.setting, newSetting);
 
           idx++;
         }
       }
 
-      this.savingMuscles = false;
+      this.saving = false;
     }
   }
 
