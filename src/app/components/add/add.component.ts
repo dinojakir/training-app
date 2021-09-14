@@ -61,6 +61,7 @@ export class AddComponent implements OnInit {
   errorStateMatcher = new CustomErrorStateMatcher();
 
   loading: boolean = false;
+  saving: boolean = false;
 
   constructor(
     private db: DbService,
@@ -216,7 +217,7 @@ export class AddComponent implements OnInit {
       return;
     }
 
-    this.loading = true;
+    this.saving = true;
 
     if (!this.editMode) {
       this.exercise.id = uuidv4();
@@ -243,7 +244,7 @@ export class AddComponent implements OnInit {
 
     await this.db.saveCollectionDocument("Exercises", this.exercise);
 
-    this.loading = false;
+    this.saving = false;
 
     this.router.navigate(["pocetna"]);
   }

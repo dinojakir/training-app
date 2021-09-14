@@ -15,8 +15,9 @@ export class ConfigComponent implements OnInit {
 
   @Input() setting: string = "";
 
-  isLoadIndicatorVisible: boolean = false;
   settings: any[] = [];
+
+  loading: boolean = false;
   saving: boolean = false;
 
   constructor(private db: DbService) {
@@ -24,7 +25,7 @@ export class ConfigComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.isLoadIndicatorVisible = true;
+    this.loading = true;
 
     const settings: any[] = (
       await this.db.getCollectionDocuments(this.setting)
@@ -41,7 +42,7 @@ export class ConfigComponent implements OnInit {
     });
 
     this.settings = data;
-    this.isLoadIndicatorVisible = false;
+    this.loading = false;
   }
 
   onReorder(e: any): void {

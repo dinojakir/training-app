@@ -1,5 +1,8 @@
 <div class="add-container">
-  <form [formGroup]="exerciseForm" (submit)="submit()">
+  <div *ngIf="loading" class="load-container">
+    <mat-spinner [diameter]="30"> </mat-spinner>
+  </div>
+  <form *ngIf="!loading" [formGroup]="exerciseForm" (submit)="submit()">
     <div>
       <div class="add-row">
         <div class="margin-column">
@@ -206,7 +209,7 @@
       </div>
     </div>
 
-    <ng-container *ngIf="loading">
+    <ng-container *ngIf="saving">
       <div class="load-container">
         <mat-spinner [diameter]="30"> </mat-spinner>
       </div>
