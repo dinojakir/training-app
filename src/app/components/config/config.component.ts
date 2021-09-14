@@ -1,4 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import { DxTreeListComponent } from "devextreme-angular";
 import { DbService } from "src/app/services/auth/db.service";
 import { v4 as uuidv4 } from "uuid";
 
@@ -8,14 +15,24 @@ import { v4 as uuidv4 } from "uuid";
   styleUrls: ["./config.component.scss"],
 })
 export class ConfigComponent implements OnInit {
+  @ViewChild(DxTreeListComponent, { static: false }) treeList:
+    | DxTreeListComponent
+    | undefined;
+
   muscles: any[] = [];
   savingMuscles: boolean = false;
+  windowWidth: number | undefined;
 
-  constructor(private db: DbService) {
+  get treeListWidth(): string {
+    return !this.windowWidth || this.windowWidth < 1200 ? "95%" : "80%";
+  }
+
+  constructor(private cdRef: ChangeDetectorRef, private db: DbService) {
     this.onReorder = this.onReorder.bind(this);
   }
 
   async ngOnInit(): Promise<void> {
+    this.windowWidth = window.innerWidth;
     const muscles: any[] = await (
       await this.db.getCollectionDocuments("Muscles")
     ).sort((a: any, b: any) => a.order - b.order);
@@ -32,6 +49,14 @@ export class ConfigComponent implements OnInit {
     });
 
     this.muscles = data;
+  }
+
+  @HostListener("window:resize", ["$event"])
+  onResize(event: any): void {
+    this.windowWidth = window.innerWidth;
+    this.cdRef.detectChanges();
+    this.renderTreeList(event.target.innerWidth);
+    console.log(window.innerWidth, event.target.innerWidth);
   }
 
   onReorder(e: any): void {
@@ -97,5 +122,11 @@ export class ConfigComponent implements OnInit {
     return rowData.parent
       ? `${rowData.parent}-${rowData.name}`
       : `${rowData.name}`;
+  }
+
+  renderTreeList(width: any): void {
+    if (this.treeList) {
+      this.treeList.instance.updateDimensions();
+    }
   }
 }
