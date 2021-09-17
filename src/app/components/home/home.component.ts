@@ -30,10 +30,7 @@ import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation
 })
 export class HomeComponent implements OnInit {
   exercises: Exercise[] = [];
-  data: any[] = [];
-  displayedColumns: string[] = ["name", "type", "edit", "delete"];
-  expandedElement: any;
-  isLoadIndicatorVisible: boolean = false;
+  loading: boolean = false;
 
   constructor(
     private db: DbService,
@@ -43,27 +40,19 @@ export class HomeComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.isLoadIndicatorVisible = true;
-    this.exercises = await this.db.getCollectionDocuments("Exercises");
-    this.isLoadIndicatorVisible = false;
+    this.loading = true;
+    const muscles: any[] = await this.db.getCollectionDocuments("Muscles");
+    const exercises: any[] = await this.db.getCollectionDocuments("Exercises");
+    exercises.sort((a, b) => {
+      const aMuscle: any = muscles.find((i) => i.item === a.muscle);
+      const bMuscle: any = muscles.find((i) => i.item === b.muscle);
 
-    const groups: string[] = [];
-    this.exercises.forEach((i) => {
-      if (groups.findIndex((j) => j === i.muscle) < 0) {
-        groups.push(i.muscle);
-      }
+      return aMuscle.order - bMuscle.order;
     });
 
-    const data: any[] = [];
-    groups.forEach((group) => {
-      data.push({ group: group, isGroupBy: true });
-      const filtered: Exercise[] = this.exercises.filter(
-        (i) => i.muscle === group
-      );
-      filtered.forEach((j) => data.push(j));
-    });
+    this.exercises = exercises;
 
-    this.data = data;
+    this.loading = false;
   }
 
   onEdit(exercise: Exercise): void {
@@ -90,13 +79,5 @@ export class HomeComponent implements OnInit {
         this.exercises = this.exercises.filter((i) => i.id !== exercise.id);
       }
     });
-  }
-
-  isGroup(index: any, item: any): boolean {
-    return item.isGroupBy;
-  }
-
-  isElement(index: any, item: any): boolean {
-    return !item.isGroupBy;
   }
 }

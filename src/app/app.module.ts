@@ -63,6 +63,7 @@ import { SignInComponent } from "./components/sign-in/sign-in.component";
 import { AuthService } from "./services/auth/auth.service";
 import {
   DxContextMenuModule,
+  DxDataGridModule,
   DxLoadIndicatorModule,
   DxLoadPanelModule,
   DxTreeListModule,
@@ -135,6 +136,7 @@ import { ConfigComponent } from "./components/config/config.component";
     PortalModule,
     ScrollingModule,
     DxContextMenuModule,
+    DxDataGridModule,
     DxLoadIndicatorModule,
     DxLoadPanelModule,
     DxTreeListModule,
