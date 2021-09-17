@@ -18,8 +18,12 @@
         caption="Mišić"
         dataType="string"
         [groupIndex]="0"
+        groupCellTemplate="groupCellTemplate"
       >
       </dxi-column>
+      <div *dxTemplate="let data of 'groupCellTemplate'" class="group-header">
+        {{ data.displayValue }}
+      </div>
     </dx-data-grid>
   </div>
 </div>
