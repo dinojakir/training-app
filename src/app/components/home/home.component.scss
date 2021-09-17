@@ -1,6 +1,5 @@
 @media only screen and (max-width: 350px) {
   dx-data-grid {
-    font-size: 12px;
     margin: auto;
     width: 95%;
   }
@@ -36,6 +35,14 @@
 
 dx-data-grid {
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 12px;
+}
+
+.header {
+  color: #9f9f9f;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .group-header {

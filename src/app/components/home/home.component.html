@@ -11,7 +11,12 @@
       [wordWrapEnabled]="true"
     >
       <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
-      <dxi-column dataField="name" caption="Naziv vježbe" dataType="string">
+      <dxi-column
+        dataField="name"
+        caption="Naziv vježbe"
+        dataType="string"
+        headerCellTemplate="headerCellTemplate"
+      >
       </dxi-column>
       <dxi-column
         dataField="muscle"
@@ -21,6 +26,9 @@
         groupCellTemplate="groupCellTemplate"
       >
       </dxi-column>
+      <div *dxTemplate="let data of 'headerCellTemplate'" class="header">
+        {{ data.column.caption }}
+      </div>
       <div *dxTemplate="let data of 'groupCellTemplate'" class="group-header">
         {{ data.displayValue }}
       </div>
