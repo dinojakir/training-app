@@ -38,7 +38,7 @@
       <div *dxTemplate="let data of 'editCellTemplate'">
         <dx-button icon="edit" class="btn-margin" (click)="onEdit(data.data)">
         </dx-button>
-        <dx-button icon="remove"></dx-button>
+        <dx-button icon="remove" (click)="onDelete(data.data)"></dx-button>
       </div>
     </dx-data-grid>
   </div>
