@@ -62,6 +62,7 @@ import { environment } from "../environments/environment";
 import { SignInComponent } from "./components/sign-in/sign-in.component";
 import { AuthService } from "./services/auth/auth.service";
 import {
+  DxButtonModule,
   DxContextMenuModule,
   DxDataGridModule,
   DxLoadIndicatorModule,
@@ -135,6 +136,7 @@ import { ConfigComponent } from "./components/config/config.component";
     OverlayModule,
     PortalModule,
     ScrollingModule,
+    DxButtonModule,
     DxContextMenuModule,
     DxDataGridModule,
     DxLoadIndicatorModule,

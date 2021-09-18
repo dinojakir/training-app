@@ -7,6 +7,7 @@
       id="exercises"
       [dataSource]="exercises"
       [showBorders]="false"
+      [showColumnLines]="false"
       [showRowLines]="false"
       [wordWrapEnabled]="true"
     >
@@ -19,18 +20,24 @@
       >
       </dxi-column>
       <dxi-column
-        dataField="muscle"
         caption="Mišić"
+        dataField="muscle"
         dataType="string"
-        [groupIndex]="0"
         groupCellTemplate="groupCellTemplate"
+        [groupIndex]="0"
       >
+      </dxi-column>
+      <dxi-column alignment="right" caption="" cellTemplate="editCellTemplate">
       </dxi-column>
       <div *dxTemplate="let data of 'headerCellTemplate'" class="header">
         {{ data.column.caption }}
       </div>
       <div *dxTemplate="let data of 'groupCellTemplate'" class="group-header">
         {{ data.displayValue }}
+      </div>
+      <div *dxTemplate="let data of 'editCellTemplate'">
+        <dx-button icon="edit" class="btn-margin"></dx-button>
+        <dx-button icon="remove"></dx-button>
       </div>
     </dx-data-grid>
   </div>

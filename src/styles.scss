@@ -9,3 +9,11 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.dx-button .dx-button-content {
+  padding: 4px !important;
+
+  .dx-icon {
+    font-size: 12px;
+  }
+}
