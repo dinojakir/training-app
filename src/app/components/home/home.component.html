@@ -36,7 +36,8 @@
         {{ data.displayValue }}
       </div>
       <div *dxTemplate="let data of 'editCellTemplate'">
-        <dx-button icon="edit" class="btn-margin"></dx-button>
+        <dx-button icon="edit" class="btn-margin" (click)="onEdit(data.data)">
+        </dx-button>
         <dx-button icon="remove"></dx-button>
       </div>
     </dx-data-grid>

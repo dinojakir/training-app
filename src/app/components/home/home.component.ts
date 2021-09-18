@@ -56,6 +56,7 @@ export class HomeComponent implements OnInit {
   }
 
   onEdit(exercise: Exercise): void {
+    console.log(exercise);
     this.router.navigate(["/vjezba"], { state: { data: exercise } });
   }
 
