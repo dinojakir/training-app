@@ -67,3 +67,20 @@ dx-data-grid {
 .btn-margin {
   margin-right: 2px;
 }
+
+.label {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.dx-datagrid-rowsview
+  .dx-master-detail-row:not(.dx-datagrid-edit-form)
+  .dx-master-detail-cell {
+  background-color: white;
+}
+
+.dx-datagrid-rowsview
+  .dx-master-detail-row:not(.dx-datagrid-edit-form)
+  .dx-master-detail-cell {
+  border-top: none;
+}

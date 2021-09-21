@@ -29,6 +29,7 @@
       </dxi-column>
       <dxi-column alignment="right" caption="" cellTemplate="editCellTemplate">
       </dxi-column>
+      <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
       <div *dxTemplate="let data of 'headerCellTemplate'" class="header">
         {{ data.column.caption }}
       </div>
@@ -39,6 +40,10 @@
         <dx-button icon="edit" class="btn-margin" (click)="onEdit(data.data)">
         </dx-button>
         <dx-button icon="remove" (click)="onDelete(data.data)"></dx-button>
+      </div>
+      <div *dxTemplate="let exercise of 'detail'">
+        <div class="label">Komentar</div>
+        <div>{{ exercise.data.comment }}</div>
       </div>
     </dx-data-grid>
   </div>
