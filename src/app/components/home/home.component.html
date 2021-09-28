@@ -41,9 +41,17 @@
         </dx-button>
         <dx-button icon="remove" (click)="onDelete(data.data)"></dx-button>
       </div>
-      <div *dxTemplate="let exercise of 'detail'">
-        <div class="label">Komentar</div>
-        <div>{{ exercise.data.comment }}</div>
+      <div *dxTemplate="let exercise of 'detail'" class="detail-container">
+        <div class="detail">
+          <div class="label">Tip</div>
+          <div>
+            {{ exercise.data.type === "isolated" ? "Izolirana" : "Kompleksna" }}
+          </div>
+        </div>
+        <div class="detail">
+          <div class="label">Komentar</div>
+          <div>{{ exercise.data.comment }}</div>
+        </div>
       </div>
     </dx-data-grid>
   </div>

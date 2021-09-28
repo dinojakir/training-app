@@ -84,3 +84,9 @@ dx-data-grid {
   .dx-master-detail-cell {
   border-top: none;
 }
+
+.detail-container {
+  .detail:not(:last-of-type) {
+    margin-bottom: 10px;
+  }
+}
