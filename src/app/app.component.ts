@@ -26,6 +26,7 @@ export class AppComponent {
       { name: "Pregled", link: "/pocetna", icon: "dx-icon-bulletlist" },
       { name: "Nova vježba", link: "/vjezba", icon: "dx-icon-plus" },
       { name: "Postavke", link: "/postavke", icon: "dx-icon-preferences" },
+      { name: "Poruke", link: "/poruke", icon: "dx-icon-message" },
     ];
 
     router.events.subscribe((event) => {
