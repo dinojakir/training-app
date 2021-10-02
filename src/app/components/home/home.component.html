@@ -41,16 +41,35 @@
         </dx-button>
         <dx-button icon="remove" (click)="onDelete(data.data)"></dx-button>
       </div>
-      <div *dxTemplate="let exercise of 'detail'" class="detail-container">
+      <div *dxTemplate="let row of 'detail'" class="detail-container">
         <div class="detail">
           <div class="label">Tip</div>
           <div>
-            {{ exercise.data.type === "isolated" ? "Izolirana" : "Kompleksna" }}
+            {{ row.data.type === "isolated" ? "Izolirana" : "Kompleksna" }}
           </div>
         </div>
         <div class="detail">
           <div class="label">Komentar</div>
-          <div>{{ exercise.data.comment }}</div>
+          <ng-container *ngIf="row.data.comment">
+            {{ row.data.comment }}
+          </ng-container>
+          <ng-container *ngIf="!row.data.comment">
+            <div class="empty">-</div>
+          </ng-container>
+        </div>
+        <div class="detail">
+          <div class="label">Video</div>
+          <ng-container *ngIf="row.data.video">
+            <video
+              controls
+              height="200"
+              width="300"
+              [src]="row.data.video"
+            ></video>
+          </ng-container>
+          <ng-container *ngIf="!row.data.video">
+            <div class="empty">-</div>
+          </ng-container>
         </div>
       </div>
     </dx-data-grid>

@@ -51,6 +51,7 @@ export class HomeComponent implements OnInit {
     });
 
     this.exercises = exercises;
+    console.log(this.exercises);
 
     this.loading = false;
   }
@@ -61,6 +62,11 @@ export class HomeComponent implements OnInit {
 
   async onDelete(exercise: Exercise): Promise<void> {
     this.openDialog(exercise);
+  }
+
+  getSource(exercise: Exercise): string | undefined {
+    console.log(exercise);
+    return exercise.video;
   }
 
   openDialog(exercise: Exercise): void {
