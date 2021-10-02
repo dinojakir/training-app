@@ -57,6 +57,8 @@ export class AddComponent implements OnInit {
   trainersFormControl = new FormControl("", []);
   subtrainersFormControl = new FormControl("", []);
   exerciseForm: FormGroup;
+  selectedMuscles: any;
+  treeBoxValue: string[] = [];
 
   errorStateMatcher = new CustomErrorStateMatcher();
 
@@ -84,6 +86,7 @@ export class AddComponent implements OnInit {
     this.muscles = (await this.db.getCollectionDocuments("Muscles")).sort(
       (a: any, b: any) => a.order - b.order
     );
+    console.log(this.muscles);
     this.props = (await this.db.getCollectionDocuments("Props")).sort(
       (a: any, b: any) => a.order - b.order
     );
@@ -161,6 +164,10 @@ export class AddComponent implements OnInit {
 
   onButtonGroupChange(e: any): void {
     this.exercise.mode = { name: e.value };
+  }
+
+  onDropDownBoxValueChanged(e: any): void {
+    // tODO
   }
 
   onFileSelected(e: any): void {
@@ -247,5 +254,40 @@ export class AddComponent implements OnInit {
     this.saving = false;
 
     this.router.navigate(["pocetna"]);
+  }
+
+  onItemRendered(e: any): void {
+    console.log(e);
+    if (e.node.items.length !== 0) {
+      e.itemElement.parentNode.getElementsByClassName(
+        "dx-checkbox"
+      )[0].style.display = "none";
+    }
+  }
+
+  onTreeViewSelectionChanged(e: any): void {
+    this.treeBoxValue = e.component.getSelectedNodeKeys();
+  }
+
+  onTreeViewReady(e: any): void {
+    this.updateSelection(e.component);
+  }
+
+  updateSelection(treeView: any): void {
+    if (!treeView) {
+      return;
+    }
+
+    if (!this.treeBoxValue) {
+      treeView.unselectAll();
+    }
+
+    if (this.treeBoxValue) {
+      this.treeBoxValue.forEach(
+        function (value: any): void {
+          treeView.selectItem(value);
+        }.bind(this)
+      );
+    }
   }
 }

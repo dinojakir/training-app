@@ -65,13 +65,15 @@ import {
   DxButtonModule,
   DxContextMenuModule,
   DxDataGridModule,
+  DxDropDownBoxModule,
   DxLoadIndicatorModule,
   DxLoadPanelModule,
   DxTreeListModule,
+  DxTreeViewModule,
 } from "devextreme-angular";
 import { ConfirmationDialogComponent } from "./components/confirmation-dialog/confirmation-dialog.component";
 import { ConfigComponent } from "./components/config/config.component";
-import { MessagesComponent } from './components/messages/messages.component';
+import { MessagesComponent } from "./components/messages/messages.component";
 
 @NgModule({
   declarations: [
@@ -141,9 +143,11 @@ import { MessagesComponent } from './components/messages/messages.component';
     DxButtonModule,
     DxContextMenuModule,
     DxDataGridModule,
+    DxDropDownBoxModule,
     DxLoadIndicatorModule,
     DxLoadPanelModule,
     DxTreeListModule,
+    DxTreeViewModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],

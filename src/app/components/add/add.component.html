@@ -67,6 +67,40 @@
       </div>
       <div class="add-row">
         <div class="margin-column">
+          <mat-label>Mišić</mat-label>
+          <dx-drop-down-box
+            [(value)]="treeBoxValue"
+            valueExpr="id"
+            displayExpr="item"
+            placeholder="..."
+            [showClearButton]="true"
+            [dataSource]="muscles"
+            width="350px"
+            (onValueChanged)="onDropDownBoxValueChanged($event)"
+          >
+            <div *dxTemplate="let data of 'content'">
+              <dx-tree-view
+                id="treeview"
+                [items]="muscles"
+                itemsExpr="children"
+                showCheckBoxesMode="normal"
+                selectionMode="multiple"
+                [selectNodesRecursive]="false"
+                [selectByClick]="true"
+                (onItemRendered)="onItemRendered($event)"
+                (onItemSelectionChanged)="onTreeViewSelectionChanged($event)"
+                (onContentReady)="onTreeViewReady($event)"
+              >
+                <div *dxTemplate="let item of 'item'">
+                  {{ item.item }}
+                </div>
+              </dx-tree-view>
+            </div>
+          </dx-drop-down-box>
+        </div>
+      </div>
+      <div class="add-row">
+        <div class="margin-column">
           <mat-button-toggle-group
             aria-label="mode"
             name="mode"
