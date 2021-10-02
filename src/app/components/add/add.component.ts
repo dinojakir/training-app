@@ -115,6 +115,8 @@ export class AddComponent implements OnInit {
         }
       }
       this.edit.submuscle = exercise.submuscle;
+      this.edit.muscles = exercise.muscles;
+      this.treeBoxValue = exercise.muscles;
       this.edit.video = exercise.video;
       this.edit.mode = exercise.mode;
       this.edit.comment = exercise.comment;
@@ -229,6 +231,7 @@ export class AddComponent implements OnInit {
     if (!this.editMode) {
       this.exercise.id = uuidv4();
     }
+    this.exercise.muscles = this.treeBoxValue;
 
     if (this.file && this.file.name) {
       const filePath: string = `Videos/${this.file.name}`;

@@ -11,4 +11,5 @@ export class Exercise implements IDocument {
     name: "",
   };
   video?: string = "";
+  muscles?: any;
 }
