@@ -87,7 +87,7 @@ export class ConfigComponent implements OnInit {
           );
           if (children.length > 0) {
             children = children.map((i, index) => {
-              return { item: i.name, order: index };
+              return { item: i.name, order: index, id: uuidv4(), parent: id };
             });
           }
           const newSetting: any = {

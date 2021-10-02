@@ -1,3 +1,4 @@
+import { isNgTemplate } from "@angular/compiler";
 import { Component, OnInit } from "@angular/core";
 import {
   AngularFireStorage,
@@ -86,7 +87,6 @@ export class AddComponent implements OnInit {
     this.muscles = (await this.db.getCollectionDocuments("Muscles")).sort(
       (a: any, b: any) => a.order - b.order
     );
-    console.log(this.muscles);
     this.props = (await this.db.getCollectionDocuments("Props")).sort(
       (a: any, b: any) => a.order - b.order
     );
@@ -257,16 +257,42 @@ export class AddComponent implements OnInit {
   }
 
   onItemRendered(e: any): void {
-    console.log(e);
     if (e.node.items.length !== 0) {
       e.itemElement.parentNode.getElementsByClassName(
         "dx-checkbox"
-      )[0].style.display = "none";
+      )[0].style.visibility = "hidden";
     }
   }
 
   onTreeViewSelectionChanged(e: any): void {
     this.treeBoxValue = e.component.getSelectedNodeKeys();
+    if (e.itemData.hasOwnProperty("parent")) {
+      const item: any = e.itemData;
+      const parent: any = item.parent;
+      if (e.itemData.selected) {
+        if (this.treeBoxValue.findIndex((i) => i === parent) < 0) {
+          e.component.selectItem(parent);
+        }
+      } else {
+        const children: any = this.muscles.find(
+          (i) => i.id === parent
+        ).children;
+
+        let found: boolean = false;
+        for (const child of children) {
+          if (child.id !== item.id) {
+            if (this.treeBoxValue.findIndex((j) => j === child.id) >= 0) {
+              found = true;
+              break;
+            }
+          }
+        }
+
+        if (!found) {
+          e.component.unselectItem(parent);
+        }
+      }
+    }
   }
 
   onTreeViewReady(e: any): void {
