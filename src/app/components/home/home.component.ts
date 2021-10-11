@@ -44,6 +44,13 @@ export class HomeComponent implements OnInit {
     const muscles: any[] = await this.db.getCollectionDocuments("Muscles");
     const exercises: any[] = await this.db.getCollectionDocuments("Exercises");
 
+    exercises.sort((a, b) => {
+      const aMuscle: any = muscles.find((i) => i.item === a.muscles[0]);
+      const bMuscle: any = muscles.find((i) => i.item === b.muscles[0]);
+
+      return aMuscle.order - bMuscle.order;
+    });
+
     this.exercises = exercises;
 
     this.loading = false;
