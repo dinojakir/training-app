@@ -86,7 +86,13 @@
       <dxi-item
         dataField="Grupa"
         editorType="dxSelectBox"
-        [editorOptions]="{ items: items, searchEnabled: true, value: '' }"
+        [editorOptions]="{
+          items: items,
+          searchEnabled: true,
+          value: '',
+          placeholder: '',
+          noDataText: 'Nije pronađeno'
+        }"
       >
       </dxi-item>
     </dx-form>
