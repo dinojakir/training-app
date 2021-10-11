@@ -34,39 +34,6 @@
       </div>
       <div class="add-row">
         <div class="margin-column">
-          <mat-form-field appearance="fill">
-            <mat-label>Mišić</mat-label>
-            <mat-select
-              [(ngModel)]="exercise.muscle"
-              [ngModelOptions]="{ standalone: true }"
-              (selectionChange)="onSelectMuscle($event)"
-            >
-              <mat-option *ngFor="let muscle of muscles" [value]="muscle.item">
-                {{ muscle.item }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="add-column margin-column">
-          <mat-form-field appearance="fill">
-            <mat-label>Podmišić</mat-label>
-            <mat-select
-              [disabled]="!submuscles || submuscles.length === 0"
-              [(ngModel)]="exercise.submuscle"
-              [ngModelOptions]="{ standalone: true }"
-            >
-              <mat-option
-                *ngFor="let submuscle of submuscles"
-                [value]="submuscle.item"
-              >
-                {{ submuscle.item }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="add-row">
-        <div class="margin-column">
           <mat-label>Mišić</mat-label>
           <dx-drop-down-box
             [(value)]="treeBoxValue"
@@ -75,7 +42,6 @@
             placeholder="..."
             [dataSource]="muscles"
             width="350px"
-            (onValueChanged)="onDropDownBoxValueChanged($event)"
           >
             <div *dxTemplate="let data of 'content'">
               <dx-tree-view

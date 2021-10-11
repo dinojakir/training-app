@@ -1,4 +1,3 @@
-import { isNgTemplate } from "@angular/compiler";
 import { Component, OnInit } from "@angular/core";
 import {
   AngularFireStorage,
@@ -103,20 +102,13 @@ export class AddComponent implements OnInit {
       this.edit.name = exercise.name;
       this.nameFormControl.setValue(exercise.name);
       this.edit.type = exercise.type;
-      this.edit.muscle = exercise.muscle;
-      if (this.edit && this.edit.muscle) {
-        const muscle: any = this.muscles.find(
-          (i) => i.item === this.edit?.muscle
-        );
-        if (muscle.children) {
-          this.submuscles = muscle.children;
-        } else {
-          this.submuscles = [];
-        }
-      }
-      this.edit.submuscle = exercise.submuscle;
       this.edit.muscles = exercise.muscles;
-      this.treeBoxValue = exercise.muscles;
+      const temp: any[] = [];
+      exercise.muscles.forEach((i: any) => {
+        const muscle: any = this.muscles.find((j) => j.item === i);
+        temp.push(muscle.id);
+      });
+      this.treeBoxValue = temp;
       this.edit.video = exercise.video;
       this.edit.mode = exercise.mode;
       this.edit.comment = exercise.comment;
@@ -168,25 +160,12 @@ export class AddComponent implements OnInit {
     this.exercise.mode = { name: e.value };
   }
 
-  onDropDownBoxValueChanged(e: any): void {
-    // tODO
-  }
-
   onFileSelected(e: any): void {
     this.file = e.target.files[0];
   }
 
   onNameChanged(e: any): void {
     this.exercise.name = e.target.value;
-  }
-
-  onSelectMuscle(e: any): void {
-    const muscle: any = this.muscles.find((i) => i.item === e.value);
-    if (muscle.children) {
-      this.submuscles = muscle.children;
-    } else {
-      this.submuscles = [];
-    }
   }
 
   onSelectProp(e: any): void {
@@ -231,7 +210,13 @@ export class AddComponent implements OnInit {
     if (!this.editMode) {
       this.exercise.id = uuidv4();
     }
-    this.exercise.muscles = this.treeBoxValue;
+
+    const temp: any[] = [];
+    this.treeBoxValue.forEach((i) => {
+      const muscle: any = this.muscles.find((j: any) => j.id === i);
+      temp.push(muscle.item);
+    });
+    this.exercise.muscles = temp;
 
     if (this.file && this.file.name) {
       const filePath: string = `Videos/${this.file.name}`;

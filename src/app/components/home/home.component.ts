@@ -43,15 +43,8 @@ export class HomeComponent implements OnInit {
     this.loading = true;
     const muscles: any[] = await this.db.getCollectionDocuments("Muscles");
     const exercises: any[] = await this.db.getCollectionDocuments("Exercises");
-    exercises.sort((a, b) => {
-      const aMuscle: any = muscles.find((i) => i.item === a.muscle);
-      const bMuscle: any = muscles.find((i) => i.item === b.muscle);
-
-      return aMuscle.order - bMuscle.order;
-    });
 
     this.exercises = exercises;
-    console.log(this.exercises);
 
     this.loading = false;
   }
@@ -65,7 +58,6 @@ export class HomeComponent implements OnInit {
   }
 
   getSource(exercise: Exercise): string | undefined {
-    console.log(exercise);
     return exercise.video;
   }
 
