@@ -52,3 +52,43 @@
     </ng-container>
   </div>
 </div>
+
+<dx-popup
+  [width]="300"
+  [height]="280"
+  [showTitle]="true"
+  [title]="title"
+  [dragEnabled]="false"
+  [closeOnOutsideClick]="false"
+  [showCloseButton]="false"
+  [(visible)]="popupVisible"
+>
+  <dxi-toolbar-item
+    widget="dxButton"
+    toolbar="bottom"
+    location="before"
+    [options]="addButtonOptions"
+  >
+  </dxi-toolbar-item>
+  <dxi-toolbar-item
+    widget="dxButton"
+    toolbar="bottom"
+    location="after"
+    [options]="closeButtonOptions"
+  >
+  </dxi-toolbar-item>
+  <div *dxTemplate="let data of 'content'">
+    <dx-form id="form" [(formData)]="newItem" [showColonAfterLabel]="true">
+      <dxi-item dataField="Naziv">
+        <dxi-validation-rule type="required" message="Naziv je obvezan">
+        </dxi-validation-rule>
+      </dxi-item>
+      <dxi-item
+        dataField="Grupa"
+        editorType="dxSelectBox"
+        [editorOptions]="{ items: items, searchEnabled: true, value: '' }"
+      >
+      </dxi-item>
+    </dx-form>
+  </div>
+</dx-popup>

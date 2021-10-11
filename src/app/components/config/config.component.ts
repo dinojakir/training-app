@@ -1,7 +1,12 @@
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
-import { DxTreeListComponent } from "devextreme-angular";
+import { DxFormComponent, DxTreeListComponent } from "devextreme-angular";
 import { DbService } from "src/app/services/auth/db.service";
 import { v4 as uuidv4 } from "uuid";
+
+class NewItem {
+  Naziv: string = "";
+  Grupa: string = "";
+}
 
 @Component({
   selector: "app-config",
@@ -12,20 +17,65 @@ export class ConfigComponent implements OnInit {
   @ViewChild(DxTreeListComponent, { static: false }) treeList:
     | DxTreeListComponent
     | undefined;
+  @ViewChild(DxFormComponent, { static: false }) form:
+    | DxFormComponent
+    | undefined;
 
   @Input() setting: string = "";
 
-  settings: any[] = [];
-
+  addButtonOptions: any;
+  closeButtonOptions: any;
   loading: boolean = false;
+  newItem: NewItem = new NewItem();
+  items: any[] = [];
+  popupVisible: boolean = false;
   saving: boolean = false;
+  settings: any[] = [];
+  title: string = "";
 
   constructor(private db: DbService) {
+    const _this: any = this;
     this.onReorder = this.onReorder.bind(this);
+
+    this.addButtonOptions = {
+      icon: "check",
+      text: "Dodaj",
+      onClick: function (): void {
+        if (_this.form) {
+          const validationStatus: any = _this.form.instance.validate();
+          if (validationStatus.isValid) {
+            _this.settings.push({
+              name: _this.newItem.Naziv,
+              parent: _this.newItem.Grupa || null,
+            });
+            _this.popupVisible = false;
+          }
+        }
+      },
+    };
+    this.closeButtonOptions = {
+      icon: "close",
+      text: "Odustani",
+      onClick: function (): void {
+        _this.popupVisible = false;
+      },
+    };
   }
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
+
+    switch (this.setting) {
+      case "Muscles":
+        this.title = "Mišić";
+        break;
+      case "Props":
+        this.title = "Rekvizit";
+        break;
+      case "Trainers":
+        this.title = "Trenažer";
+        break;
+    }
 
     const settings: any[] = (
       await this.db.getCollectionDocuments(this.setting)
@@ -41,6 +91,7 @@ export class ConfigComponent implements OnInit {
       }
     });
 
+    this.items = data.filter((i) => i.parent === null).map((j) => j.name);
     this.settings = data;
     this.loading = false;
   }
@@ -67,14 +118,15 @@ export class ConfigComponent implements OnInit {
 
   onToolbarPreparing(e: any): void {
     let toolbarItems: any = e.toolbarOptions.items;
+    const _this: any = this;
 
     toolbarItems.push({
       widget: "dxButton",
       options: {
         elementAttr: { id: "addBtn", class: "add-button" },
         icon: "add",
-        onClick: function () {
-          // tODO
+        onClick: function (): void {
+          _this.popupVisible = true;
         },
       },
       location: "after",
