@@ -15,6 +15,7 @@
       [columnAutoWidth]="true"
       [noDataText]="''"
       [width]="'95%'"
+      (onToolbarPreparing)="onToolbarPreparing($event)"
     >
       <dxo-row-dragging
         [onReorder]="onReorder"

@@ -65,6 +65,22 @@ export class ConfigComponent implements OnInit {
     }
   }
 
+  onToolbarPreparing(e: any): void {
+    let toolbarItems: any = e.toolbarOptions.items;
+
+    toolbarItems.push({
+      widget: "dxButton",
+      options: {
+        elementAttr: { id: "addBtn", class: "add-button" },
+        icon: "add",
+        onClick: function () {
+          // tODO
+        },
+      },
+      location: "after",
+    });
+  }
+
   async save(): Promise<void> {
     if (this.settings && this.settings.length > 0) {
       this.saving = true;
