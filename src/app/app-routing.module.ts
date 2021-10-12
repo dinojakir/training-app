@@ -5,6 +5,7 @@ import { ConfigurationComponent } from "./components/configuration/configuration
 import { HomeComponent } from "./components/home/home.component";
 import { MessagesComponent } from "./components/messages/messages.component";
 import { SignInComponent } from "./components/sign-in/sign-in.component";
+import { UsersComponent } from "./components/users/users.component";
 import { AuthGuard } from "./services/auth/auth-guard.service";
 import { SignInGuard } from "./services/auth/sign-in-guard.service";
 
@@ -22,6 +23,7 @@ const routes: Routes = [
     component: ConfigurationComponent,
     canActivate: [AuthGuard],
   },
+  { path: "korisnici", component: UsersComponent, canActivate: [AuthGuard] },
   { path: "prijava", component: SignInComponent, canActivate: [SignInGuard] },
 ];
 

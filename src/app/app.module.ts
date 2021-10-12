@@ -76,6 +76,7 @@ import {
 import { ConfirmationDialogComponent } from "./components/confirmation-dialog/confirmation-dialog.component";
 import { ConfigComponent } from "./components/config/config.component";
 import { MessagesComponent } from "./components/messages/messages.component";
+import { UsersComponent } from './components/users/users.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { MessagesComponent } from "./components/messages/messages.component";
     ConfirmationDialogComponent,
     ConfigComponent,
     MessagesComponent,
+    UsersComponent,
   ],
   imports: [
     BrowserModule,
