@@ -9,7 +9,6 @@
   }
 
   .sidebar {
-    background-color: white;
     position: absolute;
     z-index: 1000;
     left: 20px;
@@ -43,7 +42,6 @@
   }
 
   .sidebar {
-    background-color: white;
     position: absolute;
     z-index: 1000;
     left: 20px;
@@ -101,7 +99,7 @@
   }
 
   .sidebarlong {
-    padding-left: 50px;
+    padding-left: 20px;
     position: static;
     left: auto;
     top: auto;
@@ -112,6 +110,8 @@
     .menu-item {
       height: 40px;
       width: 250px;
+      margin-top: 15px;
+      margin-right: 20px;
     }
   }
 }
@@ -158,6 +158,13 @@
   flex-grow: 1;
 }
 
+.sidebarlong {
+  background-color: #303030;
+  color: white;
+  height: 100%;
+  padding-top: 200px;
+}
+
 .sidebar,
 .sidebarlong {
   .menu-item {
@@ -169,13 +176,13 @@
     display: flex;
 
     &.active {
-      background-color: #fce8e6;
-      color: #d93025;
-      font-weight: 500;
+      background-color: #ffffff;
+      color: #000000;
     }
 
     &:not(.active):hover {
-      background-color: #e8eaed;
+      background-color: #ffffff;
+      color: #000000;
     }
   }
 

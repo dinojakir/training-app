@@ -1,12 +1,4 @@
 <div class="app-container" [class.background-image]="url === '/prijava'">
-  <div class="top" *ngIf="url !== '/prijava' && authService?.user">
-    <div>
-      <span class="dx-icon-menu" (click)="expandMenu()"></span>
-    </div>
-    <div id="userBtn" class="btn-user" (click)="onUserBtnClick()">
-      {{ authService?.user?.email.substring(0, 1).toUpperCase() }}
-    </div>
-  </div>
   <div class="page-container">
     <div class="sidebar-container">
       <div
@@ -57,7 +49,17 @@
         </div>
       </div>
     </div>
-    <div class="page-content"><router-outlet></router-outlet></div>
+    <div class="page-content">
+      <div class="top" *ngIf="url !== '/prijava' && authService?.user">
+        <div>
+          <span class="dx-icon-menu" (click)="expandMenu()"></span>
+        </div>
+        <div id="userBtn" class="btn-user" (click)="onUserBtnClick()">
+          {{ authService?.user?.email.substring(0, 1).toUpperCase() }}
+        </div>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>
 
