@@ -28,6 +28,7 @@ export class AppComponent {
       { name: "Postavke", link: "/postavke", icon: "dx-icon-preferences" },
       { name: "Poruke", link: "/poruke", icon: "dx-icon-message" },
       { name: "Korisnici", link: "/korisnici", icon: "dx-icon-user" },
+      { name: "Razgovor", link: "/razgovor", icon: "dx-icon-coffee" },
     ];
 
     router.events.subscribe((event) => {

@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AddComponent } from "./components/add/add.component";
+import { ChatComponent } from "./components/chat/chat.component";
 import { ConfigurationComponent } from "./components/configuration/configuration.component";
 import { HomeComponent } from "./components/home/home.component";
 import { MessagesComponent } from "./components/messages/messages.component";
@@ -24,6 +25,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: "korisnici", component: UsersComponent, canActivate: [AuthGuard] },
+  { path: "razgovor", component: ChatComponent, canActivate: [AuthGuard] },
   { path: "prijava", component: SignInComponent, canActivate: [SignInGuard] },
 ];
 
