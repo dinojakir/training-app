@@ -72,12 +72,13 @@ import {
   DxPopupModule,
   DxTreeListModule,
   DxTreeViewModule,
+  DxTextBoxModule,
 } from "devextreme-angular";
 import { ConfirmationDialogComponent } from "./components/confirmation-dialog/confirmation-dialog.component";
 import { ConfigComponent } from "./components/config/config.component";
 import { MessagesComponent } from "./components/messages/messages.component";
-import { UsersComponent } from './components/users/users.component';
-import { ChatComponent } from './components/chat/chat.component';
+import { UsersComponent } from "./components/users/users.component";
+import { ChatComponent } from "./components/chat/chat.component";
 
 @NgModule({
   declarations: [
@@ -156,6 +157,7 @@ import { ChatComponent } from './components/chat/chat.component';
     DxTreeListModule,
     DxTreeViewModule,
     DxPopupModule,
+    DxTextBoxModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],
