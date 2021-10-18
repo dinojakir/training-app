@@ -1,5 +1,17 @@
 <div class="message-container">
   <div class="message">
-    <dx-text-box [placeholder]="'Poruka..'" [(value)]="message"></dx-text-box>
+    <dx-text-box
+      [placeholder]="'Poruka..'"
+      [(value)]="message"
+      [width]="'600px'"
+    >
+    </dx-text-box>
   </div>
+  <dx-button
+    icon="greater"
+    type="success"
+    text=""
+    (onClick)="submitClick($event)"
+  >
+  </dx-button>
 </div>

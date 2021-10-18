@@ -10,4 +10,6 @@ export class ChatComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  submitClick(e: any): void {}
 }
