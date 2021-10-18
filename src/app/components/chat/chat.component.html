@@ -4,14 +4,10 @@
       [placeholder]="'Poruka..'"
       [(value)]="message"
       [width]="'600px'"
+      (onEnterKey)="submit()"
     >
     </dx-text-box>
   </div>
-  <dx-button
-    icon="greater"
-    type="success"
-    text=""
-    (onClick)="submitClick($event)"
-  >
+  <dx-button icon="greater" type="success" text="" (onClick)="submit()">
   </dx-button>
 </div>

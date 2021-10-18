@@ -11,5 +11,10 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  submitClick(e: any): void {}
+  submit(): void {
+    if (this.message) {
+      console.log(this.message);
+      this.message = "";
+    }
+  }
 }
