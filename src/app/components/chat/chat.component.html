@@ -11,3 +11,16 @@
   <dx-button icon="greater" type="success" text="" (onClick)="submit()">
   </dx-button>
 </div>
+
+<div class="display-container">
+  <div *ngFor="let m of messages">
+    <div>
+      <span class="btn-user">
+        {{ m.user }}
+      </span>
+      <span class="date">{{ m.dateString }}</span>
+    </div>
+
+    <div class="display-message">{{ m.message }}</div>
+  </div>
+</div>
