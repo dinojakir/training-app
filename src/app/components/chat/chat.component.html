@@ -8,8 +8,30 @@
     >
     </dx-text-box>
   </div>
-  <dx-button icon="greater" type="success" text="" (onClick)="submit()">
+  <dx-button
+    [elementAttr]="{ class: 'iconBtn' }"
+    icon="greater"
+    type="success"
+    text=""
+    (onClick)="submit()"
+  >
   </dx-button>
+  <dx-button
+    [elementAttr]="{ class: 'iconBtn' }"
+    icon="image"
+    type="success"
+    stylingMode="outlined"
+    text=""
+    (onClick)="fileInput.click()"
+  >
+  </dx-button>
+  <input
+    #fileInput
+    id="file"
+    hidden
+    type="file"
+    (change)="onFileSelected($event)"
+  />
 </div>
 
 <div class="display-container">
@@ -21,6 +43,13 @@
       <span class="date">{{ m.dateString }}</span>
     </div>
 
-    <div class="display-message">{{ m.message }}</div>
+    <div *ngIf="m.message" class="display-message">{{ m.message }}</div>
+    <img
+      *ngIf="m.image"
+      class="display-message"
+      [src]="m.image"
+      height="200"
+      width="300"
+    />
   </div>
 </div>

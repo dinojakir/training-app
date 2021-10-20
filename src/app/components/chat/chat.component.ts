@@ -1,5 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
+import {
+  AngularFireStorage,
+  AngularFireStorageReference,
+  AngularFireUploadTask,
+} from "@angular/fire/storage";
+
 import { AuthService } from "src/app/services/auth/auth.service";
 import { DbService } from "src/app/services/auth/db.service";
 
@@ -9,13 +15,16 @@ import { DbService } from "src/app/services/auth/db.service";
   styleUrls: ["./chat.component.scss"],
 })
 export class ChatComponent implements OnInit {
+  file: any;
   message: string = "";
   messages: any[] = [];
+  uploadPercent: number | undefined;
 
   constructor(
     public authService: AuthService,
     private db: DbService,
-    public fireStore: AngularFirestore
+    public fireStore: AngularFirestore,
+    private storage: AngularFireStorage
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -35,20 +44,44 @@ export class ChatComponent implements OnInit {
 
   async submit(): Promise<void> {
     if (this.message) {
-      console.log(this.message);
       const user: string = this.authService?.user?.email
         .substring(0, 1)
         .toUpperCase();
       const date: any = Date.now();
-      const message: any = {
+      const messageDto: any = {
         user: user,
-        message: this.message,
+        image: null,
+        message: null,
         date: date,
         dateString: new Date(date).toUTCString(),
       };
-      await this.db.saveCollectionDocument("Messages", message);
+      if (this.file && this.file.name === this.message) {
+        const filePath: string = `Chats/${this.file.name}`;
+        const fileRef: AngularFireStorageReference = this.storage.ref(filePath);
+
+        const task: AngularFireUploadTask = this.storage.upload(
+          filePath,
+          this.file
+        );
+        task.percentageChanges().subscribe((value) => {
+          this.uploadPercent = value;
+        });
+        await task;
+        const url: any = await fileRef.getDownloadURL().toPromise();
+
+        messageDto.image = url;
+      } else {
+        messageDto.message = this.message;
+      }
+
+      await this.db.saveCollectionDocument("Messages", messageDto);
 
       this.message = "";
     }
+  }
+
+  onFileSelected(e: any): void {
+    this.file = e.target.files[0];
+    this.message = this.file.name;
   }
 }
