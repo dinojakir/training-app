@@ -29,7 +29,7 @@ export class ChatComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.messages = (await this.db.getCollectionDocuments("Messages")).sort(
-      (a, b) => (a.date - b.date <= 0 ? -1 : 1)
+      (a, b) => (b.date - a.date <= 0 ? -1 : 1)
     );
 
     this.fireStore
@@ -37,7 +37,7 @@ export class ChatComponent implements OnInit {
       .snapshotChanges(["added", "removed", "modified"])
       .subscribe(async () => {
         this.messages = (await this.db.getCollectionDocuments("Messages")).sort(
-          (a, b) => (a.date - b.date <= 0 ? -1 : 1)
+          (a, b) => (b.date - a.date <= 0 ? -1 : 1)
         );
       });
   }
