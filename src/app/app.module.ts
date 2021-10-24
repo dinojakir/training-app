@@ -73,6 +73,7 @@ import {
   DxTreeListModule,
   DxTreeViewModule,
   DxTextBoxModule,
+  DxTextAreaModule,
 } from "devextreme-angular";
 import { ConfirmationDialogComponent } from "./components/confirmation-dialog/confirmation-dialog.component";
 import { ConfigComponent } from "./components/config/config.component";
@@ -154,6 +155,7 @@ import { ChatComponent } from "./components/chat/chat.component";
     DxFormModule,
     DxLoadIndicatorModule,
     DxLoadPanelModule,
+    DxTextAreaModule,
     DxTreeListModule,
     DxTreeViewModule,
     DxPopupModule,

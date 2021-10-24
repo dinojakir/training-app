@@ -1,9 +1,44 @@
-<form class="container" (submit)="sendEmail($event)">
-  <label>Naslov</label>
-  <input type="text" name="title" />
-  <label>Odredišna adresa</label>
-  <input type="email" name="user_email" />
-  <label>Poruka</label>
-  <textarea name="message"></textarea>
-  <input type="submit" value="Send" />
-</form>
+<div class="message-container">
+  <dx-form id="form" class="email-form" [formData]="message">
+    <dxi-item
+      [cssClass]="'message-item'"
+      dataField="title"
+      [label]="{ text: 'Naslov', location: 'left' }"
+    >
+    </dxi-item>
+    <dxi-item
+      [cssClass]="'message-item'"
+      dataField="email"
+      [label]="{ text: 'Odredišna adresa', location: 'left' }"
+    >
+    </dxi-item>
+    <dxi-item
+      [cssClass]="'message-item'"
+      dataField="text"
+      editorType="dxTextArea"
+      [editorOptions]="{ height: 180 }"
+      [label]="{ text: 'Poruka', location: 'left' }"
+    >
+    </dxi-item>
+  </dx-form>
+  <button
+    class="confirm-button"
+    mat-raised-button
+    color="primary"
+    type="button"
+    (click)="confirm()"
+  >
+    Slanje
+  </button>
+</div>
+
+<div [ngStyle]="{ visibility: 'hidden' }">
+  <form name="emailform" (submit)="send($event)">
+    <label>Naslov</label>
+    <input type="text" name="title" [value]="message?.title" />
+    <label>Odredišna adresa</label>
+    <input type="email" name="email" [value]="message?.email" />
+    <label>Poruka</label>
+    <textarea name="message" [value]="message?.text"></textarea>
+  </form>
+</div>
