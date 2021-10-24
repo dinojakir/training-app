@@ -27,7 +27,7 @@
 }
 
 dx-tree-list {
-  margin: auto;
+  margin-left: 10px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 12px;
   box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
@@ -41,17 +41,9 @@ dx-tree-list {
   margin-left: 20px;
 }
 
-.row {
-  min-height: 70px;
-  margin-right: 0px;
-  margin-left: 0px;
-  margin-top: 10px;
-  margin-bottom: 0px;
-}
-
 .save-btn {
   float: right;
-  margin: 20px;
+  margin-top: 20px;
 }
 
 .load-container {

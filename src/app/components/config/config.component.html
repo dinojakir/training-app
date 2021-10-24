@@ -14,7 +14,7 @@
       parentIdExpr="parent"
       [columnAutoWidth]="true"
       [noDataText]="''"
-      [width]="'95%'"
+      [width]="'1200px'"
       (onToolbarPreparing)="onToolbarPreparing($event)"
     >
       <dxo-row-dragging
@@ -33,17 +33,15 @@
         <span class="treelist-header">{{ info.column.caption }}</span>
       </div>
     </dx-tree-list>
-    <div class="row">
-      <div class="col">
-        <button
-          class="save-btn"
-          mat-raised-button
-          color="primary"
-          (click)="save()"
-        >
-          Spremi
-        </button>
-      </div>
+    <div [ngStyle]="{ 'width.px': 1200, 'margin-left.px': 10 }">
+      <button
+        class="save-btn"
+        mat-raised-button
+        color="primary"
+        (click)="save()"
+      >
+        Spremi
+      </button>
     </div>
     <ng-container>
       <div class="load-container">
