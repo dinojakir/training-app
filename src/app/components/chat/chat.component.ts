@@ -41,7 +41,7 @@ export class ChatComponent implements OnInit {
           (a, b) => (b.date - a.date <= 0 ? -1 : 1)
         );
       });
-    this.height = window.innerHeight - 186;
+    this.height = window.innerHeight - 150;
   }
 
   async submit(): Promise<void> {
