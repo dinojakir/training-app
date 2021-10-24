@@ -16,6 +16,7 @@ import { DbService } from "src/app/services/auth/db.service";
 })
 export class ChatComponent implements OnInit {
   file: any;
+  height: number = 0;
   message: string = "";
   messages: any[] = [];
   uploadPercent: number | undefined;
@@ -40,6 +41,7 @@ export class ChatComponent implements OnInit {
           (a, b) => (b.date - a.date <= 0 ? -1 : 1)
         );
       });
+    this.height = window.innerHeight - 186;
   }
 
   async submit(): Promise<void> {
