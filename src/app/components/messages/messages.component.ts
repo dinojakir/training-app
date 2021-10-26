@@ -29,8 +29,19 @@ export class MessagesComponent implements OnInit {
     this.file = e.target.files[0];
     this.message.attachment = this.file.name;
 
-    this.attach = await this.getBase64(this.file);
+    const arrayBuffer: any = await this.getArrayBuffer(this.file);
+    this.attach = await this.arrayBufferToProperBase64(arrayBuffer);
     this.disabled = false;
+  }
+
+  arrayBufferToProperBase64(buffer: any): string {
+    var binary: string = "";
+    var bytes: any = new Uint8Array(buffer);
+    var len: number = bytes.byteLength;
+    for (let i: number = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
   }
 
   async confirm(): Promise<void> {
@@ -41,10 +52,10 @@ export class MessagesComponent implements OnInit {
     await this.sendMessage();
   }
 
-  async getBase64(file: any): Promise<string | ArrayBuffer | null> {
+  async getArrayBuffer(file: any): Promise<string | ArrayBuffer | null> {
     return new Promise((resolve, reject) => {
       const reader: FileReader = new FileReader();
-      reader.readAsDataURL(file);
+      reader.readAsArrayBuffer(file);
       reader.onload = () => resolve(reader.result);
       reader.onerror = (error) => reject(error);
     });
