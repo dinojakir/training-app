@@ -14,6 +14,23 @@
     </dxi-item>
     <dxi-item
       [cssClass]="'message-item'"
+      dataField="attachment"
+      [label]="{ text: 'Privitak', location: 'left' }"
+    >
+      <dx-button
+        icon="image"
+        type="success"
+        stylingMode="outlined"
+        text=""
+        (onClick)="fileInput.click()"
+      >
+      </dx-button>
+      <span *ngIf="file" class="file-title">
+        {{ file.name }}
+      </span>
+    </dxi-item>
+    <dxi-item
+      [cssClass]="'message-item'"
       dataField="text"
       editorType="dxTextArea"
       [editorOptions]="{ height: 180 }"
@@ -32,13 +49,10 @@
   </button>
 </div>
 
-<div [ngStyle]="{ visibility: 'hidden' }">
-  <form name="emailform" (submit)="send($event)">
-    <label>Naslov</label>
-    <input type="text" name="title" [value]="message?.title" />
-    <label>Odredišna adresa</label>
-    <input type="email" name="email" [value]="message?.email" />
-    <label>Poruka</label>
-    <textarea name="message" [value]="message?.text"></textarea>
-  </form>
-</div>
+<input
+  #fileInput
+  id="file"
+  hidden
+  type="file"
+  (change)="onFileSelected($event)"
+/>
