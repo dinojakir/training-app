@@ -15,8 +15,8 @@ declare var gapi: any;
   styleUrls: ["./messages.component.scss"],
 })
 export class MessagesComponent implements OnInit {
+  disabled: boolean = true;
   file: any;
-  isSignedIn: boolean = false;
   message: Message = new Message();
   attach: any;
 
@@ -30,10 +30,10 @@ export class MessagesComponent implements OnInit {
     this.message.attachment = this.file.name;
 
     this.attach = await this.getBase64(this.file);
+    this.disabled = false;
   }
 
   async confirm(): Promise<void> {
-    console.log(this.isSignedIn);
     await gapi.auth2.getAuthInstance().signIn({
       scope: "profile email",
     });
@@ -107,9 +107,5 @@ export class MessagesComponent implements OnInit {
 
   async signoutClick(): Promise<void> {
     await gapi.auth2.getAuthInstance().signOut();
-  }
-
-  updateSigninStatus(signedIn: boolean): void {
-    this.isSignedIn = signedIn;
   }
 }
