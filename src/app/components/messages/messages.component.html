@@ -1,45 +1,60 @@
 <div class="message-container">
-  <dx-form id="form" class="email-form" [formData]="message">
-    <dxi-item
-      [cssClass]="'message-item'"
-      dataField="title"
-      [label]="{ text: 'Naslov', location: 'left' }"
-    >
-    </dxi-item>
-    <dxi-item
-      [cssClass]="'message-item'"
-      dataField="email"
-      [label]="{ text: 'Odredišna adresa', location: 'left' }"
-    >
-    </dxi-item>
-    <dxi-item
-      [cssClass]="'message-item'"
-      dataField="attachment"
-      [label]="{ text: 'Privitak', location: 'left' }"
-    >
-      <dx-button
-        icon="image"
-        type="success"
-        stylingMode="outlined"
-        text=""
-        (onClick)="fileInput.click()"
+  <form>
+    <dx-form id="form" [formData]="message" validationGroup="emailData">
+      <dxi-item
+        [cssClass]="'message-item'"
+        dataField="title"
+        editorType="dxTextBox"
+        [editorOptions]="{ onValueChanged: onTitleChanged }"
+        [label]="{ text: 'Naslov', location: 'left' }"
       >
-      </dx-button>
-      <span *ngIf="file" class="file-title">
-        {{ file.name }}
-      </span>
-    </dxi-item>
-    <dxi-item
-      [cssClass]="'message-item'"
-      dataField="text"
-      editorType="dxTextArea"
-      [editorOptions]="{ height: 180 }"
-      [label]="{ text: 'Poruka', location: 'left' }"
-    >
-    </dxi-item>
-  </dx-form>
+        <dxi-validation-rule type="required" message="Naslov je obvezan">
+        </dxi-validation-rule>
+      </dxi-item>
+      <dxi-item
+        [cssClass]="'message-item'"
+        dataField="email"
+        editorType="dxTextBox"
+        [editorOptions]="{ onValueChanged: onEmailChanged }"
+        [label]="{ text: 'Odredišna adresa', location: 'left' }"
+      >
+        <dxi-validation-rule
+          type="required"
+          message="Odredišna adresa je obvezna"
+        >
+        </dxi-validation-rule>
+        <dxi-validation-rule type="email"></dxi-validation-rule>
+      </dxi-item>
+      <dxi-item
+        [cssClass]="'message-item'"
+        dataField="attachment"
+        [label]="{ text: 'Privitak', location: 'left' }"
+      >
+        <dx-button
+          icon="image"
+          type="success"
+          stylingMode="outlined"
+          text=""
+          (onClick)="fileInput.click()"
+        >
+        </dx-button>
+        <span *ngIf="file" class="file-title">
+          {{ file.name }}
+        </span>
+      </dxi-item>
+      <dxi-item
+        [cssClass]="'message-item'"
+        dataField="text"
+        editorType="dxTextArea"
+        [editorOptions]="{ height: 180 }"
+        [label]="{ text: 'Poruka', location: 'left' }"
+      >
+      </dxi-item>
+    </dx-form>
+  </form>
+
   <button
-    [disabled]="disabled"
+    [disabled]="!formValid"
     class="confirm-button"
     mat-raised-button
     color="primary"

@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { DxFormComponent } from "devextreme-angular";
 
 export class Message {
   title: string | undefined;
@@ -15,10 +16,19 @@ declare var gapi: any;
   styleUrls: ["./messages.component.scss"],
 })
 export class MessagesComponent implements OnInit {
-  disabled: boolean = true;
+  @ViewChild(DxFormComponent, { static: false }) form:
+    | DxFormComponent
+    | undefined;
+
   file: any;
   message: Message = new Message();
   attach: any;
+  formValid: boolean | undefined = false;
+
+  constructor() {
+    this.onTitleChanged = this.onTitleChanged.bind(this);
+    this.onEmailChanged = this.onEmailChanged.bind(this);
+  }
 
   ngOnInit(): void {
     const _this: MessagesComponent = this;
@@ -31,7 +41,14 @@ export class MessagesComponent implements OnInit {
 
     const arrayBuffer: any = await this.getArrayBuffer(this.file);
     this.attach = await this.arrayBufferToProperBase64(arrayBuffer);
-    this.disabled = false;
+  }
+
+  onEmailChanged(e: any): void {
+    this.formValid = this.form?.instance.validate().isValid;
+  }
+
+  onTitleChanged(e: any): void {
+    this.formValid = this.form?.instance.validate().isValid;
   }
 
   arrayBufferToProperBase64(buffer: any): string {
@@ -81,9 +98,9 @@ export class MessagesComponent implements OnInit {
   async sendMessage(): Promise<void> {
     const nl: string = "\n";
     const boundary: string = "__myapp__";
-    const to: string = "dino.jakir.mobile@gmail.com";
-    const subject: string = "Hi";
-    const message: string = "hello";
+    const to: string = this.message.email!;
+    const subject: string = this.message.title ?? "";
+    const message: string = this.message.text ?? "";
 
     const str: string = [
       "MIME-Version: 1.0",
@@ -114,6 +131,11 @@ export class MessagesComponent implements OnInit {
       userId: "me",
       raw: encodedMail,
     });
+
+    this.message = new Message();
+    this.file = undefined;
+    this.attach = undefined;
+    this.formValid = false;
   }
 
   async signoutClick(): Promise<void> {
