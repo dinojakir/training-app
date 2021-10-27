@@ -102,7 +102,7 @@ export class MessagesComponent implements OnInit {
     const subject: string = this.message.title ?? "";
     const message: string = this.message.text ?? "";
 
-    const str: string = [
+    let messageItems: string[] = [
       "MIME-Version: 1.0",
       "Content-Transfer-Encoding: 7bit",
       "to: " + to,
@@ -113,16 +113,21 @@ export class MessagesComponent implements OnInit {
       "Content-Transfer-Encoding: 7bit" + nl,
       message + nl,
       "--" + boundary,
-      "--" + boundary,
-      "Content-Type: Application/pdf; name=myPdf.pdf",
-      "Content-Disposition: attachment; filename=myPdf.pdf",
-      "Content-Transfer-Encoding: base64" + nl,
-      this.attach,
-      "--" + boundary + "--",
-    ].join("\n");
+    ];
 
+    if (this.attach) {
+      messageItems = messageItems.concat([
+        "--" + boundary,
+        "Content-Type: Application/pdf; name=myPdf.pdf",
+        "Content-Disposition: attachment; filename=myPdf.pdf",
+        "Content-Transfer-Encoding: base64" + nl,
+        this.attach,
+        "--" + boundary + "--",
+      ]);
+    }
+
+    const str: string = messageItems.join("\n");
     const encodedMessage: string = btoa(str);
-
     const encodedMail: string = encodedMessage
       .replace(/\+/g, "-")
       .replace(/\//g, "_");
