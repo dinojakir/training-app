@@ -100,6 +100,7 @@
 
   .sidebarlong {
     padding-left: 20px;
+    padding-right: 20px;
     position: static;
     left: auto;
     top: auto;
@@ -159,7 +160,7 @@
 }
 
 .sidebarlong {
-  background-color: #303030;
+  background-color: #212121;
   color: white;
   height: 100%;
   padding-top: 200px;
@@ -174,6 +175,7 @@
     letter-spacing: 0.3px;
     text-shadow: none;
     display: flex;
+    padding-left: 10px;
 
     &.active {
       background-color: #ffffff;
