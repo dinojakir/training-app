@@ -44,3 +44,12 @@
 .iconBtn {
   margin-right: 10px;
 }
+
+.image {
+  margin-left: 100px;
+  transition: transform 0.2s;
+}
+
+.image:hover {
+  transform: scale(1.5);
+}
