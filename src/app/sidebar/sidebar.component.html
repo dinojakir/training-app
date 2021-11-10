@@ -1,0 +1,18 @@
+<div class="sidebarlong">
+  <div
+    *ngFor="let menuItem of menuItems"
+    class="menu-item"
+    [class.active]="
+      (url === '/' && menuItem.link === '/pocetna') || url === menuItem.link
+    "
+    (click)="onSelect(menuItem)"
+  >
+    <div class="menu-icon">
+      <span [ngClass]="menuItem.icon"></span>
+    </div>
+
+    <div class="menu-text">
+      <span>{{ menuItem.name }}</span>
+    </div>
+  </div>
+</div>

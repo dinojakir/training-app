@@ -1,11 +1,7 @@
 <div class="app-container" [class.background-image]="url === '/prijava'">
   <div class="page-container">
     <div class="sidebar-container">
-      <div
-        #sidebar
-        *ngIf="url !== '/prijava' && authService?.user"
-        class="sidebar"
-      >
+      <div #sidebar *ngIf="url !== '/prijava'" class="sidebar">
         <div>
           <div
             *ngFor="let menuItem of menuItems"
@@ -28,7 +24,7 @@
       </div>
     </div>
 
-    <div *ngIf="url !== '/prijava' && authService?.user" class="sidebarlong">
+    <div *ngIf="url !== '/prijava'" class="sidebarlong">
       <div>
         <div
           *ngFor="let menuItem of menuItems"
@@ -50,11 +46,16 @@
       </div>
     </div>
     <div class="page-content">
-      <div class="top" *ngIf="url !== '/prijava' && authService?.user">
-        <div>
+      <div class="top" *ngIf="url !== '/prijava'">
+        <div *ngIf="authService?.user">
           <span class="dx-icon-menu" (click)="expandMenu()"></span>
         </div>
-        <div id="userBtn" class="btn-user" (click)="onUserBtnClick()">
+        <div
+          *ngIf="authService?.user"
+          id="userBtn"
+          class="btn-user"
+          (click)="onUserBtnClick()"
+        >
           {{ authService?.user?.email.substring(0, 1).toUpperCase() }}
         </div>
       </div>

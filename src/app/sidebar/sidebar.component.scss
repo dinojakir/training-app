@@ -1,0 +1,17 @@
+.sidebarlong {
+  padding-left: 20px;
+  padding-right: 20px;
+  position: static;
+  left: auto;
+  top: auto;
+  z-index: auto;
+  visibility: visible;
+  width: 300px;
+
+  .menu-item {
+    height: 40px;
+    width: 250px;
+    margin-top: 15px;
+    margin-right: 20px;
+  }
+}
