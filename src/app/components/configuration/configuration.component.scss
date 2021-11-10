@@ -1,14 +1,8 @@
 @media only screen and (max-width: 350px) {
-  .mat-tab-group {
-    max-width: 95%;
-  }
 }
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (min-width: 350px) {
-  .mat-tab-group {
-    max-width: 95%;
-  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -25,16 +19,4 @@
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-  .mat-tab-group {
-    max-width: 80%;
-  }
-}
-
-.config-container {
-  margin-top: 30px;
-  margin-bottom: 20px;
-}
-
-.mat-tab-group {
-  margin: auto;
 }

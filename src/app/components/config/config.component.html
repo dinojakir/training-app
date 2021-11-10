@@ -10,11 +10,12 @@
       itemsExpr="items"
       [keyExpr]="getKey"
       [showRowLines]="true"
-      [showBorders]="false"
+      [showBorders]="true"
       parentIdExpr="parent"
       [columnAutoWidth]="true"
       [noDataText]="''"
-      [width]="'1200px'"
+      [height]="treeHeight"
+      [width]="'90%'"
       (onToolbarPreparing)="onToolbarPreparing($event)"
     >
       <dxo-row-dragging
@@ -40,7 +41,7 @@
         color="primary"
         (click)="save()"
       >
-        Spremi
+        Pohrana
       </button>
     </div>
     <ng-container>

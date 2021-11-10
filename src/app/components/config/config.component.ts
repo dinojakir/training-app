@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { DxFormComponent, DxTreeListComponent } from "devextreme-angular";
 import { DbService } from "src/app/services/auth/db.service";
+import { LayoutService } from "src/app/services/layout.service";
 import { v4 as uuidv4 } from "uuid";
 
 class NewItem {
@@ -22,20 +23,30 @@ export class ConfigComponent implements OnInit {
     | undefined;
 
   @Input() setting: string = "";
+  @Input() treeHeight: number = 0;
 
   addButtonOptions: any;
   closeButtonOptions: any;
   loading: boolean = false;
   newItem: NewItem = new NewItem();
   items: any[] = [];
+  treeViewPadding: number;
+  treeViewWidth: number;
   popupVisible: boolean = false;
   saving: boolean = false;
   settings: any[] = [];
   title: string = "";
 
-  constructor(private db: DbService) {
+  constructor(private db: DbService, private layoutService: LayoutService) {
     const _this: any = this;
     this.onReorder = this.onReorder.bind(this);
+
+    this.treeViewPadding = 200;
+    this.treeViewWidth =
+      this.layoutService.getResolution().w -
+      this.layoutService.getMenuWidth() -
+      this.treeViewPadding;
+    console.log(this.treeViewWidth);
 
     this.addButtonOptions = {
       icon: "check",

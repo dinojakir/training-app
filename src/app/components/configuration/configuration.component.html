@@ -1,13 +1,21 @@
-<div class="config-container">
+<div
+  class="config-container"
+  [style.width.px]="tabWidth"
+  [style.height.px]="tabHeight"
+  [style.padding-left.px]="tabLeftPadding"
+  [style.padding-right.px]="tabRightPadding"
+  [style.margin-top.px]="marginTop"
+  [style.margin-bottom.px]="marginBottom"
+>
   <mat-tab-group>
     <mat-tab label="Mišići">
-      <app-config [setting]="'Muscles'"></app-config>
+      <app-config [setting]="'Muscles'" [treeHeight]="treeHeight"></app-config>
     </mat-tab>
     <mat-tab label="Rekviziti">
-      <app-config [setting]="'Props'"></app-config>
+      <app-config [setting]="'Props'" [treeHeight]="treeHeight"></app-config>
     </mat-tab>
     <mat-tab label="Trenažeri">
-      <app-config [setting]="'Trainers'"></app-config>
+      <app-config [setting]="'Trainers'" [treeHeight]="treeHeight"></app-config>
     </mat-tab>
   </mat-tab-group>
 </div>

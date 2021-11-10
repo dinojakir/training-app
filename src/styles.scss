@@ -7,7 +7,7 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto;
 }
 
 ::-webkit-scrollbar {
@@ -52,4 +52,20 @@ body {
 
 .message-item {
   margin-top: 20px;
+}
+
+.mat-tab-label-content {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+
+  color: rgb(0, 0, 0) !important;
+}
+
+.dx-treelist-borders
+  > .dx-treelist-rowsview.dx-last-row-border
+  tbody:last-child
+  > .dx-data-row:nth-last-child(2)
+  > td {
+  border-bottom-width: 1px;
 }
