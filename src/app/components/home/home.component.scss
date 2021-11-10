@@ -1,42 +1,5 @@
-@media only screen and (max-width: 350px) {
-  dx-data-grid {
-    margin: auto;
-    width: 95%;
-  }
-}
-
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (min-width: 350px) {
-  dx-data-grid {
-    margin: auto;
-    width: 95%;
-  }
-}
-
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
-}
-
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
-}
-
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-  .detail-container {
-    padding-left: 60px;
-  }
-}
-
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
-  dx-data-grid {
-    margin: auto;
-    width: 80%;
-  }
-}
-
 dx-data-grid {
+  margin-left: 10px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 12px;

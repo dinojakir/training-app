@@ -11,6 +11,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { Exercise } from "src/app/model/exercise.dto";
 import { DbService } from "src/app/services/auth/db.service";
+import { LayoutService } from "src/app/services/layout.service";
 import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
@@ -31,13 +32,37 @@ import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation
 export class HomeComponent implements OnInit {
   exercises: Exercise[] = [];
   loading: boolean = false;
+  marginTop: number;
+  marginBottom: number;
+  tabWidth: number;
+  tabHeight: number;
+  tabLeftPadding: number;
+  tabRightPadding: number;
+  treeHeight: number;
 
   constructor(
     private db: DbService,
     private router: Router,
     public dialog: MatDialog,
-    private storage: AngularFireStorage
-  ) {}
+    private storage: AngularFireStorage,
+    private layoutService: LayoutService
+  ) {
+    const res: any = this.layoutService.getResolution();
+    const maxWidth: number = 1000;
+    this.marginTop = 30;
+    this.marginBottom = 30;
+    this.tabLeftPadding = 100;
+    this.tabRightPadding = 100;
+    this.tabWidth = Math.max(
+      res.cw -
+        this.tabLeftPadding -
+        this.tabRightPadding -
+        this.layoutService.getMenuWidth(),
+      maxWidth
+    );
+    this.tabHeight = res.ch - this.marginTop - this.marginBottom - 60;
+    this.treeHeight = this.tabHeight - 200;
+  }
 
   async ngOnInit(): Promise<void> {
     this.loading = true;

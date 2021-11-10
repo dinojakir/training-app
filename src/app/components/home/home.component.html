@@ -1,77 +1,111 @@
-<div class="home-container">
-  <div *ngIf="loading" class="load-container">
-    <mat-spinner [diameter]="30"></mat-spinner>
-  </div>
-  <div *ngIf="!loading">
-    <dx-data-grid
-      id="exercises"
-      [dataSource]="exercises"
-      [showBorders]="true"
-      [showColumnLines]="false"
-      [showRowLines]="false"
-      [wordWrapEnabled]="true"
-    >
-      <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
-      <dxi-column
-        dataField="name"
-        caption="Naziv vježbe"
-        dataType="string"
-        headerCellTemplate="headerCellTemplate"
-      >
-      </dxi-column>
-      <dxi-column
-        caption="Mišić"
-        dataField="muscles[0]"
-        dataType="string"
-        groupCellTemplate="groupCellTemplate"
-        [groupIndex]="0"
-      >
-      </dxi-column>
-      <dxi-column alignment="right" caption="" cellTemplate="editCellTemplate">
-      </dxi-column>
-      <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
-      <div *dxTemplate="let data of 'headerCellTemplate'" class="header">
-        {{ data.column.caption }}
-      </div>
-      <div *dxTemplate="let data of 'groupCellTemplate'" class="group-header">
-        {{ data.displayValue }}
-      </div>
-      <div *dxTemplate="let data of 'editCellTemplate'">
-        <dx-button icon="edit" class="btn-margin" (click)="onEdit(data.data)">
-        </dx-button>
-        <dx-button icon="remove" (click)="onDelete(data.data)"></dx-button>
-      </div>
-      <div *dxTemplate="let row of 'detail'" class="detail-container">
-        <div class="detail">
-          <div class="label">Tip</div>
-          <div>
-            {{ row.data.type === "isolated" ? "Izolirana" : "Kompleksna" }}
-          </div>
+<div
+  [style.width.px]="tabWidth"
+  [style.height.px]="tabHeight"
+  [style.padding-left.px]="tabLeftPadding"
+  [style.padding-right.px]="tabRightPadding"
+  [style.margin-top.px]="marginTop"
+  [style.margin-bottom.px]="marginBottom"
+>
+  <mat-tab-group>
+    <mat-tab label="Vježbe">
+      <div class="home-container">
+        <div *ngIf="loading" class="load-container">
+          <mat-spinner [diameter]="30"></mat-spinner>
         </div>
-        <div class="detail">
-          <div class="label">Komentar</div>
-          <ng-container *ngIf="row.data.comment">
-            {{ row.data.comment }}
-          </ng-container>
-          <ng-container *ngIf="!row.data.comment">
-            <div class="empty">-</div>
-          </ng-container>
-        </div>
-        <div class="detail">
-          <div class="label">Video</div>
-          <ng-container *ngIf="row.data.video">
-            <video
-              controls
-              height="200"
-              width="300"
-              [src]="row.data.video"
-            ></video>
-          </ng-container>
-          <ng-container *ngIf="!row.data.video">
-            <div class="empty">-</div>
-          </ng-container>
+        <div *ngIf="!loading">
+          <dx-data-grid
+            id="exercises"
+            [dataSource]="exercises"
+            [showBorders]="true"
+            [showColumnLines]="false"
+            [showRowLines]="false"
+            [wordWrapEnabled]="true"
+            [height]="treeHeight"
+            [width]="'90%'"
+          >
+            <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+            <dxi-column
+              dataField="name"
+              caption="Naziv"
+              dataType="string"
+              headerCellTemplate="headerCellTemplate"
+            >
+            </dxi-column>
+            <dxi-column
+              caption="Mišić"
+              dataField="muscles[0]"
+              dataType="string"
+              groupCellTemplate="groupCellTemplate"
+              [groupIndex]="0"
+            >
+            </dxi-column>
+            <dxi-column
+              alignment="right"
+              caption=""
+              cellTemplate="editCellTemplate"
+            >
+            </dxi-column>
+            <dxo-master-detail
+              [enabled]="true"
+              template="detail"
+            ></dxo-master-detail>
+            <div *dxTemplate="let data of 'headerCellTemplate'" class="header">
+              {{ data.column.caption }}
+            </div>
+            <div
+              *dxTemplate="let data of 'groupCellTemplate'"
+              class="group-header"
+            >
+              {{ data.displayValue }}
+            </div>
+            <div *dxTemplate="let data of 'editCellTemplate'">
+              <dx-button
+                icon="edit"
+                class="btn-margin"
+                (click)="onEdit(data.data)"
+              >
+              </dx-button>
+              <dx-button
+                icon="remove"
+                (click)="onDelete(data.data)"
+              ></dx-button>
+            </div>
+            <div *dxTemplate="let row of 'detail'" class="detail-container">
+              <div class="detail">
+                <div class="label">Tip</div>
+                <div>
+                  {{
+                    row.data.type === "isolated" ? "Izolirana" : "Kompleksna"
+                  }}
+                </div>
+              </div>
+              <div class="detail">
+                <div class="label">Komentar</div>
+                <ng-container *ngIf="row.data.comment">
+                  {{ row.data.comment }}
+                </ng-container>
+                <ng-container *ngIf="!row.data.comment">
+                  <div class="empty">-</div>
+                </ng-container>
+              </div>
+              <div class="detail">
+                <div class="label">Video</div>
+                <ng-container *ngIf="row.data.video">
+                  <video
+                    controls
+                    height="200"
+                    width="300"
+                    [src]="row.data.video"
+                  ></video>
+                </ng-container>
+                <ng-container *ngIf="!row.data.video">
+                  <div class="empty">-</div>
+                </ng-container>
+              </div>
+            </div>
+          </dx-data-grid>
         </div>
       </div>
-    </dx-data-grid>
-  </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>
