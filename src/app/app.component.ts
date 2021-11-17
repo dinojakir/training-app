@@ -24,7 +24,6 @@ export class AppComponent {
   ) {
     this.menuItems = [
       { name: "Pregled", link: "/pocetna", icon: "dx-icon-bulletlist" },
-      { name: "Nova vježba", link: "/vjezba", icon: "dx-icon-plus" },
       { name: "Postavke", link: "/postavke", icon: "dx-icon-preferences" },
       { name: "Poruke", link: "/poruke", icon: "dx-icon-message" },
       { name: "Korisnici", link: "/korisnici", icon: "dx-icon-user" },

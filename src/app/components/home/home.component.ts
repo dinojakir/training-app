@@ -85,6 +85,23 @@ export class HomeComponent implements OnInit {
     this.router.navigate(["/vjezba"], { state: { data: exercise } });
   }
 
+  onToolbarPreparing(e: any): void {
+    let toolbarItems: any = e.toolbarOptions.items;
+    const _this: any = this;
+
+    toolbarItems.push({
+      widget: "dxButton",
+      options: {
+        elementAttr: { id: "addBtn", class: "add-button" },
+        icon: "add",
+        onClick: function (): void {
+          _this.router.navigate(["/vjezba"]);
+        },
+      },
+      location: "after",
+    });
+  }
+
   async onDelete(exercise: Exercise): Promise<void> {
     this.openDialog(exercise);
   }

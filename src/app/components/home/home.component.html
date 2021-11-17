@@ -22,6 +22,7 @@
             [wordWrapEnabled]="true"
             [height]="treeHeight"
             [width]="'90%'"
+            (onToolbarPreparing)="onToolbarPreparing($event)"
           >
             <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
             <dxi-column
