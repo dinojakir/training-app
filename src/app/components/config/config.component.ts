@@ -46,7 +46,6 @@ export class ConfigComponent implements OnInit {
       this.layoutService.getResolution().w -
       this.layoutService.getMenuWidth() -
       this.treeViewPadding;
-    console.log(this.treeViewWidth);
 
     this.addButtonOptions = {
       icon: "check",
