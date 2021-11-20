@@ -2,6 +2,7 @@ import { Component, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { DxFormComponent } from "devextreme-angular";
 import { DbService } from "src/app/services/auth/db.service";
+import { v4 as uuidv4 } from "uuid";
 
 export class User {
   id: string | undefined;
@@ -20,6 +21,7 @@ export class UserComponent {
     | DxFormComponent
     | undefined;
 
+  editMode: boolean = false;
   formValid: boolean | undefined = false;
   saving: boolean = false;
   user: User = new User();
@@ -44,6 +46,10 @@ export class UserComponent {
 
   async confirm(): Promise<void> {
     if (this.formValid) {
+      if (!this.editMode) {
+        this.user.id = uuidv4();
+      }
+
       this.saving = true;
       this.form!.disabled = true;
 
