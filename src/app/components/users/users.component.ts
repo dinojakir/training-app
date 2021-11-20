@@ -54,7 +54,7 @@ export class UsersComponent implements OnInit {
   }
 
   onEdit(user: any): void {
-    this.router.navigate(["/vjezba"], { state: { data: user } });
+    this.router.navigate(["/korisnik"], { state: { data: user } });
   }
 
   onToolbarPreparing(e: any): void {

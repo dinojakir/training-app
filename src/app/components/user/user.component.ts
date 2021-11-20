@@ -1,4 +1,4 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { DxFormComponent } from "devextreme-angular";
 import { DbService } from "src/app/services/auth/db.service";
@@ -16,7 +16,7 @@ export class User {
   templateUrl: "./user.component.html",
   styleUrls: ["./user.component.scss"],
 })
-export class UserComponent {
+export class UserComponent implements OnInit {
   @ViewChild(DxFormComponent, { static: false }) form:
     | DxFormComponent
     | undefined;
@@ -31,7 +31,17 @@ export class UserComponent {
     this.onEmailChanged = this.onEmailChanged.bind(this);
     this.onPasswordChanged = this.onPasswordChanged.bind(this);
   }
+  ngOnInit(): void {
+    if (history.state.data) {
+      this.editMode = true;
+      const user: User = history.state.data;
 
+      this.user.id = user.id;
+      this.user.email = user.email;
+      this.user.name = user.name;
+      this.user.password = user.password;
+    }
+  }
   onNameChanged(): void {
     this.formValid = this.form?.instance.validate().isValid;
   }
