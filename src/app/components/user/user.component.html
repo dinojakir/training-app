@@ -1,1 +1,53 @@
-<p>user works!</p>
+<div class="message-container">
+  <form>
+    <dx-form id="form" [formData]="user" validationGroup="userData">
+      <dxi-item
+        [cssClass]="'message-item'"
+        dataField="name"
+        editorType="dxTextBox"
+        [editorOptions]="{ onValueChanged: onNameChanged }"
+        [label]="{ text: 'Korisnik', location: 'left' }"
+      >
+        <dxi-validation-rule type="required" message="Korisnik je obvezan">
+        </dxi-validation-rule>
+      </dxi-item>
+      <dxi-item
+        [cssClass]="'message-item'"
+        dataField="email"
+        editorType="dxTextBox"
+        [editorOptions]="{ onValueChanged: onEmailChanged }"
+        [label]="{ text: 'Email adresa', location: 'left' }"
+      >
+        <dxi-validation-rule type="required" message="Email adresa je obvezna">
+        </dxi-validation-rule>
+        <dxi-validation-rule
+          type="email"
+          message="Neispravan format email adrese"
+        >
+        </dxi-validation-rule>
+      </dxi-item>
+
+      <dxi-item
+        [cssClass]="'message-item'"
+        dataField="password"
+        editorType="dxTextBox"
+        [editorOptions]="{ onValueChanged: onPasswordChanged }"
+        [label]="{ text: 'Lozinka', location: 'left' }"
+      >
+        <dxi-validation-rule type="required" message="Lozinka je obvezna">
+        </dxi-validation-rule>
+      </dxi-item>
+    </dx-form>
+  </form>
+
+  <button
+    [disabled]="!formValid"
+    class="confirm-button"
+    mat-raised-button
+    color="primary"
+    type="button"
+    (click)="confirm()"
+  >
+    Pohrana
+  </button>
+</div>
