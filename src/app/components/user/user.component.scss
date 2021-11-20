@@ -1,13 +1,20 @@
-.message-container {
+.user-container {
   margin-left: 100px;
   width: 600px;
 }
 
 .confirm-button {
   margin-top: 40px;
-  float: right;
+  text-align: end;
 }
 
 .file-title {
   margin-left: 20px;
+}
+
+.load-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

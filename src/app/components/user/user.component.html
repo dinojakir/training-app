@@ -1,9 +1,10 @@
-<div class="message-container">
+<div class="user-container">
   <form>
     <dx-form id="form" [formData]="user" validationGroup="userData">
       <dxi-item
         [cssClass]="'message-item'"
         dataField="name"
+        [disabled]="saving"
         editorType="dxTextBox"
         [editorOptions]="{ onValueChanged: onNameChanged }"
         [label]="{ text: 'Korisnik', location: 'left' }"
@@ -14,6 +15,7 @@
       <dxi-item
         [cssClass]="'message-item'"
         dataField="email"
+        [disabled]="saving"
         editorType="dxTextBox"
         [editorOptions]="{ onValueChanged: onEmailChanged }"
         [label]="{ text: 'Email adresa', location: 'left' }"
@@ -30,6 +32,7 @@
       <dxi-item
         [cssClass]="'message-item'"
         dataField="password"
+        [disabled]="saving"
         editorType="dxTextBox"
         [editorOptions]="{ onValueChanged: onPasswordChanged }"
         [label]="{ text: 'Lozinka', location: 'left' }"
@@ -40,14 +43,18 @@
     </dx-form>
   </form>
 
-  <button
-    [disabled]="!formValid"
-    class="confirm-button"
-    mat-raised-button
-    color="primary"
-    type="button"
-    (click)="confirm()"
-  >
-    Pohrana
-  </button>
+  <div class="confirm-button">
+    <button
+      [disabled]="!formValid"
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="confirm()"
+    >
+      Pohrana
+    </button>
+  </div>
+  <div *ngIf="saving" class="load-container">
+    <mat-spinner [diameter]="30"></mat-spinner>
+  </div>
 </div>

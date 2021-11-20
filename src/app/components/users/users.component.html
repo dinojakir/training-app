@@ -34,11 +34,10 @@
             >
             </dxi-column>
             <dxi-column
-              caption="Mišić"
-              dataField="muscles[0]"
+              caption="Email adresa"
+              dataField="email"
               dataType="string"
-              groupCellTemplate="groupCellTemplate"
-              [groupIndex]="0"
+              headerCellTemplate="headerCellTemplate"
             >
             </dxi-column>
             <dxi-column
@@ -51,12 +50,6 @@
             <div *dxTemplate="let data of 'headerCellTemplate'" class="header">
               {{ data.column.caption }}
             </div>
-            <div
-              *dxTemplate="let data of 'groupCellTemplate'"
-              class="group-header"
-            >
-              {{ data.displayValue }}
-            </div>
             <div *dxTemplate="let data of 'editCellTemplate'">
               <dx-button
                 icon="edit"
@@ -64,10 +57,8 @@
                 (click)="onEdit(data.data)"
               >
               </dx-button>
-              <dx-button
-                icon="remove"
-                (click)="onDelete(data.data)"
-              ></dx-button>
+              <dx-button icon="remove" (click)="onDelete(data.data)">
+              </dx-button>
             </div>
           </dx-data-grid>
         </div>
