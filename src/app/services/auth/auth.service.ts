@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Router } from "@angular/router";
+import { DbService } from "./db.service";
 
 @Injectable({
   providedIn: "root",
@@ -10,6 +11,7 @@ export class AuthService {
   user: any;
 
   constructor(
+    private db: DbService,
     public fireAuth: AngularFireAuth,
     public fireStore: AngularFirestore,
     public router: Router
@@ -31,7 +33,18 @@ export class AuthService {
     return user !== null;
   }
 
-  signIn(email: any, password: any): Promise<boolean> {
+  async signIn(email: any, password: any): Promise<boolean> {
+    const users: any = await this.db.getCollectionDocuments("Users");
+    const user: any = users.find(
+      (i: any) => i.email == email && i.password == password
+    );
+    if (user) {
+      this.user = user;
+      localStorage.setItem("korisnik", JSON.stringify(user));
+      this.router.navigate(["pocetna"]);
+
+      return Promise.resolve(true);
+    }
     return this.fireAuth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
@@ -43,7 +56,7 @@ export class AuthService {
 
         return true;
       })
-      .catch(() => {
+      .catch(async () => {
         this.user = undefined;
         localStorage.removeItem("korisnik");
         return false;
