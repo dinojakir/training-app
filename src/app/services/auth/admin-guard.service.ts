@@ -1,14 +1,19 @@
 import { Injectable } from "@angular/core";
-import { CanActivate } from "@angular/router";
+import { CanActivate, Router } from "@angular/router";
 import { AuthService } from "./auth.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class AdminGuard implements CanActivate {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   async canActivate(): Promise<boolean> {
-    return this.authService.isAdmin;
+    if (this.authService.isAdmin) {
+      return true;
+    } else {
+      this.router.navigate(["pocetna"]);
+      return false;
+    }
   }
 }
