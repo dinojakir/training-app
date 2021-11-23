@@ -9,6 +9,7 @@ import { DbService } from "./db.service";
 })
 export class AuthService {
   user: any;
+  isAdmin: boolean = false;
 
   constructor(
     private db: DbService,
@@ -50,6 +51,7 @@ export class AuthService {
       .then((result) => {
         if (result.user) {
           this.user = result.user;
+          this.isAdmin = true;
           localStorage.setItem("korisnik", JSON.stringify(result.user));
           this.router.navigate(["pocetna"]);
         }

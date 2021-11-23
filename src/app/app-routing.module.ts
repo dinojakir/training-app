@@ -8,6 +8,7 @@ import { MessagesComponent } from "./components/messages/messages.component";
 import { SignInComponent } from "./components/sign-in/sign-in.component";
 import { UserComponent } from "./components/user/user.component";
 import { UsersComponent } from "./components/users/users.component";
+import { AdminGuard } from "./services/auth/admin-guard.service";
 import { AuthGuard } from "./services/auth/auth-guard.service";
 import { SignInGuard } from "./services/auth/sign-in-guard.service";
 
@@ -18,16 +19,36 @@ const routes: Routes = [
     pathMatch: "full",
   },
   { path: "pocetna", component: HomeComponent, canActivate: [AuthGuard] },
-  { path: "vjezba", component: AddComponent, canActivate: [AuthGuard] },
-  { path: "poruke", component: MessagesComponent, canActivate: [AuthGuard] },
+  {
+    path: "vjezba",
+    component: AddComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+  {
+    path: "poruke",
+    component: MessagesComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
   {
     path: "postavke",
     component: ConfigurationComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, AdminGuard],
   },
-  { path: "korisnik", component: UserComponent, canActivate: [AuthGuard] },
-  { path: "korisnici", component: UsersComponent, canActivate: [AuthGuard] },
-  { path: "razgovor", component: ChatComponent, canActivate: [AuthGuard] },
+  {
+    path: "korisnik",
+    component: UserComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+  {
+    path: "korisnici",
+    component: UsersComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+  {
+    path: "razgovor",
+    component: ChatComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
   { path: "prijava", component: SignInComponent, canActivate: [SignInGuard] },
 ];
 
