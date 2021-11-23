@@ -14,21 +14,28 @@ export class AppComponent {
   @ViewChild("sidebar") sidebar: ElementRef | undefined;
 
   contextMenuItems = [{ id: 1, text: "Odjava", icon: "dx-icon-export" }];
-  menuItems: any[];
+  menuItems: any[] = [];
   url: string = "";
+  part1 = [{ name: "Pregled", link: "/pocetna", icon: "dx-icon-bulletlist" }];
+  part2 = [
+    { name: "Postavke", link: "/postavke", icon: "dx-icon-preferences" },
+    { name: "Korisnici", link: "/korisnici", icon: "dx-icon-user" },
+    { name: "Poruke", link: "/poruke", icon: "dx-icon-message" },
+    { name: "Razgovor", link: "/razgovor", icon: "dx-icon-coffee" },
+  ];
 
   constructor(
     public authService: AuthService,
     private router: Router,
     private renderer: Renderer2
   ) {
-    this.menuItems = [
-      { name: "Pregled", link: "/pocetna", icon: "dx-icon-bulletlist" },
-      { name: "Postavke", link: "/postavke", icon: "dx-icon-preferences" },
-      { name: "Korisnici", link: "/korisnici", icon: "dx-icon-user" },
-      { name: "Poruke", link: "/poruke", icon: "dx-icon-message" },
-      { name: "Razgovor", link: "/razgovor", icon: "dx-icon-coffee" },
-    ];
+    this.authService.status.subscribe((status) => {
+      this.menuItems = status.isLoggedIn
+        ? status.isAdmin
+          ? [...this.part1, ...this.part2]
+          : this.part1
+        : [];
+    });
 
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {

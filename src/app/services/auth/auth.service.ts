@@ -18,28 +18,13 @@ export class AuthService {
     public fireAuth: AngularFireAuth,
     public fireStore: AngularFirestore,
     public router: Router
-  ) {
-    this.fireAuth.authState.subscribe((user: any) => {
-      if (user) {
-        this.user = user;
-        localStorage.setItem("korisnik", JSON.stringify(user));
-        this.isAdmin = user.authDomain === "training-app-1552e.firebaseapp.com";
-        this.status.next({ isLoggedIn: true, isAdmin: this.isAdmin });
-        this.router.navigate(["pocetna"]);
-      } else {
-        localStorage.removeItem("korisnik");
-        this.user = undefined;
-        this.isAdmin = false;
-        this.status.next({ isLoggedIn: false, isAdmin: false });
-        this.router.navigate(["prijava"]);
-      }
-    });
-  }
+  ) {}
 
   isLoggedIn(): boolean {
     const userStr: string | null = localStorage.getItem("korisnik");
     if (userStr) {
       const user = JSON.parse(userStr);
+      this.user = user;
 
       if (
         !this.isAdmin &&
@@ -47,9 +32,10 @@ export class AuthService {
         user.authDomain === "training-app-1552e.firebaseapp.com"
       ) {
         this.isAdmin = true;
-        this.status.next({ isLoggedIn: true, isAdmin: this.isAdmin });
       }
     }
+
+    this.status.next({ isLoggedIn: true, isAdmin: this.isAdmin });
 
     return userStr !== null;
   }
@@ -59,23 +45,39 @@ export class AuthService {
     const user: any = users.find(
       (i: any) => i.email == email && i.password == password
     );
+
     if (user) {
       this.user = user;
+      this.isAdmin = false;
       localStorage.setItem("korisnik", JSON.stringify(user));
+      this.status.next({ isLoggedIn: true, isAdmin: false });
+
       this.router.navigate(["pocetna"]);
+    } else {
+      this.fireAuth
+        .signInWithEmailAndPassword(email, password)
+        .then((result) => {
+          const userStr = JSON.stringify(result.user);
+          this.user = JSON.parse(userStr);
+
+          this.isAdmin = true;
+          localStorage.setItem("korisnik", JSON.stringify(this.user));
+          this.status.next({ isLoggedIn: true, isAdmin: this.isAdmin });
+
+          this.router.navigate(["pocetna"]);
+        });
     }
-    this.fireAuth
-      .signInWithEmailAndPassword(email, password)
-      .catch(async () => {
-        this.user = undefined;
-        localStorage.removeItem("korisnik");
-      });
   }
 
   async signOut(): Promise<void> {
-    await this.fireAuth.signOut();
+    if (this.isAdmin) {
+      await this.fireAuth.signOut();
+    }
+
     this.user = undefined;
+    this.isAdmin = false;
     localStorage.removeItem("korisnik");
+    this.status.next({ isLoggedIn: false, isAdmin: false });
 
     await this.router.navigate(["prijava"]);
   }
