@@ -1,43 +1,6 @@
-<div class="sign-in-container">
-  <div class="form-container">
-    <form>
-      <div class="form-group">
-        <label for="loginEmail">Email adresa</label>
-        <input
-          #userEmail
-          class="input"
-          type="email"
-          name="loginEmail"
-          id="loginEmail"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="loginPassword">Lozinka</label>
-        <input
-          #userPassword
-          class="input"
-          type="password"
-          name="loginPassword"
-          id="loginPassword"
-          required
-          (keyup.enter)="signIn(userEmail.value, userPassword.value)"
-        />
-      </div>
-      <div class="load-container">
-        <mat-spinner *ngIf="isLoadIndicatorVisible" [diameter]="30">
-        </mat-spinner>
-      </div>
-      <div class="submit-container">
-        <div>
-          <input
-            type="button"
-            class="submit"
-            value="Prijava"
-            (click)="signIn(userEmail.value, userPassword.value)"
-          />
-        </div>
-      </div>
-    </form>
+<div class="signin-container">
+  <div class="left-half"></div>
+  <div class="right-half">
+    <app-login (login)="onLogin($event)"></app-login>
   </div>
 </div>

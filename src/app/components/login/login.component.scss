@@ -1,0 +1,78 @@
+.login-container {
+  width: 360px;
+  background-color: rgb(35, 35, 35);
+  padding-top: 25px;
+  padding-bottom: 25px;
+  border-radius: 4px;
+  margin-top: 200px;
+}
+
+.form-control {
+  background-color: rgb(35, 35, 35);
+  border: none;
+  display: inline;
+  margin-bottom: 6px;
+  margin-left: 50px;
+  margin-right: 50px;
+  width: 350px;
+}
+
+.form-label {
+  color: rgb(230, 230, 230);
+  font-family: "Maven Pro", sans-serif;
+  font-size: 14px;
+}
+
+.form-textbox {
+  background-color: rgb(45, 45, 45);
+  border: 1px solid rgba(225, 83, 83, 0.6);
+  color: rgb(230, 230, 230);
+  padding: 10px;
+  width: 238px;
+  font-family: "Maven Pro", sans-serif;
+  font-size: 14px;
+}
+
+.form-textbox:active {
+  border: 1px solid rgba(225, 83, 83, 0.6);
+}
+
+.form-textbox:focus-visible {
+  outline: none;
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: rgb(230, 230, 230) !important;
+  -webkit-box-shadow: 0 0 0px 100px rgb(45, 45, 45) inset;
+}
+
+input:-webkit-autofill::first-line {
+  font-family: "Maven Pro", sans-serif;
+  font-size: 14px;
+}
+
+.separator {
+  height: 20px;
+}
+
+button {
+  background-color: rgb(45, 45, 45);
+  border-width: 0px;
+  color: #cccccc;
+  cursor: pointer;
+  font-size: 12px;
+  margin: auto;
+  padding: 12px 18px;
+}
+
+.submit {
+  text-align: center;
+}
+
+.error {
+  margin-left: 50px;
+  margin-top: 4px;
+  color: palevioletred;
+  font-family: sans-serif;
+  font-size: 11px;
+}

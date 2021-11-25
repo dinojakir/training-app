@@ -11,6 +11,10 @@ export class SignInComponent {
 
   constructor(public authService: AuthService) {}
 
+  async onLogin(e: any) {
+    await this.signIn(e.username, e.password);
+  }
+
   async signIn(userEmail: any, userPassword: any): Promise<void> {
     this.isLoadIndicatorVisible = true;
 

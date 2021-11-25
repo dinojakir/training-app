@@ -80,7 +80,8 @@ import { ConfigComponent } from "./components/config/config.component";
 import { MessagesComponent } from "./components/messages/messages.component";
 import { UsersComponent } from "./components/users/users.component";
 import { ChatComponent } from "./components/chat/chat.component";
-import { UserComponent } from './components/user/user.component';
+import { UserComponent } from "./components/user/user.component";
+import { LoginComponent } from "./components/login/login.component";
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { UserComponent } from './components/user/user.component';
     UsersComponent,
     ChatComponent,
     UserComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

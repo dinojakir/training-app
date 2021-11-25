@@ -1,0 +1,50 @@
+<div class="login-container">
+  <form #f="ngForm">
+    <div class="form-control">
+      <label class="form-label">Korisnik</label>
+    </div>
+    <div class="form-control">
+      <input
+        ngModel
+        required
+        #username="ngModel"
+        id="username"
+        name="username"
+        class="form-textbox"
+        type="text"
+        data-type="input-textbox"
+        data-defaultvalue=""
+        size="20"
+      />
+    </div>
+    <div *ngIf="username.touched && !username.valid" class="error">
+      Korisnik je obvezan
+    </div>
+
+    <div class="separator"></div>
+    <div class="form-control">
+      <label class="form-label" for="passworde">Lozinka</label>
+    </div>
+    <div class="form-control">
+      <input
+        ngModel
+        required
+        #password="ngModel"
+        id="password"
+        name="password"
+        class="form-textbox"
+        type="password"
+        data-type="input-textbox"
+        data-defaultvalue=""
+        size="20"
+      />
+    </div>
+    <div *ngIf="password.touched && !password.valid" class="error">
+      Lozinka je obvezna
+    </div>
+    <div class="separator"></div>
+    <div class="submit">
+      <button (click)="submit(f)">PRIJAVA</button>
+    </div>
+  </form>
+</div>
