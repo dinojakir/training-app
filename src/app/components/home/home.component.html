@@ -35,7 +35,7 @@
             </dxi-column>
             <dxi-column
               caption="Mišić"
-              dataField="muscles[0]"
+              dataField="parentMuscle"
               dataType="string"
               groupCellTemplate="groupCellTemplate"
               [groupIndex]="0"
@@ -47,10 +47,8 @@
               cellTemplate="editCellTemplate"
             >
             </dxi-column>
-            <dxo-master-detail
-              [enabled]="true"
-              template="detail"
-            ></dxo-master-detail>
+            <dxo-master-detail [enabled]="true" template="detail">
+            </dxo-master-detail>
             <div *dxTemplate="let data of 'headerCellTemplate'" class="header">
               {{ data.column.caption }}
             </div>

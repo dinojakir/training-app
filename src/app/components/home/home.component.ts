@@ -32,10 +32,10 @@ import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation
 export class HomeComponent implements OnInit {
   exercises: Exercise[] = [];
   loading: boolean = false;
-  marginTop: number;
   marginBottom: number;
-  tabWidth: number;
+  marginTop: number;
   tabHeight: number;
+  tabWidth: number;
   tabLeftPadding: number;
   tabRightPadding: number;
   treeHeight: number;
@@ -70,10 +70,18 @@ export class HomeComponent implements OnInit {
     const exercises: any[] = await this.db.getCollectionDocuments("Exercises");
 
     exercises.sort((a, b) => {
-      const aMuscle: any = muscles.find((i) => i.item === a.muscles[0]);
-      const bMuscle: any = muscles.find((i) => i.item === b.muscles[0]);
+      let aMuscle: any = muscles.find((i: any) => i.id === a.muscles[0].parent);
+      let bMuscle: any = muscles.find((i: any) => i.id === b.muscles[0].parent);
 
       return aMuscle.order - bMuscle.order;
+    });
+
+    exercises.forEach(async (item: any) => {
+      let pMuscle: any = muscles.find(
+        (i: any) => i.id === item.muscles[0].parent
+      ).item;
+
+      item["parentMuscle"] = pMuscle;
     });
 
     this.exercises = exercises;

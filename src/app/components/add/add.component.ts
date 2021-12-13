@@ -57,13 +57,14 @@ export class AddComponent implements OnInit {
   trainersFormControl = new FormControl("", []);
   subtrainersFormControl = new FormControl("", []);
   exerciseForm: FormGroup;
-  selectedMuscles: any;
+  selectedMuscles: any[] = [];
   treeBoxValue: string[] = [];
 
   errorStateMatcher = new CustomErrorStateMatcher();
 
   loading: boolean = false;
   saving: boolean = false;
+  _this: any;
 
   constructor(
     private db: DbService,
@@ -78,6 +79,9 @@ export class AddComponent implements OnInit {
       trainers: this.trainersFormControl,
       subtrainers: this.subtrainersFormControl,
     });
+
+    this.onSubmit = this.onSubmit.bind(this);
+    this._this = this;
   }
 
   async ngOnInit(): Promise<void> {
@@ -103,12 +107,24 @@ export class AddComponent implements OnInit {
       this.nameFormControl.setValue(exercise.name);
       this.edit.type = exercise.type;
       this.edit.muscles = exercise.muscles;
-      const temp: any[] = [];
-      exercise.muscles.forEach((i: any) => {
-        const muscle: any = this.muscles.find((j) => j.item === i);
-        temp.push(muscle.id);
-      });
-      this.treeBoxValue = temp;
+      this.selectedMuscles = exercise.muscles;
+      this.treeBoxValue = exercise.muscles[0].parent;
+
+      const muscle = this.muscles.find(
+        (i: any) => i.id === exercise.muscles[0].parent
+      );
+      muscle.selected = true;
+      if (
+        exercise.muscles[0].children &&
+        exercise.muscles[0].children.length > 0
+      ) {
+        const child = muscle.children.find(
+          (i: any) => i.id === exercise.muscles[0].children[0]
+        );
+        muscle.expanded = true;
+        child.selected = true;
+      }
+
       this.edit.video = exercise.video;
       this.edit.mode = exercise.mode;
       this.edit.comment = exercise.comment;
@@ -200,48 +216,42 @@ export class AddComponent implements OnInit {
     }
   }
 
-  async submit(): Promise<void> {
-    if (!this.exerciseForm.valid) {
+  async onSubmit(e: any, _this: any, uuid: any): Promise<void> {
+    if (!_this.exerciseForm.valid) {
       return;
     }
 
-    this.saving = true;
+    _this.saving = true;
 
-    if (!this.editMode) {
-      this.exercise.id = uuidv4();
+    if (!_this.editMode) {
+      _this.exercise.id = uuid;
     }
 
-    const temp: any[] = [];
-    this.treeBoxValue.forEach((i) => {
-      const muscle: any = this.muscles.find((j: any) => j.id === i);
-      temp.push(muscle.item);
-    });
-    this.exercise.muscles = temp;
+    _this.exercise.muscles = _this.selectedMuscles;
 
-    if (this.file && this.file.name) {
-      const filePath: string = `Videos/${this.file.name}`;
-      const fileRef: AngularFireStorageReference = this.storage.ref(filePath);
+    if (_this.file && _this.file.name) {
+      const filePath: string = `Videos/${_this.file.name}`;
+      const fileRef: AngularFireStorageReference = _this.storage.ref(filePath);
 
-      if (this.editMode && this.edit?.video) {
-        await this.storage.refFromURL(this.edit?.video).delete().toPromise();
+      if (_this.editMode && _this.edit?.video) {
+        await _this.storage.refFromURL(_this.edit?.video).delete().toPromise();
       }
-      const task: AngularFireUploadTask = this.storage.upload(
+      const task: AngularFireUploadTask = _this.storage.upload(
         filePath,
-        this.file
+        _this.file
       );
       task.percentageChanges().subscribe((value) => {
-        this.uploadPercent = value;
+        _this.uploadPercent = value;
       });
       await task;
       const url: any = await fileRef.getDownloadURL().toPromise();
-      this.exercise.video = url;
+      _this.exercise.video = url;
     }
 
-    await this.db.saveCollectionDocument("Exercises", this.exercise);
+    await _this.db.saveCollectionDocument("Exercises", _this.exercise);
 
-    this.saving = false;
-
-    this.router.navigate(["pocetna"]);
+    _this.saving = false;
+    _this.router.navigate(["pocetna"]);
   }
 
   onItemRendered(e: any): void {
@@ -253,38 +263,25 @@ export class AddComponent implements OnInit {
   }
 
   onTreeViewSelectionChanged(e: any): void {
-    this.treeBoxValue = e.component.getSelectedNodeKeys();
     if (e.itemData.hasOwnProperty("parent")) {
-      const item: any = e.itemData;
-      const parent: any = item.parent;
-      if (e.itemData.selected) {
-        if (this.treeBoxValue.findIndex((i) => i === parent) < 0) {
-          e.component.selectItem(parent);
-        }
-      } else {
-        const children: any = this.muscles.find(
-          (i) => i.id === parent
-        ).children;
-
-        let found: boolean = false;
-        for (const child of children) {
-          if (child.id !== item.id) {
-            if (this.treeBoxValue.findIndex((j) => j === child.id) >= 0) {
-              found = true;
-              break;
-            }
-          }
-        }
-
-        if (!found) {
-          e.component.unselectItem(parent);
-        }
-      }
+      this.treeBoxValue = e.itemData.selected ? [e.itemData.parent] : [];
+      this.selectedMuscles = e.itemData.selected
+        ? [{ parent: e.itemData.parent, children: [e.itemData.id] }]
+        : [];
+    } else {
+      this.selectedMuscles = e.itemData.selected
+        ? [{ parent: e.itemData.id, children: [] }]
+        : [];
+      this.treeBoxValue = e.itemData.selected ? [e.itemData.id] : [];
     }
   }
 
   onTreeViewReady(e: any): void {
     this.updateSelection(e.component);
+  }
+
+  getUuid() {
+    return uuidv4();
   }
 
   updateSelection(treeView: any): void {
