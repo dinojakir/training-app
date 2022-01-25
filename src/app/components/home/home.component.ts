@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit {
     const muscles: any[] = await this.db.getCollectionDocuments("Muscles");
     const exercises: any[] = await this.db.getCollectionDocuments("Exercises");
 
-    exercises.sort((a, b) => {
+    /* exercises.sort((a, b) => {
       let aMuscle: any = muscles.find((i: any) => i.id === a.muscles[0].parent);
       let bMuscle: any = muscles.find((i: any) => i.id === b.muscles[0].parent);
 
@@ -82,7 +82,7 @@ export class HomeComponent implements OnInit {
       ).item;
 
       item["parentMuscle"] = pMuscle;
-    });
+    }); */
 
     this.exercises = exercises;
 

@@ -102,6 +102,7 @@ export class AddComponent implements OnInit {
       const exercise: Exercise = history.state.data;
       this.edit = new Exercise();
 
+      console.log(history.state.data);
       this.edit.id = exercise.id;
       this.edit.name = exercise.name;
       this.nameFormControl.setValue(exercise.name);
@@ -113,16 +114,19 @@ export class AddComponent implements OnInit {
       const muscle = this.muscles.find(
         (i: any) => i.id === exercise.muscles[0].parent
       );
-      muscle.selected = true;
-      if (
-        exercise.muscles[0].children &&
-        exercise.muscles[0].children.length > 0
-      ) {
-        const child = muscle.children.find(
-          (i: any) => i.id === exercise.muscles[0].children[0]
-        );
-        muscle.expanded = true;
-        child.selected = true;
+
+      if (muscle) {
+        muscle.selected = true;
+        if (
+          exercise.muscles[0].children &&
+          exercise.muscles[0].children.length > 0
+        ) {
+          const child = muscle.children.find(
+            (i: any) => i.id === exercise.muscles[0].children[0]
+          );
+          muscle.expanded = true;
+          child.selected = true;
+        }
       }
 
       this.edit.video = exercise.video;
