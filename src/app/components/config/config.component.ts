@@ -28,15 +28,15 @@ export class ConfigComponent implements OnInit {
   addButtonOptions: any;
   closeButtonOptions: any;
   dbData: any;
+  items: any[] = [];
   loading: boolean = false;
   newItem: NewItem = new NewItem();
-  items: any[] = [];
-  treeViewPadding: number;
-  treeViewWidth: number;
   popupVisible: boolean = false;
   saving: boolean = false;
   settings: any[] = [];
   title: string = "";
+  treeViewPadding: number;
+  treeViewWidth: number;
 
   constructor(private db: DbService, private layoutService: LayoutService) {
     const _this: any = this;
