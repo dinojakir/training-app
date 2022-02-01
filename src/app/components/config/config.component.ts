@@ -5,8 +5,8 @@ import { LayoutService } from "src/app/services/layout.service";
 import { v4 as uuidv4 } from "uuid";
 
 class NewItem {
-  Naziv: string = "";
-  Grupa: string = "";
+  Naziv: any;
+  Grupa: any;
 }
 
 @Component({
@@ -57,14 +57,11 @@ export class ConfigComponent implements OnInit {
           if (validationStatus.isValid) {
             const id: any = uuidv4();
             if (_this.newItem.Grupa) {
-              const parent = _this.getParent(_this.newItem.Grupa);
-              if (parent) {
-                _this.settings.push({
-                  id: id,
-                  name: _this.newItem.Naziv,
-                  parent: parent.name,
-                });
-              }
+              _this.settings.push({
+                id: id,
+                name: _this.newItem.Naziv,
+                parent: _this.newItem.Grupa,
+              });
             } else {
               _this.settings.push({
                 id: id,
@@ -111,7 +108,12 @@ export class ConfigComponent implements OnInit {
       data.push({ id: i.id, name: i.name, order: i.order, parent: null });
       if (i.children && i.children.length > 0) {
         i.children.forEach((j: any) => {
-          data.push({ id: j.id, name: j.name, order: j.order, parent: i.name });
+          data.push({
+            id: j.id,
+            name: j.name,
+            order: j.order,
+            parent: this.getParent(i.name).id,
+          });
         });
       }
     });
@@ -169,7 +171,7 @@ export class ConfigComponent implements OnInit {
           setting.order = idx;
           idx++;
           let children: any[] = this.settings.filter(
-            (i) => i.parent === setting.name
+            (i) => i.parent === setting.id
           );
           if (children.length > 0) {
             for (let jdx = 0; jdx < children.length; jdx++) {
@@ -186,14 +188,12 @@ export class ConfigComponent implements OnInit {
   }
 
   getKey(rowData: any): string {
-    return rowData.parent
-      ? `${rowData.parent}-${rowData.name}`
-      : `${rowData.name}`;
+    return `${rowData.id}`;
   }
 
   getParent(name: string) {
-    const parent = this.settings.find(
-      (i) => i.parent === null && i.name === name
+    const parent = this.dbData.find(
+      (i: any) => i.parent === null && i.name === name
     );
 
     if (parent) {

@@ -86,9 +86,10 @@
         dataField="Grupa"
         editorType="dxSelectBox"
         [editorOptions]="{
-          items: items,
+          displayExpr: 'name',
+          items: settings,
           searchEnabled: true,
-          value: '',
+          valueExpr: 'id',
           placeholder: '',
           noDataText: 'Nije pronađeno'
         }"
