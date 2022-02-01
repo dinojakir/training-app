@@ -15,11 +15,11 @@ class NewItem {
   styleUrls: ["./config.component.scss"],
 })
 export class ConfigComponent implements OnInit {
-  @ViewChild(DxTreeListComponent, { static: false }) treeList:
-    | DxTreeListComponent
-    | undefined;
   @ViewChild(DxFormComponent, { static: false }) form:
     | DxFormComponent
+    | undefined;
+  @ViewChild(DxTreeListComponent, { static: false }) treeList:
+    | DxTreeListComponent
     | undefined;
 
   @Input() setting: string = "";
@@ -27,6 +27,7 @@ export class ConfigComponent implements OnInit {
 
   addButtonOptions: any;
   closeButtonOptions: any;
+  dbData: any;
   loading: boolean = false;
   newItem: NewItem = new NewItem();
   items: any[] = [];
@@ -54,10 +55,24 @@ export class ConfigComponent implements OnInit {
         if (_this.form) {
           const validationStatus: any = _this.form.instance.validate();
           if (validationStatus.isValid) {
-            _this.settings.push({
-              name: _this.newItem.Naziv,
-              parent: _this.newItem.Grupa || null,
-            });
+            const id: any = uuidv4();
+            if (_this.newItem.Grupa) {
+              const parent = _this.getParent(_this.newItem.Grupa);
+              if (parent) {
+                _this.settings.push({
+                  id: id,
+                  name: _this.newItem.Naziv,
+                  parent: parent.name,
+                });
+              }
+            } else {
+              _this.settings.push({
+                id: id,
+                name: _this.newItem.Naziv,
+                parent: null,
+              });
+            }
+
             _this.popupVisible = false;
           }
         }
@@ -87,22 +102,23 @@ export class ConfigComponent implements OnInit {
         break;
     }
 
-    const settings: any[] = (
-      await this.db.getCollectionDocuments(this.setting)
-    ).sort((a: any, b: any) => a.order - b.order);
+    this.dbData = (await this.db.getCollectionDocuments(this.setting)).sort(
+      (a: any, b: any) => a.order - b.order
+    );
 
     const data: any[] = [];
-    settings.forEach((i: any) => {
-      data.push({ name: i.item, parent: null });
+    this.dbData.forEach((i: any) => {
+      data.push({ id: i.id, name: i.name, order: i.order, parent: null });
       if (i.children && i.children.length > 0) {
         i.children.forEach((j: any) => {
-          data.push({ name: j.item, parent: i.item });
+          data.push({ id: j.id, name: j.name, order: j.order, parent: i.name });
         });
       }
     });
 
     this.items = data.filter((i) => i.parent === null).map((j) => j.name);
     this.settings = data;
+
     this.loading = false;
   }
 
@@ -147,36 +163,21 @@ export class ConfigComponent implements OnInit {
     if (this.settings && this.settings.length > 0) {
       this.saving = true;
 
-      const settings: any[] = await this.db.getCollectionDocuments(
-        this.setting
-      );
-      for (const setting of settings) {
-        if (setting.id) {
-          await this.db.deleteCollectionDocument(this.setting, setting);
-        }
-      }
-
       let idx: number = 1;
       for (const setting of this.settings) {
         if (setting.parent === null) {
-          const id: any = uuidv4();
+          setting.order = idx;
+          idx++;
           let children: any[] = this.settings.filter(
             (i) => i.parent === setting.name
           );
           if (children.length > 0) {
-            children = children.map((i, index) => {
-              return { item: i.name, order: index, id: uuidv4(), parent: id };
-            });
+            for (let jdx = 0; jdx < children.length; jdx++) {
+              children[jdx].order = jdx + 1;
+            }
           }
-          const newSetting: any = {
-            id: id,
-            item: setting.name,
-            children: children,
-            order: idx,
-          };
-          await this.db.saveCollectionDocument(this.setting, newSetting);
-
-          idx++;
+          setting.children = children;
+          await this.db.saveCollectionDocument(this.setting, setting);
         }
       }
 
@@ -188,5 +189,17 @@ export class ConfigComponent implements OnInit {
     return rowData.parent
       ? `${rowData.parent}-${rowData.name}`
       : `${rowData.name}`;
+  }
+
+  getParent(name: string) {
+    const parent = this.settings.find(
+      (i) => i.parent === null && i.name === name
+    );
+
+    if (parent) {
+      return parent;
+    }
+
+    return null;
   }
 }
