@@ -15,6 +15,7 @@
       [columnAutoWidth]="true"
       [noDataText]="''"
       [height]="treeHeight"
+      [showColumnLines]="false"
       [width]="'90%'"
       (onToolbarPreparing)="onToolbarPreparing($event)"
     >
@@ -30,8 +31,15 @@
         headerCellTemplate="headerTemplate"
       >
       </dxi-column>
+      <dxi-column alignment="right" caption="" cellTemplate="editCellTemplate">
+      </dxi-column>
       <div *dxTemplate="let info of 'headerTemplate'">
         <span class="treelist-header">{{ info.column.caption }}</span>
+      </div>
+      <div *dxTemplate="let data of 'editCellTemplate'">
+        <dx-button icon="edit" class="btn-margin" (click)="onEdit(data.data)">
+        </dx-button>
+        <dx-button icon="remove" (click)="onDelete(data.data)"></dx-button>
       </div>
     </dx-tree-list>
     <div>

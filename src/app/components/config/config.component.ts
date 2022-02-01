@@ -161,6 +161,10 @@ export class ConfigComponent implements OnInit {
     });
   }
 
+  async onDelete(data: any): Promise<void> {}
+
+  onEdit(data: any): void {}
+
   async save(): Promise<void> {
     if (this.settings && this.settings.length > 0) {
       this.saving = true;
