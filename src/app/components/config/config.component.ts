@@ -1,8 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { DxFormComponent, DxTreeListComponent } from "devextreme-angular";
 import { DbService } from "src/app/services/auth/db.service";
 import { LayoutService } from "src/app/services/layout.service";
 import { v4 as uuidv4 } from "uuid";
+import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation-dialog.component";
 
 class NewItem {
   Naziv: any;
@@ -38,7 +40,11 @@ export class ConfigComponent implements OnInit {
   treeViewPadding: number;
   treeViewWidth: number;
 
-  constructor(private db: DbService, private layoutService: LayoutService) {
+  constructor(
+    private db: DbService,
+    public dialog: MatDialog,
+    private layoutService: LayoutService
+  ) {
     const _this: any = this;
     this.onReorder = this.onReorder.bind(this);
 
@@ -161,7 +167,9 @@ export class ConfigComponent implements OnInit {
     });
   }
 
-  async onDelete(data: any): Promise<void> {}
+  async onDelete(data: any): Promise<void> {
+    this.openDialog(data);
+  }
 
   onEdit(data: any): void {}
 
@@ -205,5 +213,21 @@ export class ConfigComponent implements OnInit {
     }
 
     return null;
+  }
+
+  openDialog(setting: any): void {
+    const dialogRef: any = this.dialog.open(ConfirmationDialogComponent, {
+      width: "250px",
+      data: setting,
+    });
+
+    dialogRef.afterClosed().subscribe(async (result: any) => {
+      if (result) {
+        await this.db.deleteCollectionDocument(this.setting, setting);
+        this.dbData = this.dbData.filter((i: any) => i.id !== setting.id);
+        this.settings = this.settings.filter((i: any) => i.id !== setting.id);
+        this.items = this.items.filter((i: any) => i.id !== setting.id);
+      }
+    });
   }
 }
