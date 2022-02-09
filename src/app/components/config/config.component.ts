@@ -30,9 +30,13 @@ export class ConfigComponent implements OnInit {
   addButtonOptions: any;
   closeButtonOptions: any;
   dbData: any;
+  editButtonOptions: any;
+  editPopupVisible: boolean = false;
+  editSettings: any = [];
   items: any[] = [];
   loading: boolean = false;
   newItem: NewItem = new NewItem();
+  editItem?: any;
   popupVisible: boolean = false;
   saving: boolean = false;
   settings: any[] = [];
@@ -81,11 +85,36 @@ export class ConfigComponent implements OnInit {
         }
       },
     };
+
+    this.editButtonOptions = {
+      icon: "check",
+      text: "Spremi",
+      onClick: function (): void {
+        if (_this.form) {
+          const validationStatus: any = _this.form.instance.validate();
+          const items = [..._this.settings].filter(
+            (i) => i.id !== _this.editItem.Id
+          );
+          if (validationStatus.isValid) {
+            items.push({
+              id: _this.editItem.Id,
+              name: _this.editItem.Naziv,
+              parent: _this.editItem.Grupa ?? null,
+            });
+
+            _this.settings = items;
+            _this.editPopupVisible = false;
+          }
+        }
+      },
+    };
+
     this.closeButtonOptions = {
       icon: "close",
       text: "Odustani",
       onClick: function (): void {
         _this.popupVisible = false;
+        _this.editPopupVisible = false;
       },
     };
   }
@@ -160,6 +189,7 @@ export class ConfigComponent implements OnInit {
         elementAttr: { id: "addBtn", class: "add-button" },
         icon: "add",
         onClick: function (): void {
+          _this.editSettings = _this.settings.filter((i: any) => !i.parent);
           _this.popupVisible = true;
         },
       },
@@ -171,7 +201,18 @@ export class ConfigComponent implements OnInit {
     this.openDialog(data);
   }
 
-  onEdit(data: any): void {}
+  onEdit(data: any): void {
+    let group = null;
+
+    if (data.parent) {
+      group = data.parent;
+    }
+
+    this.editItem = { Id: data.id, Naziv: data.name, Grupa: group };
+    this.editSettings = this.settings.filter((i) => !i.parent);
+
+    this.editPopupVisible = true;
+  }
 
   async save(): Promise<void> {
     if (this.settings && this.settings.length > 0) {
