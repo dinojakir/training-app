@@ -101,15 +101,13 @@ export class AddComponent implements OnInit {
       this.editMode = true;
       const exercise: Exercise = history.state.data;
       this.edit = new Exercise();
-
-      console.log(history.state.data);
       this.edit.id = exercise.id;
       this.edit.name = exercise.name;
       this.nameFormControl.setValue(exercise.name);
       this.edit.type = exercise.type;
       this.edit.muscles = exercise.muscles;
       this.selectedMuscles = exercise.muscles;
-      this.treeBoxValue = exercise.muscles[0].parent;
+      this.treeBoxValue = [exercise.muscles[0].parent];
 
       const muscle = this.muscles.find(
         (i: any) => i.id === exercise.muscles[0].parent
@@ -267,7 +265,7 @@ export class AddComponent implements OnInit {
   }
 
   onTreeViewSelectionChanged(e: any): void {
-    if (e.itemData.hasOwnProperty("parent")) {
+    if (e.itemData.hasOwnProperty("parent") && e.itemData.parent) {
       this.treeBoxValue = e.itemData.selected ? [e.itemData.parent] : [];
       this.selectedMuscles = e.itemData.selected
         ? [{ parent: e.itemData.parent, children: [e.itemData.id] }]

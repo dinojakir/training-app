@@ -43,27 +43,25 @@
           <dx-drop-down-box
             [(value)]="treeBoxValue"
             valueExpr="id"
-            displayExpr="item"
+            displayExpr="name"
             placeholder="..."
             [dataSource]="muscles"
             width="350px"
           >
             <div *dxTemplate="let data of 'content'">
               <dx-tree-view
+                displayExpr="name"
                 id="treeview"
                 [items]="muscles"
                 itemsExpr="children"
-                showCheckBoxesMode="normal"
                 selectionMode="single"
                 [selectNodesRecursive]="false"
                 [selectByClick]="false"
+                showCheckBoxesMode="normal"
                 (onItemRendered)="onItemRendered($event)"
                 (onItemSelectionChanged)="onTreeViewSelectionChanged($event)"
                 (onContentReady)="onTreeViewReady($event)"
               >
-                <div *dxTemplate="let item of 'item'">
-                  {{ item.item }}
-                </div>
               </dx-tree-view>
             </div>
           </dx-drop-down-box>
