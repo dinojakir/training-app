@@ -114,16 +114,17 @@ export class AddComponent implements OnInit {
       );
 
       if (muscle) {
-        muscle.selected = true;
         if (
           exercise.muscles[0].children &&
           exercise.muscles[0].children.length > 0
         ) {
-          const child = muscle.children.find(
-            (i: any) => i.id === exercise.muscles[0].children[0]
-          );
           muscle.expanded = true;
+          const child = muscle.children.find(
+            (j: any) => j.id === exercise.muscles[0].children[0]
+          );
           child.selected = true;
+        } else {
+          muscle.selected = true;
         }
       }
 
@@ -279,7 +280,7 @@ export class AddComponent implements OnInit {
   }
 
   onTreeViewReady(e: any): void {
-    this.updateSelection(e.component);
+    // this.updateSelection(e.component);
   }
 
   getUuid() {
