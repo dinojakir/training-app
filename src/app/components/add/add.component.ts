@@ -231,6 +231,9 @@ export class AddComponent implements OnInit {
     }
 
     _this.exercise.muscles = _this.selectedMuscles;
+    _this.exercise.muscles[0].muscleGroup = _this.muscles.find(
+      (i: any) => i.id === _this.selectedMuscles[0].parent
+    ).name;
 
     if (_this.file && _this.file.name) {
       const filePath: string = `Videos/${_this.file.name}`;
