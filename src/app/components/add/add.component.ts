@@ -279,29 +279,7 @@ export class AddComponent implements OnInit {
     }
   }
 
-  onTreeViewReady(e: any): void {
-    // this.updateSelection(e.component);
-  }
-
   getUuid() {
     return uuidv4();
-  }
-
-  updateSelection(treeView: any): void {
-    if (!treeView) {
-      return;
-    }
-
-    if (!this.treeBoxValue) {
-      treeView.unselectAll();
-    }
-
-    if (this.treeBoxValue) {
-      this.treeBoxValue.forEach(
-        function (value: any): void {
-          treeView.selectItem(value);
-        }.bind(this)
-      );
-    }
   }
 }
