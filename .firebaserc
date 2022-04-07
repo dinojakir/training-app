@@ -1,4 +1,8 @@
 {
+  "projects": {
+    "training-app": "training-app-1552e",
+    "default": "training-app-1552e"
+  },
   "targets": {
     "training-app-8bbb6": {
       "hosting": {
