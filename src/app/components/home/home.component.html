@@ -23,7 +23,7 @@
             [height]="treeHeight"
             [noDataText]="''"
             [width]="'90%'"
-            (onToolbarPreparing)="onToolbarPreparing($event)"
+            (onToolbarPreparing)="onToolbarPreparingExercise($event)"
           >
             <dxi-column
               dataField="name"
@@ -39,7 +39,6 @@
               groupIndex="0"
             >
             </dxi-column>
-
             <dxi-column
               alignment="right"
               caption=""
@@ -61,12 +60,12 @@
               <dx-button
                 icon="edit"
                 class="btn-margin"
-                (click)="onEdit(data.data)"
+                (click)="onEditExercise(data.data)"
               >
               </dx-button>
               <dx-button
                 icon="remove"
-                (click)="onDelete(data.data)"
+                (click)="onDeleteExercise(data.data)"
               ></dx-button>
             </div>
             <div *dxTemplate="let row of 'detail'" class="detail-container">
@@ -101,6 +100,54 @@
                   <div class="empty">-</div>
                 </ng-container>
               </div>
+            </div>
+          </dx-data-grid>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Treninzi">
+      <div class="home-container">
+        <div *ngIf="loading" class="load-container">
+          <mat-spinner [diameter]="30"></mat-spinner>
+        </div>
+        <div *ngIf="!loading">
+          <dx-data-grid
+            id="trainings"
+            [dataSource]="trainings"
+            [showBorders]="true"
+            [showColumnLines]="false"
+            [showRowLines]="false"
+            [wordWrapEnabled]="true"
+            [height]="treeHeight"
+            [noDataText]="''"
+            [width]="'90%'"
+            (onToolbarPreparing)="onToolbarPreparingTraining($event)"
+          >
+            <dxi-column
+              dataField="name"
+              caption="Naziv"
+              dataType="string"
+              headerCellTemplate="headerCellTemplate"
+            >
+            </dxi-column>
+            <dxi-column
+              alignment="right"
+              caption=""
+              cellTemplate="editCellTemplate"
+            >
+            </dxi-column>
+            <div *dxTemplate="let data of 'headerCellTemplate'" class="header">
+              {{ data.column.caption }}
+            </div>
+            <div *dxTemplate="let data of 'editCellTemplate'">
+              <dx-button
+                icon="edit"
+                class="btn-margin"
+                (click)="onEditTraining(data.data)"
+              >
+              </dx-button>
+              <dx-button icon="remove" (click)="onDeleteTraining(data.data)">
+              </dx-button>
             </div>
           </dx-data-grid>
         </div>

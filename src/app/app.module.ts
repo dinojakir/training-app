@@ -51,6 +51,7 @@ import { MatTreeModule } from "@angular/material/tree";
 import { OverlayModule } from "@angular/cdk/overlay";
 
 import { AddComponent } from "./components/add/add.component";
+import { AddTrainingComponent } from "./components/add-training/add-training.component";
 import { HomeComponent } from "./components/home/home.component";
 import { ConfigurationComponent } from "./components/configuration/configuration.component";
 
@@ -87,6 +88,7 @@ import { LoginComponent } from "./components/login/login.component";
   declarations: [
     AppComponent,
     AddComponent,
+    AddTrainingComponent,
     HomeComponent,
     ConfigurationComponent,
     SignInComponent,

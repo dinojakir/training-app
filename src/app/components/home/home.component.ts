@@ -10,6 +10,7 @@ import { AngularFireStorage } from "@angular/fire/storage";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { Exercise } from "src/app/model/exercise.dto";
+import { Training } from "src/app/model/training.dto";
 import { DbService } from "src/app/services/auth/db.service";
 import { LayoutService } from "src/app/services/layout.service";
 import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation-dialog.component";
@@ -38,14 +39,15 @@ export class HomeComponent implements OnInit {
   tabWidth: number;
   tabLeftPadding: number;
   tabRightPadding: number;
+  trainings: any[] = [];
   treeHeight: number;
 
   constructor(
     private db: DbService,
     private router: Router,
     public dialog: MatDialog,
-    private storage: AngularFireStorage,
-    private layoutService: LayoutService
+    private layoutService: LayoutService,
+    private storage: AngularFireStorage
   ) {
     const res: any = this.layoutService.getResolution();
     const maxWidth: number = 1000;
@@ -66,34 +68,25 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const muscles: any[] = await this.db.getCollectionDocuments("Muscles");
+
     const exercises: any[] = await this.db.getCollectionDocuments("Exercises");
-
-    /* exercises.sort((a, b) => {
-      let aMuscle: any = muscles.find((i: any) => i.id === a.muscles[0].parent);
-      let bMuscle: any = muscles.find((i: any) => i.id === b.muscles[0].parent);
-
-      return aMuscle.order - bMuscle.order;
-    });
-
-    exercises.forEach(async (item: any) => {
-      let pMuscle: any = muscles.find(
-        (i: any) => i.id === item.muscles[0].parent
-      ).item;
-
-      item["parentMuscle"] = pMuscle;
-    }); */
+    const trainings: any[] = await this.db.getCollectionDocuments("Trainings");
 
     this.exercises = exercises;
+    this.trainings = trainings;
 
     this.loading = false;
   }
 
-  onEdit(exercise: Exercise): void {
+  onEditExercise(exercise: Exercise): void {
     this.router.navigate(["/vjezba"], { state: { data: exercise } });
   }
 
-  onToolbarPreparing(e: any): void {
+  onEditTraining(training: Training): void {
+    this.router.navigate(["/trening"], { state: { data: training } });
+  }
+
+  onToolbarPreparingExercise(e: any): void {
     let toolbarItems: any = e.toolbarOptions.items;
     const _this: any = this;
 
@@ -110,15 +103,36 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  async onDelete(exercise: Exercise): Promise<void> {
-    this.openDialog(exercise);
+  onToolbarPreparingTraining(e: any): void {
+    let toolbarItems: any = e.toolbarOptions.items;
+    const _this: any = this;
+
+    toolbarItems.push({
+      widget: "dxButton",
+      options: {
+        elementAttr: { id: "addBtn", class: "add-button" },
+        icon: "add",
+        onClick: function (): void {
+          _this.router.navigate(["/trening"]);
+        },
+      },
+      location: "after",
+    });
+  }
+
+  async onDeleteExercise(exercise: Exercise): Promise<void> {
+    this.openDialogExercise(exercise);
+  }
+
+  async onDeleteTraining(training: Training): Promise<void> {
+    this.openDialogTraining(training);
   }
 
   getSource(exercise: Exercise): string | undefined {
     return exercise.video;
   }
 
-  openDialog(exercise: Exercise): void {
+  openDialogExercise(exercise: Exercise): void {
     const dialogRef: any = this.dialog.open(ConfirmationDialogComponent, {
       width: "250px",
       data: exercise,
@@ -132,6 +146,20 @@ export class HomeComponent implements OnInit {
 
         await this.db.deleteCollectionDocument("Exercises", exercise);
         this.exercises = this.exercises.filter((i) => i.id !== exercise.id);
+      }
+    });
+  }
+
+  openDialogTraining(training: Training): void {
+    const dialogRef: any = this.dialog.open(ConfirmationDialogComponent, {
+      width: "250px",
+      data: training,
+    });
+
+    dialogRef.afterClosed().subscribe(async (result: Training) => {
+      if (result) {
+        await this.db.deleteCollectionDocument("Trainings", training);
+        this.trainings = this.trainings.filter((i) => i.id !== training.id);
       }
     });
   }

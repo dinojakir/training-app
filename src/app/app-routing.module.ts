@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { AddTrainingComponent } from "./components/add-training/add-training.component";
 import { AddComponent } from "./components/add/add.component";
 import { ChatComponent } from "./components/chat/chat.component";
 import { ConfigurationComponent } from "./components/configuration/configuration.component";
@@ -22,6 +23,11 @@ const routes: Routes = [
   {
     path: "vjezba",
     component: AddComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+  {
+    path: "trening",
+    component: AddTrainingComponent,
     canActivate: [AuthGuard, AdminGuard],
   },
   {
