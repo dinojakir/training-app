@@ -4,10 +4,10 @@
     "default": "training-app-1552e"
   },
   "targets": {
-    "training-app-8bbb6": {
+    "training-app-1552e": {
       "hosting": {
         "training-app": [
-          "training-app-8bbb6"
+          "training-app-1552e"
         ]
       }
     }
