@@ -65,10 +65,10 @@ export class AddTrainingComponent implements OnInit {
       const training: Training = history.state.data;
       this.edit = new Training();
       this.edit.id = training.id;
+      this.edit.comment = training.comment;
+      this.edit.link = training.link;
       this.edit.name = training.name;
       this.nameFormControl.setValue(training.name);
-
-      this.edit.comment = training.comment;
 
       this.training = this.edit;
     }

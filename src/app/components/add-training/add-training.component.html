@@ -28,7 +28,21 @@
       </div>
       <div class="row">
         <div class="col">
-          <mat-form-field class="text-input" appearance="fill">
+          <mat-form-field appearance="fill" class="link-input">
+            <mat-label>Youtube link</mat-label>
+            <textarea
+              matInput
+              placeholder="..."
+              [(ngModel)]="training.link"
+              [ngModelOptions]="{ standalone: true }"
+            >
+            </textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="fill" class="text-input">
             <mat-label>Komentar</mat-label>
             <textarea
               matInput
