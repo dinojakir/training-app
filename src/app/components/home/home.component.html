@@ -131,8 +131,9 @@
             >
             </dxi-column>
             <dxi-column
-              dataField="link"
               caption="Youtube link"
+              cellTemplate="linkCellTemplate"
+              dataField="link"
               dataType="string"
               headerCellTemplate="headerCellTemplate"
             >
@@ -155,6 +156,9 @@
               </dx-button>
               <dx-button icon="remove" (click)="onDeleteTraining(data.data)">
               </dx-button>
+            </div>
+            <div *dxTemplate="let data of 'linkCellTemplate'">
+              <a [href]="data.value">{{ data.value }}</a>
             </div>
           </dx-data-grid>
         </div>
