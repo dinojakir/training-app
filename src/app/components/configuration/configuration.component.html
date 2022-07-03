@@ -10,8 +10,12 @@
     <mat-tab label="Mišići">
       <app-config [setting]="'Muscles'" [treeHeight]="treeHeight"></app-config>
     </mat-tab>
-    <mat-tab label="Rekviziti">
+    <mat-tab label="Rekviziti za vježbe">
       <app-config [setting]="'Props'" [treeHeight]="treeHeight"></app-config>
+    </mat-tab>
+    <mat-tab label="Rekviziti za treninge">
+      <app-config [setting]="'PropsTraining'" [treeHeight]="treeHeight">
+      </app-config>
     </mat-tab>
     <mat-tab label="Trenažeri">
       <app-config [setting]="'Trainers'" [treeHeight]="treeHeight"></app-config>

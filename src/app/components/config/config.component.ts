@@ -129,6 +129,9 @@ export class ConfigComponent implements OnInit {
       case "Props":
         this.title = "Rekvizit";
         break;
+      case "PropsTraining":
+        this.title = "Rekvizit";
+        break;
       case "Trainers":
         this.title = "Trenažer";
         break;
