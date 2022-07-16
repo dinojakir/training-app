@@ -41,29 +41,25 @@ export class AddComponent implements OnInit {
   editMode: boolean = false;
   exercise: Exercise = new Exercise();
   edit: Exercise | undefined;
+  errorStateMatcher = new CustomErrorStateMatcher();
+  exerciseForm: FormGroup;
   file: any;
-  uploadPercent: number | undefined;
-
+  loading: boolean = false;
   muscles: any[] = [];
+  nameFormControl = new FormControl("", [Validators.required]);
   submuscles: any[] = [];
   props: any[] = [];
-  subprops: any[] = [];
-  trainers: any[] = [];
-  subtrainers: any[] = [];
-
-  nameFormControl = new FormControl("", [Validators.required]);
   propsFormControl = new FormControl("", []);
-  subpropsFormControl = new FormControl("", []);
-  trainersFormControl = new FormControl("", []);
-  subtrainersFormControl = new FormControl("", []);
-  exerciseForm: FormGroup;
-  selectedMuscles: any[] = [];
-  treeBoxValue: string[] = [];
-
-  errorStateMatcher = new CustomErrorStateMatcher();
-
-  loading: boolean = false;
   saving: boolean = false;
+  selectedMuscles: any[] = [];
+  subprops: any[] = [];
+  subpropsFormControl = new FormControl("", []);
+  subtrainers: any[] = [];
+  subtrainersFormControl = new FormControl("", []);
+  trainers: any[] = [];
+  trainersFormControl = new FormControl("", []);
+  treeBoxValue: string = "...";
+  uploadPercent: number | undefined;
   _this: any;
 
   constructor(
@@ -107,25 +103,9 @@ export class AddComponent implements OnInit {
       this.edit.type = exercise.type;
       this.edit.muscles = exercise.muscles;
       this.selectedMuscles = exercise.muscles;
-      this.treeBoxValue = [exercise.muscles[0].parent];
 
-      const muscle = this.muscles.find(
-        (i: any) => i.id === exercise.muscles[0].parent
-      );
-
-      if (muscle) {
-        if (
-          exercise.muscles[0].children &&
-          exercise.muscles[0].children.length > 0
-        ) {
-          muscle.expanded = true;
-          const child = muscle.children.find(
-            (j: any) => j.id === exercise.muscles[0].children[0]
-          );
-          child.selected = true;
-        } else {
-          muscle.selected = true;
-        }
+      for (let idx = 0; idx < exercise?.muscles?.length; idx++) {
+        this.checkMuscle(exercise.muscles[idx]);
       }
 
       this.edit.video = exercise.video;
@@ -183,6 +163,14 @@ export class AddComponent implements OnInit {
     this.file = e.target.files[0];
   }
 
+  onItemRendered(e: any): void {
+    if (e.node.items.length !== 0) {
+      e.itemElement.parentNode.getElementsByClassName(
+        "dx-checkbox"
+      )[0].style.visibility = "hidden";
+    }
+  }
+
   onNameChanged(e: any): void {
     this.exercise.name = e.target.value;
   }
@@ -203,6 +191,12 @@ export class AddComponent implements OnInit {
     }
   }
 
+  onSelectSubtrainer(e: any): void {
+    if (this.exercise.mode.item) {
+      this.exercise.mode.item!.subItem = e.value;
+    }
+  }
+
   onSelectTrainer(e: any): void {
     this.exercise.mode.item = { name: e.value };
     const trainer: any = this.trainers.find((i) => i.item === e.value);
@@ -210,12 +204,6 @@ export class AddComponent implements OnInit {
       this.subtrainers = trainer.children;
     } else {
       this.subtrainers = [];
-    }
-  }
-
-  onSelectSubtrainer(e: any): void {
-    if (this.exercise.mode.item) {
-      this.exercise.mode.item!.subItem = e.value;
     }
   }
 
@@ -260,25 +248,55 @@ export class AddComponent implements OnInit {
     _this.router.navigate(["pocetna"]);
   }
 
-  onItemRendered(e: any): void {
-    if (e.node.items.length !== 0) {
-      e.itemElement.parentNode.getElementsByClassName(
-        "dx-checkbox"
-      )[0].style.visibility = "hidden";
+  onTreeViewSelectionChanged(e: any): void {
+    if (e.itemData.selected) {
+      if (e.itemData.hasOwnProperty("parent") && e.itemData.parent) {
+        this.selectedMuscles.push({
+          parent: e.itemData.parent,
+          children: [e.itemData.id],
+        });
+      } else {
+        this.selectedMuscles.push({
+          parent: e.itemData.id,
+          children: [],
+        });
+      }
+    } else {
+      if (e.itemData.hasOwnProperty("parent") && e.itemData.parent) {
+        this.selectedMuscles = this.selectedMuscles.filter(
+          (i) => i.parent !== e.itemData.parent
+        );
+      } else {
+        const parent = this.selectedMuscles.find(
+          (i) => i.parent !== e.itemData.parent
+        );
+
+        if (parent) {
+          parent.children = parent.children.filter(
+            (j: any) => j !== e.itemData.id
+          );
+        }
+      }
     }
   }
 
-  onTreeViewSelectionChanged(e: any): void {
-    if (e.itemData.hasOwnProperty("parent") && e.itemData.parent) {
-      this.treeBoxValue = e.itemData.selected ? [e.itemData.parent] : [];
-      this.selectedMuscles = e.itemData.selected
-        ? [{ parent: e.itemData.parent, children: [e.itemData.id] }]
-        : [];
-    } else {
-      this.selectedMuscles = e.itemData.selected
-        ? [{ parent: e.itemData.id, children: [] }]
-        : [];
-      this.treeBoxValue = e.itemData.selected ? [e.itemData.id] : [];
+  checkMuscle(muscle: any) {
+    const item = this.muscles.find((i: any) => i.id === muscle.parent);
+
+    if (item) {
+      if (muscle?.children?.length > 0) {
+        for (let idx = 0; idx < muscle.children.length; idx++) {
+          const child = item.children.find(
+            (j: any) => j.id === muscle.children[idx]
+          );
+          if (child) {
+            item.expanded = true;
+            child.selected = true;
+          }
+        }
+      } else {
+        item.selected = true;
+      }
     }
   }
 
